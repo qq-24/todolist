@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tray_manager/tray_manager.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -78,7 +79,18 @@ class WindowsTrayService with TrayListener {
         await _settings.setLaunchAtStartup(newVal);
         await _updateMenu();
       case 'exit':
-        // 不等同步，直接退出
+        // 先隐藏窗口（视觉上秒关），后台收尾
+        try { await windowManager.hide(); } catch (_) {}
+        try {
+          final pos = await windowManager.getPosition();
+          final size = await windowManager.getSize();
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setDouble('window_x', pos.dx);
+          await prefs.setDouble('window_y', pos.dy);
+          await prefs.setDouble('window_w', size.width);
+          await prefs.setDouble('window_h', size.height);
+        } catch (_) {}
+        try { await _todoProvider.sync().timeout(const Duration(seconds: 3)); } catch (_) {}
         try { await trayManager.destroy(); } catch (_) {}
         exit(0);
     }
