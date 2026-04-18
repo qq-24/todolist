@@ -329,10 +329,13 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
     if (_isDesktop) {
       return SizeTransition(
         sizeFactor: _collapseController,
-        child: GestureDetector(
-          onSecondaryTapDown: _showContextMenu,
-          child: content,
-        ),
+        child: Center(child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 600),
+          child: GestureDetector(
+            onSecondaryTapDown: _showContextMenu,
+            child: content,
+          ),
+        )),
       );
     }
 
