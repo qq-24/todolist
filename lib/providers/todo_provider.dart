@@ -24,6 +24,7 @@ class TodoProvider extends ChangeNotifier {
   List<Todo> _todos = [];
   SyncStatus _syncStatus = SyncStatus.idle;
   TodoKind _currentKind = TodoKind.task;
+  String? _lastToggledId; // 最近一次 toggle 完成状态的 todo id，用于入场动画
   DateTime? _lastSyncTime;
   DateTime _localUpdatedAt = DateTime(2000);
   Timer? _successTimer;
@@ -48,6 +49,13 @@ class TodoProvider extends ChangeNotifier {
   TodoFile? get conflictRemoteData => _conflictRemoteData;
 
   TodoKind get currentKind => _currentKind;
+
+  /// 消费最近 toggle 的 id（读一次就清空）
+  String? consumeLastToggledId() {
+    final id = _lastToggledId;
+    _lastToggledId = null;
+    return id;
+  }
   void setKind(TodoKind kind) {
     if (_currentKind == kind) return;
     _currentKind = kind;
@@ -259,6 +267,7 @@ class TodoProvider extends ChangeNotifier {
     final index = _todos.indexWhere((t) => t.id == id);
     if (index == -1) return;
     final todo = _todos[index];
+    _lastToggledId = id;
 
     if (!todo.completed && todo.repeatMode != TodoRepeatMode.none && todo.deadline != null) {
       // 重复任务：推截止时间到下一周期，不标记完成

@@ -258,13 +258,23 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Wi
       final warmSurface = isDark ? const Color(0xFF231F1B) : const Color(0xFFF5EDE0);
       final accentColor = isDark ? const Color(0xFFD4B684) : const Color(0xFF8B6914);
       final scaffold = Theme(
-        data: Theme.of(context).copyWith(
-          scaffoldBackgroundColor: isWish ? warmBg : null,
-          appBarTheme: isWish ? AppBarTheme(
+        data: isWish ? Theme.of(context).copyWith(
+          scaffoldBackgroundColor: warmBg,
+          colorScheme: Theme.of(context).colorScheme.copyWith(
+            primary: accentColor,
+            onPrimary: isDark ? const Color(0xFF1A1714) : Colors.white,
+            secondaryContainer: accentColor.withValues(alpha: 0.2),
+            onSecondaryContainer: accentColor,
+          ),
+          appBarTheme: AppBarTheme(
             backgroundColor: warmSurface,
             foregroundColor: Theme.of(context).colorScheme.onSurface,
-          ) : null,
-        ),
+          ),
+          floatingActionButtonTheme: FloatingActionButtonThemeData(
+            backgroundColor: accentColor,
+            foregroundColor: isDark ? const Color(0xFF1A1714) : Colors.white,
+          ),
+        ) : Theme.of(context),
         child: Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(

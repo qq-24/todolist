@@ -58,6 +58,12 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 300),
       value: 1.0,
     );
+    // 刚被 toggle 完成/取消完成的 item：从 0 展开入场
+    final toggled = context.read<TodoProvider>().consumeLastToggledId();
+    if (toggled == widget.todo.id) {
+      _collapseController.value = 0.0;
+      _collapseController.forward();
+    }
     armedNotifier.addListener(_onOtherArmed);
   }
 
@@ -144,10 +150,14 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
         });
       }
     } else {
-      // 取消完成：立即更新
+      // 取消完成：挤扁后移回未完成区
       setState(() => _visualCompleted = false);
       _fadeController.reverse();
-      context.read<TodoProvider>().toggleComplete(todo.id);
+      _collapseController.reverse().then((_) {
+        if (!mounted) return;
+        context.read<TodoProvider>().toggleComplete(todo.id);
+        _collapseController.value = 1.0;
+      });
     }
   }
 
@@ -317,9 +327,12 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
 
     // 桌面端：右键菜单，无滑动删除
     if (_isDesktop) {
-      return GestureDetector(
-        onSecondaryTapDown: _showContextMenu,
-        child: content,
+      return SizeTransition(
+        sizeFactor: _collapseController,
+        child: GestureDetector(
+          onSecondaryTapDown: _showContextMenu,
+          child: content,
+        ),
       );
     }
 
