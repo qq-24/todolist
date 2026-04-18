@@ -78,11 +78,9 @@ class WindowsTrayService with TrayListener {
         await _settings.setLaunchAtStartup(newVal);
         await _updateMenu();
       case 'exit':
-        try {
-          await _todoProvider.sync().timeout(const Duration(seconds: 5), onTimeout: () {});
-        } catch (_) { /* 超时或失败不阻塞退出 */ }
-        try { await trayManager.destroy(); } catch (_) { /* 托盘销毁失败不阻塞 */ }
-        await windowManager.destroy(); // 触发 WM_CLOSE → 正常退出消息循环
+        // 不等同步，直接退出
+        try { await trayManager.destroy(); } catch (_) {}
+        exit(0);
     }
   }
 
