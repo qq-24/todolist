@@ -434,11 +434,14 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
     return AnimatedBuilder(
       animation: _fadeController,
       builder: (context, child) {
+        final isWish = widget.todo.kind == TodoKind.wish;
+        final isDark = Theme.of(context).brightness == Brightness.dark;
+        final completedBg = isWish
+            ? (isDark ? const Color(0xFF2A2520) : const Color(0xFFEDE5D8))
+            : colorScheme.surfaceContainerHighest.withValues(alpha: 0.5);
         final bgColor = ColorTween(
           begin: Theme.of(context).scaffoldBackgroundColor,
-          end: widget.todo.kind == TodoKind.wish
-              ? Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.85)
-              : colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+          end: completedBg,
         ).evaluate(_fadeController);
         return Container(color: bgColor, child: child);
       },
