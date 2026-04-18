@@ -235,6 +235,20 @@ class _TodoEditSheetState extends State<TodoEditSheet> {
 
           // 类型选择
           SegmentedButton<TodoKind>(
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.resolveWith((states) {
+                if (states.contains(WidgetState.selected)) {
+                  return isWish ? accentColor.withValues(alpha: 0.25) : colorScheme.secondaryContainer;
+                }
+                return Colors.transparent;
+              }),
+              foregroundColor: WidgetStateProperty.resolveWith((states) {
+                if (states.contains(WidgetState.selected)) {
+                  return isWish ? accentColor : colorScheme.onSecondaryContainer;
+                }
+                return colorScheme.onSurfaceVariant;
+              }),
+            ),
             segments: const [
               ButtonSegment(value: TodoKind.task, icon: Icon(Icons.checklist), label: Text('要做的')),
               ButtonSegment(value: TodoKind.wish, icon: Icon(Icons.auto_awesome), label: Text('想做的')),

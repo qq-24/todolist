@@ -335,11 +335,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Wi
       ),
       drawer: const AppDrawer(),
       drawerEdgeDragWidth: armedId != null ? 0 : MediaQuery.of(context).size.width * 0.5,
-      body: Center(child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 600),
-        child: GestureDetector(
+      body: GestureDetector(
         onTap: () => armedNotifier.value = null,
         behavior: HitTestBehavior.translucent,
+        child: Center(child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 600),
         child: todos.isEmpty
           ? Center(
               child: Column(
