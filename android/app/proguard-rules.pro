@@ -1,0 +1,2 @@
+-keep class com.mingh.todolist.** { *; }
+-keepclassmembers class * { *** onReceive(...); }

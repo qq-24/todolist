@@ -1,0 +1,2364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Todo · Direction B — 暗夜杂志</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0" rel="stylesheet" />
+<style>
+/* ============================================================
+   Direction B — Dark Magazine
+   Palette:
+     ink       #0a0a0a   纸墨之黑
+     ink-2     #111111   夜幕深处
+     ink-3     #171412   暖影
+     paper     #F4EEE0   暖白
+     amber     #C8A05A   灯下的黄铜
+     amber-hi  #E4B261   月下琥珀
+     burgundy  #6B2B2B   深酒
+     muted     #8A8275   铅字灰
+   ============================================================ */
+:root{
+  --ink:#0a0a0a;
+  --ink-2:#111111;
+  --ink-3:#171412;
+  --ink-line:#1f1c18;
+  --paper:#F4EEE0;
+  --paper-dim:#c9c3b5;
+  --amber:#C8A05A;
+  --amber-hi:#E4B261;
+  --burgundy:#6B2B2B;
+  --muted:#8A8275;
+
+  /* MD3 dark — 任务侧 */
+  --md-surface:#141218;
+  --md-surface-1:#1D1B20;
+  --md-surface-2:#211F26;
+  --md-surface-3:#2B2930;
+  --md-on-surface:#E6E1E5;
+  --md-on-surface-variant:#CAC4D0;
+  --md-outline:#49454F;
+  --md-outline-variant:#36343B;
+  --md-primary:#D0BCFF;
+  --md-on-primary:#381E72;
+  --md-primary-container:#4F378B;
+  --md-error:#F2B8B5;
+  --md-tertiary:#EFB8C8;
+
+  --serif:'Noto Serif SC', 'Songti SC', 'STSong', serif;
+  --sans:'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --display:'Playfair Display', 'Noto Serif SC', serif;
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+body{
+  background:#050505;
+  color:var(--paper);
+  font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+  font-feature-settings:"palt" 1;
+  min-height:100vh;
+}
+
+a{ color:inherit; text-decoration:none; }
+img{ max-width:100%; display:block; }
+button{ font-family:inherit; }
+
+/* ---------- 顶部页签 ---------- */
+.topnav{
+  position:sticky; top:0; z-index:50;
+  background:rgba(10,10,10,0.88);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--ink-line);
+}
+.topnav-inner{
+  max-width:1760px; margin:0 auto;
+  display:flex; align-items:center; gap:40px;
+  padding:18px 40px;
+}
+.brand{
+  font-family:var(--display);
+  font-weight:700; font-style:italic;
+  font-size:22px; letter-spacing:0.02em;
+  color:var(--paper);
+}
+.brand em{ color:var(--amber); font-style:normal; }
+.tabs{ display:flex; gap:4px; flex:1; }
+.tab{
+  background:transparent; border:0; cursor:pointer;
+  color:var(--paper-dim);
+  font-family:var(--sans); font-size:13px; font-weight:500;
+  letter-spacing:0.14em; text-transform:uppercase;
+  padding:10px 18px; border-radius:999px;
+  transition:all .4s ease;
+}
+.tab:hover{ color:var(--paper); }
+.tab.active{
+  color:var(--ink);
+  background:var(--amber);
+  box-shadow:0 0 24px rgba(200,160,90,0.35);
+}
+.nav-meta{
+  font-family:var(--display); font-style:italic;
+  color:var(--muted); font-size:13px;
+  letter-spacing:0.08em;
+}
+
+/* ---------- 视图切换 ---------- */
+.view{ display:none; }
+.view.active{ display:block; animation:fade .6s ease both; }
+@keyframes fade{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;} }
+
+/* ---------- 通用 ---------- */
+.container{ max-width:1760px; margin:0 auto; padding:0 40px; }
+.rule{
+  border:0; height:1px;
+  background:linear-gradient(90deg, transparent, var(--ink-line) 15%, var(--ink-line) 85%, transparent);
+  margin:64px 0;
+}
+.ornament{
+  color:var(--amber); text-align:center;
+  letter-spacing:0.8em; font-size:14px;
+  margin:40px 0;
+}
+.smallcaps{
+  font-family:var(--sans);
+  font-size:11px; letter-spacing:0.28em;
+  text-transform:uppercase;
+  color:var(--amber);
+  font-weight:500;
+}
+
+/* ---------- 滚动进入动画 ---------- */
+.reveal{ opacity:0; transform:translateY(22px); transition:opacity .9s ease, transform .9s ease; }
+.reveal.in{ opacity:1; transform:none; }
+
+/* ============================================================
+   TASKS VIEW — MD3 dark
+   ============================================================ */
+#view-tasks{ background:var(--md-surface); min-height:100vh; color:var(--md-on-surface); }
+.tasks-wrap{
+  max-width:1760px; margin:0 auto;
+  display:grid; grid-template-columns:440px 1fr;
+  gap:64px; padding:48px 40px 120px;
+}
+@media (max-width:1200px){
+  .tasks-wrap{ grid-template-columns:1fr; }
+}
+
+/* 手机框 */
+.phone-frame{
+  width:400px; height:820px;
+  background:#000;
+  border-radius:44px;
+  padding:12px;
+  box-shadow:0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px #2a2a2a inset;
+  position:relative;
+  margin:0 auto;
+}
+.phone-frame::before{
+  content:''; position:absolute;
+  top:18px; left:50%; transform:translateX(-50%);
+  width:110px; height:26px;
+  background:#000; border-radius:14px;
+  z-index:2;
+}
+.phone-screen{
+  width:100%; height:100%;
+  background:var(--md-surface);
+  border-radius:34px; overflow:hidden;
+  display:flex; flex-direction:column;
+  position:relative;
+}
+
+/* MD3 顶栏 */
+.md-appbar{
+  padding:52px 20px 14px;
+  display:flex; align-items:center; justify-content:space-between;
+  background:var(--md-surface);
+}
+.md-appbar h1{
+  margin:0; font-family:var(--sans);
+  font-size:22px; font-weight:500;
+  color:var(--md-on-surface);
+  letter-spacing:0.01em;
+}
+.md-appbar .ic{
+  width:40px; height:40px; border-radius:20px;
+  display:grid; place-items:center;
+  color:var(--md-on-surface-variant);
+  cursor:pointer; transition:background .3s;
+}
+.md-appbar .ic:hover{ background:var(--md-surface-2); }
+.md-appbar-actions{ display:flex; gap:4px; }
+
+/* 日期段头 */
+.md-section{
+  padding:16px 24px 8px;
+  font-family:var(--sans);
+  font-size:12px; font-weight:500;
+  letter-spacing:0.08em; text-transform:uppercase;
+  color:var(--md-on-surface-variant);
+}
+
+/* 任务项 */
+.task-list{ flex:1; overflow-y:auto; padding:0 12px 120px; }
+.task{
+  display:grid; grid-template-columns:40px 1fr auto;
+  gap:12px; align-items:flex-start;
+  padding:14px 12px;
+  border-radius:16px;
+  transition:background .3s ease;
+}
+.task:hover{ background:var(--md-surface-2); }
+.task-check{
+  width:22px; height:22px; border-radius:50%;
+  border:2px solid var(--md-on-surface-variant);
+  margin-top:2px; flex:none;
+  cursor:pointer; transition:all .3s;
+  position:relative;
+}
+.task-check:hover{ border-color:var(--md-primary); }
+.task-check.done{
+  background:var(--md-primary); border-color:var(--md-primary);
+}
+.task-check.done::after{
+  content:'check'; font-family:'Material Symbols Outlined';
+  position:absolute; inset:0; display:grid; place-items:center;
+  color:var(--md-on-primary); font-size:16px;
+}
+.task-body .t-title{
+  font-size:15px; font-weight:400; line-height:1.4;
+  color:var(--md-on-surface);
+}
+.task.done .t-title{
+  color:var(--md-on-surface-variant);
+  text-decoration:line-through;
+}
+.task-body .t-meta{
+  margin-top:4px;
+  font-size:12px; color:var(--md-on-surface-variant);
+  display:flex; gap:10px; align-items:center;
+}
+.t-chip{
+  display:inline-flex; align-items:center; gap:4px;
+  padding:2px 8px; border-radius:8px;
+  font-size:11px; font-weight:500;
+  background:var(--md-surface-3);
+  color:var(--md-on-surface-variant);
+}
+.t-chip.today{ background:#3b2a5a; color:#D8C5FF; }
+.t-chip.overdue{ background:#5a2a2a; color:#F2B8B5; }
+.t-chip.recurring{ background:#2a4a3a; color:#B8E4CC; }
+.task-body .material-symbols-outlined{
+  font-size:14px; vertical-align:-2px;
+}
+.task-trail{
+  color:var(--md-on-surface-variant);
+  font-size:11px; white-space:nowrap;
+  margin-top:4px;
+}
+
+/* FAB */
+.fab{
+  position:absolute; right:20px; bottom:28px;
+  width:56px; height:56px; border-radius:16px;
+  background:var(--md-primary-container);
+  color:var(--md-on-surface);
+  display:grid; place-items:center;
+  border:0; cursor:pointer;
+  box-shadow:0 6px 18px rgba(0,0,0,0.5);
+  transition:transform .3s ease, box-shadow .3s ease;
+  z-index:4;
+}
+.fab:hover{ transform:translateY(-2px); box-shadow:0 10px 26px rgba(0,0,0,0.6); }
+.fab .material-symbols-outlined{ font-size:26px; color:#E6DEFF; }
+
+/* 任务视图右侧说明 */
+.tasks-side{
+  padding:40px 0;
+  color:var(--md-on-surface-variant);
+}
+.tasks-side h2{
+  font-family:var(--display);
+  font-size:44px; font-weight:700;
+  margin:0 0 8px; color:var(--md-on-surface);
+  letter-spacing:-0.01em;
+}
+.tasks-side h2 em{ font-style:italic; color:var(--md-primary); }
+.tasks-side p.lede{
+  font-family:var(--serif);
+  font-size:18px; line-height:1.75;
+  color:var(--md-on-surface-variant);
+  max-width:560px;
+}
+.tasks-side .kv{
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:16px; margin-top:32px; max-width:640px;
+}
+.kv .box{
+  background:var(--md-surface-1);
+  border:1px solid var(--md-outline-variant);
+  border-radius:16px; padding:20px;
+}
+.kv .box .num{
+  font-family:var(--display); font-weight:700;
+  font-size:36px; color:var(--md-on-surface);
+}
+.kv .box .lbl{
+  font-size:12px; color:var(--md-on-surface-variant);
+  margin-top:4px; letter-spacing:0.04em;
+}
+.wish-gate{
+  margin-top:48px;
+  border-top:1px solid var(--md-outline-variant);
+  padding-top:32px;
+  max-width:640px;
+}
+.wish-gate a{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:20px 24px;
+  background:linear-gradient(135deg, #1a1410 0%, #221a12 100%);
+  border:1px solid #3b2d1c;
+  border-radius:20px;
+  transition:all .5s ease;
+  text-decoration:none;
+}
+.wish-gate a:hover{
+  border-color:var(--amber);
+  box-shadow:0 0 40px rgba(200,160,90,0.2);
+  transform:translateY(-2px);
+}
+.wish-gate .g-title{
+  font-family:var(--serif); font-size:22px; font-weight:500;
+  color:var(--paper);
+}
+.wish-gate .g-sub{
+  font-family:var(--display); font-style:italic;
+  color:var(--amber); font-size:13px; margin-top:2px;
+  letter-spacing:0.06em;
+}
+.wish-gate .material-symbols-outlined{
+  color:var(--amber); font-size:28px;
+}
+
+/* ============================================================
+   WISHES VIEW — 暗夜杂志 · 主角
+   ============================================================ */
+#view-wishes{ background:var(--ink); color:var(--paper); }
+
+/* Hero 巨型标题 */
+.wish-hero{
+  position:relative;
+  min-height:88vh;
+  display:grid; place-items:center;
+  overflow:hidden;
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(200,160,90,0.12), transparent 55%),
+    radial-gradient(ellipse at 80% 70%, rgba(107,43,43,0.18), transparent 60%),
+    linear-gradient(180deg, #0a0a0a 0%, #0e0b08 60%, #0a0a0a 100%);
+}
+.wish-hero::before{
+  content:''; position:absolute; inset:0;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.015) 0 1px, transparent 1px 3px);
+  pointer-events:none;
+  animation:hero-breathe 12s ease-in-out infinite;
+}
+@keyframes hero-breathe{
+  0%,100%{ opacity:0.5; }
+  50%{ opacity:1; }
+}
+.wish-hero-inner{
+  position:relative; z-index:2;
+  text-align:center; padding:80px 40px;
+  max-width:1400px;
+}
+.wish-hero .issue{
+  font-family:var(--display); font-style:italic;
+  color:var(--amber);
+  font-size:16px; letter-spacing:0.3em;
+  margin-bottom:32px;
+}
+.wish-hero h1{
+  margin:0;
+  font-family:var(--serif);
+  font-weight:900;
+  font-size:clamp(72px, 11vw, 180px);
+  line-height:0.95;
+  letter-spacing:-0.02em;
+  color:var(--paper);
+  text-shadow:0 2px 40px rgba(0,0,0,0.6);
+}
+.wish-hero h1 .em-amber{ color:var(--amber); font-style:italic; }
+.wish-hero .sub{
+  margin-top:40px;
+  font-family:var(--display); font-style:italic;
+  font-size:22px; color:var(--paper-dim);
+  letter-spacing:0.02em;
+  max-width:680px; margin-left:auto; margin-right:auto;
+  line-height:1.7;
+}
+.wish-hero .meta-strip{
+  margin-top:56px; display:flex; gap:40px; justify-content:center; flex-wrap:wrap;
+  font-family:var(--sans);
+  font-size:11px; letter-spacing:0.24em; text-transform:uppercase;
+  color:var(--muted);
+}
+.wish-hero .meta-strip span{ position:relative; }
+.wish-hero .meta-strip span + span::before{
+  content:'·'; position:absolute; left:-22px; color:var(--amber);
+}
+.wish-hero .scroll-cue{
+  position:absolute; bottom:40px; left:50%; transform:translateX(-50%);
+  color:var(--muted); font-family:var(--display); font-style:italic;
+  font-size:13px; letter-spacing:0.2em;
+  animation:cue 2.4s ease-in-out infinite;
+}
+@keyframes cue{
+  0%,100%{ transform:translate(-50%, 0); opacity:0.6; }
+  50%{ transform:translate(-50%, 8px); opacity:1; }
+}
+
+/* Section pull-quote 分节 */
+.section-break{
+  padding:120px 0 80px;
+  text-align:center;
+}
+.section-break .sb-en{
+  font-family:var(--display); font-style:italic;
+  font-size:15px; letter-spacing:0.42em;
+  color:var(--amber);
+  text-transform:uppercase;
+  margin-bottom:20px;
+}
+.section-break .sb-zh{
+  font-family:var(--serif);
+  font-size:clamp(52px, 6vw, 96px);
+  font-weight:700;
+  color:var(--paper);
+  letter-spacing:0.08em;
+  line-height:1;
+}
+.section-break .sb-rule{
+  width:80px; height:1px; background:var(--amber);
+  margin:36px auto 0; opacity:0.6;
+}
+
+/* Wishes grid */
+.wish-grid{
+  display:grid;
+  grid-template-columns:repeat(12, 1fr);
+  gap:32px;
+  padding:0 40px;
+  max-width:1760px;
+  margin:0 auto;
+}
+@media (max-width:900px){
+  .wish-grid{ grid-template-columns:1fr; gap:24px; padding:0 24px; }
+}
+
+/* Hero wish — full-bleed */
+.wish-hero-card{
+  grid-column:1 / -1;
+  position:relative;
+  height:720px;
+  border-radius:4px;
+  overflow:hidden;
+  margin:24px 0 48px;
+}
+.wish-hero-card img{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit:cover; object-position:center;
+  filter:brightness(0.55) contrast(1.05);
+  transition:transform 2s ease, filter 1s ease;
+}
+.wish-hero-card:hover img{ transform:scale(1.03); filter:brightness(0.65) contrast(1.05); }
+.wish-hero-card::after{
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.85) 100%);
+  pointer-events:none;
+}
+.wish-hero-card .hc-body{
+  position:absolute; z-index:2;
+  left:60px; right:60px; bottom:60px;
+  color:var(--paper);
+}
+.wish-hero-card .hc-tag{
+  font-family:var(--sans);
+  font-size:11px; letter-spacing:0.32em;
+  text-transform:uppercase;
+  color:var(--amber-hi);
+  margin-bottom:24px;
+}
+.wish-hero-card h2{
+  font-family:var(--serif);
+  font-weight:900;
+  font-size:clamp(56px, 8vw, 128px);
+  line-height:0.95;
+  margin:0 0 24px;
+  letter-spacing:-0.01em;
+  max-width:1000px;
+  text-shadow:0 2px 30px rgba(0,0,0,0.7);
+}
+.wish-hero-card .hc-epi{
+  font-family:var(--display); font-style:italic;
+  font-size:22px; color:var(--paper-dim);
+  max-width:720px; line-height:1.6;
+  border-left:2px solid var(--amber);
+  padding-left:20px;
+}
+.wish-hero-card .hc-foot{
+  margin-top:32px; display:flex; gap:28px; align-items:center;
+}
+.wish-hero-card .since{
+  font-family:var(--display); font-style:italic;
+  font-size:14px; color:var(--muted);
+}
+.ed-action{
+  font-family:var(--display); font-style:italic;
+  font-size:15px; color:var(--amber);
+  border-bottom:1px solid transparent;
+  padding-bottom:2px;
+  cursor:pointer;
+  transition:all .5s ease;
+  background:transparent; border:0; border-bottom:1px solid transparent;
+}
+.ed-action:hover{
+  color:var(--amber-hi);
+  border-bottom-color:var(--amber-hi);
+  text-shadow:0 0 16px rgba(228,178,97,0.5);
+}
+.ed-action + .ed-action{ margin-left:8px; }
+.ed-action-sep{ color:var(--muted); margin:0 6px; }
+
+/* Feature medium card — 半宽带图 */
+.wish-feature{
+  grid-column:span 6;
+  background:var(--ink-3);
+  border:1px solid var(--ink-line);
+  border-radius:4px;
+  overflow:hidden;
+  transition:all .6s ease;
+  position:relative;
+}
+.wish-feature:hover{
+  border-color:rgba(200,160,90,0.4);
+  box-shadow:0 0 60px rgba(200,160,90,0.12);
+  transform:translateY(-4px);
+}
+.wish-feature .wf-img{
+  width:100%; height:340px;
+  overflow:hidden; position:relative;
+}
+.wish-feature .wf-img img{
+  width:100%; height:100%;
+  object-fit:cover;
+  filter:brightness(0.75) saturate(0.92);
+  transition:transform 1.4s ease, filter .8s ease;
+}
+.wish-feature:hover .wf-img img{
+  transform:scale(1.06); filter:brightness(0.85);
+}
+.wish-feature .wf-body{ padding:36px 40px 40px; }
+.wish-feature .wf-tag{
+  font-family:var(--sans);
+  font-size:10px; letter-spacing:0.28em;
+  text-transform:uppercase;
+  color:var(--amber);
+  margin-bottom:16px;
+}
+.wish-feature h3{
+  font-family:var(--serif);
+  font-size:44px; font-weight:700;
+  line-height:1.1; margin:0 0 16px;
+  color:var(--paper);
+  letter-spacing:-0.005em;
+}
+.wish-feature .wf-epi{
+  font-family:var(--display); font-style:italic;
+  font-size:16px; color:var(--paper-dim);
+  line-height:1.7; margin:0;
+}
+.wish-feature .wf-foot{
+  margin-top:28px; display:flex; justify-content:space-between;
+  align-items:center; gap:16px;
+  border-top:1px solid var(--ink-line);
+  padding-top:20px;
+}
+.wish-feature .wf-actions{ opacity:0; transform:translateY(4px); transition:all .5s ease; }
+.wish-feature:hover .wf-actions{ opacity:1; transform:none; }
+
+/* Text-only card — 纯文字 */
+.wish-text{
+  grid-column:span 4;
+  padding:40px 36px;
+  border:1px solid var(--ink-line);
+  border-radius:4px;
+  background:linear-gradient(180deg, #0c0b09 0%, var(--ink) 100%);
+  transition:all .6s ease;
+  position:relative;
+  display:flex; flex-direction:column;
+  min-height:260px;
+}
+.wish-text:hover{
+  border-color:rgba(200,160,90,0.35);
+  background:linear-gradient(180deg, #14110c 0%, #0e0c09 100%);
+}
+.wish-text .wt-orn{
+  color:var(--amber); font-size:14px;
+  letter-spacing:0.8em; margin-bottom:20px;
+  opacity:0.8;
+}
+.wish-text h3{
+  font-family:var(--serif);
+  font-size:30px; font-weight:500;
+  line-height:1.25; margin:0;
+  color:var(--paper);
+  letter-spacing:0.01em;
+}
+.wish-text .wt-note{
+  font-family:var(--serif); font-style:italic;
+  font-size:14px; color:var(--muted);
+  margin-top:16px; line-height:1.7;
+}
+.wish-text .wt-foot{
+  margin-top:auto; padding-top:24px;
+  display:flex; justify-content:space-between; align-items:center;
+  font-family:var(--display); font-style:italic;
+  font-size:12px; color:var(--muted);
+}
+.wish-text .wt-actions{ opacity:0; transition:opacity .5s ease; }
+.wish-text:hover .wt-actions{ opacity:1; }
+
+/* Medium text card — 两列宽 */
+.wish-mid{
+  grid-column:span 6;
+  padding:48px 44px;
+  border:1px solid var(--ink-line);
+  border-radius:4px;
+  background:#0d0b08;
+  transition:all .6s ease;
+  display:flex; flex-direction:column; min-height:300px;
+}
+.wish-mid:hover{
+  border-color:rgba(200,160,90,0.35);
+  background:#110e0a;
+}
+.wish-mid .wm-tag{
+  font-family:var(--sans);
+  font-size:10px; letter-spacing:0.3em;
+  text-transform:uppercase; color:var(--amber);
+  margin-bottom:18px;
+}
+.wish-mid h3{
+  font-family:var(--serif);
+  font-size:52px; font-weight:600;
+  line-height:1.05; margin:0 0 20px;
+  color:var(--paper);
+  letter-spacing:-0.005em;
+}
+.wish-mid .wm-epi{
+  font-family:var(--display); font-style:italic;
+  font-size:17px; color:var(--paper-dim);
+  line-height:1.7;
+  max-width:560px;
+}
+.wish-mid .wm-foot{
+  margin-top:auto; padding-top:28px;
+  display:flex; justify-content:space-between; align-items:center;
+}
+
+/* Small card */
+.wish-small{
+  grid-column:span 3;
+  padding:32px 28px;
+  border:1px solid var(--ink-line);
+  border-radius:4px;
+  background:var(--ink);
+  transition:all .6s ease;
+  min-height:220px;
+  display:flex; flex-direction:column;
+}
+.wish-small:hover{
+  border-color:rgba(200,160,90,0.35);
+  background:#0e0c09;
+}
+.wish-small h3{
+  font-family:var(--serif);
+  font-size:24px; font-weight:500;
+  line-height:1.3; margin:0;
+  color:var(--paper);
+}
+.wish-small .ws-foot{
+  margin-top:auto; padding-top:20px;
+  font-family:var(--display); font-style:italic;
+  font-size:12px; color:var(--muted);
+  display:flex; justify-content:space-between; align-items:center;
+}
+.wish-small .wt-actions{ opacity:0; transition:opacity .5s ease; }
+.wish-small:hover .wt-actions{ opacity:1; }
+
+/* Quiet footer link */
+.wish-end{
+  text-align:center;
+  padding:120px 40px 160px;
+  border-top:1px solid var(--ink-line);
+  margin-top:120px;
+}
+.wish-end .issue-end{
+  font-family:var(--display); font-style:italic;
+  color:var(--muted); font-size:14px;
+  letter-spacing:0.24em; text-transform:uppercase;
+  margin-bottom:32px;
+}
+.wish-end a.to-collection{
+  font-family:var(--serif);
+  font-size:28px; color:var(--paper);
+  letter-spacing:0.04em;
+  border-bottom:1px solid var(--amber);
+  padding-bottom:6px;
+  transition:all .5s ease;
+}
+.wish-end a.to-collection:hover{
+  color:var(--amber);
+  text-shadow:0 0 18px rgba(200,160,90,0.4);
+}
+.wish-end a.to-collection .material-symbols-outlined{
+  font-size:22px; vertical-align:-4px;
+  color:var(--amber);
+}
+
+@media (max-width:1100px){
+  .wish-feature, .wish-mid{ grid-column:span 12; }
+  .wish-text, .wish-small{ grid-column:span 6; }
+}
+@media (max-width:700px){
+  .wish-text, .wish-small, .wish-feature, .wish-mid{ grid-column:1 / -1; }
+  .wish-hero-card{ height:520px; }
+  .wish-hero-card .hc-body{ left:24px; right:24px; bottom:28px; }
+}
+
+/* ============================================================
+   ADD VIEW
+   ============================================================ */
+#view-add{ background:var(--ink); min-height:100vh; }
+.add-wrap{
+  max-width:1400px; margin:0 auto;
+  padding:80px 40px 120px;
+}
+.add-head{
+  text-align:center; margin-bottom:64px;
+}
+.add-head .smallcaps{ margin-bottom:16px; }
+.add-head h1{
+  font-family:var(--serif); font-weight:700;
+  font-size:clamp(48px, 6vw, 80px);
+  margin:0; color:var(--paper);
+  letter-spacing:-0.01em;
+}
+.add-head .sub{
+  font-family:var(--display); font-style:italic;
+  color:var(--muted); font-size:18px;
+  margin-top:18px;
+}
+.add-choice{
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:40px; margin-bottom:80px;
+}
+@media (max-width:900px){ .add-choice{ grid-template-columns:1fr; } }
+.choice-card{
+  border:1px solid var(--ink-line);
+  border-radius:4px;
+  padding:56px 48px;
+  cursor:pointer;
+  transition:all .6s ease;
+  position:relative;
+  min-height:320px;
+  display:flex; flex-direction:column;
+  background:var(--ink-2);
+}
+.choice-card.task-choice{
+  background:
+    linear-gradient(135deg, var(--md-surface-1) 0%, var(--md-surface) 100%);
+  border-color:var(--md-outline-variant);
+  font-family:var(--sans);
+}
+.choice-card.task-choice:hover{
+  border-color:var(--md-primary);
+  box-shadow:0 0 48px rgba(208,188,255,0.14);
+}
+.choice-card.wish-choice{
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(200,160,90,0.08), transparent 60%),
+    #0d0b08;
+}
+.choice-card.wish-choice:hover{
+  border-color:var(--amber);
+  box-shadow:0 0 60px rgba(200,160,90,0.2);
+  transform:translateY(-4px);
+}
+.choice-card.active-choice.task-choice{ border-color:var(--md-primary); }
+.choice-card.active-choice.wish-choice{ border-color:var(--amber); box-shadow:0 0 60px rgba(200,160,90,0.25); }
+.choice-card .cc-label{
+  font-size:11px; letter-spacing:0.3em; text-transform:uppercase;
+  margin-bottom:20px;
+}
+.task-choice .cc-label{ color:var(--md-primary); font-family:var(--sans); }
+.wish-choice .cc-label{ color:var(--amber); font-family:var(--display); font-style:italic; letter-spacing:0.28em; }
+.choice-card h2{
+  font-size:56px; line-height:1; margin:0 0 20px;
+  letter-spacing:-0.01em;
+}
+.task-choice h2{ font-family:var(--sans); font-weight:500; color:var(--md-on-surface); }
+.wish-choice h2{ font-family:var(--serif); font-weight:700; color:var(--paper); }
+.choice-card .cc-desc{
+  font-size:16px; line-height:1.7;
+  margin:0;
+}
+.task-choice .cc-desc{
+  font-family:var(--sans); color:var(--md-on-surface-variant);
+}
+.wish-choice .cc-desc{
+  font-family:var(--display); font-style:italic; color:var(--paper-dim);
+}
+.choice-card .cc-foot{
+  margin-top:auto; padding-top:32px;
+  display:flex; align-items:center; gap:8px;
+  font-size:14px;
+}
+.task-choice .cc-foot{ color:var(--md-primary); font-family:var(--sans); font-weight:500; }
+.wish-choice .cc-foot{ color:var(--amber); font-family:var(--display); font-style:italic; }
+
+/* Task form (MD3) */
+.form-panel{ display:none; }
+.form-panel.active{ display:block; animation:fade .6s ease both; }
+
+.task-form{
+  background:var(--md-surface-1);
+  border:1px solid var(--md-outline-variant);
+  border-radius:28px;
+  padding:48px;
+  max-width:720px; margin:0 auto;
+  color:var(--md-on-surface);
+}
+.task-form h3{
+  font-family:var(--sans); font-weight:500; font-size:24px;
+  margin:0 0 32px; color:var(--md-on-surface);
+}
+.md-field{
+  position:relative; margin-bottom:24px;
+}
+.md-field label{
+  position:absolute; left:16px; top:-9px;
+  background:var(--md-surface-1);
+  padding:0 6px;
+  font-family:var(--sans); font-size:12px;
+  color:var(--md-on-surface-variant);
+  letter-spacing:0.02em;
+}
+.md-field input,.md-field textarea,.md-field select{
+  width:100%;
+  background:transparent;
+  border:1px solid var(--md-outline);
+  color:var(--md-on-surface);
+  padding:14px 16px;
+  border-radius:8px;
+  font-family:var(--sans); font-size:15px;
+  outline:none;
+  transition:border-color .3s;
+}
+.md-field textarea{ min-height:90px; resize:vertical; font-family:var(--sans); }
+.md-field input:focus,.md-field textarea:focus,.md-field select:focus{
+  border-color:var(--md-primary);
+  border-width:2px;
+  padding:13px 15px;
+}
+.md-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.md-chipset{ display:flex; flex-wrap:wrap; gap:8px; margin-top:6px; }
+.md-chip{
+  padding:8px 14px; border-radius:10px;
+  background:transparent; border:1px solid var(--md-outline);
+  color:var(--md-on-surface);
+  font-family:var(--sans); font-size:13px;
+  cursor:pointer; transition:all .3s;
+}
+.md-chip:hover{ background:var(--md-surface-2); }
+.md-chip.active{
+  background:var(--md-primary-container); border-color:var(--md-primary-container);
+  color:#E6DEFF;
+}
+.md-actions{
+  display:flex; justify-content:flex-end; gap:12px; margin-top:32px;
+}
+.md-btn{
+  padding:12px 24px; border-radius:20px;
+  font-family:var(--sans); font-size:14px; font-weight:500;
+  cursor:pointer; transition:all .3s;
+  border:0;
+}
+.md-btn.filled{
+  background:var(--md-primary); color:var(--md-on-primary);
+}
+.md-btn.filled:hover{ box-shadow:0 4px 16px rgba(208,188,255,0.3); }
+.md-btn.text{
+  background:transparent; color:var(--md-primary);
+}
+.md-btn.text:hover{ background:rgba(208,188,255,0.08); }
+
+/* Wish form — 皮革日记本 */
+.wish-form{
+  max-width:900px; margin:0 auto;
+  padding:80px 60px 100px;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(200,160,90,0.06), transparent 50%),
+    #0b0907;
+  border:1px solid #1a1610;
+  border-radius:4px;
+  position:relative;
+}
+.wish-form::before{
+  content:''; position:absolute; top:12px; left:12px; right:12px; bottom:12px;
+  border:1px solid rgba(200,160,90,0.15);
+  pointer-events:none;
+  border-radius:2px;
+}
+.wish-form .smallcaps{
+  text-align:center; display:block; margin-bottom:20px;
+}
+.wish-form .prompt{
+  font-family:var(--display); font-style:italic;
+  text-align:center;
+  font-size:22px; color:var(--muted);
+  margin-bottom:40px;
+}
+.wish-form textarea{
+  width:100%;
+  background:transparent;
+  border:0;
+  border-bottom:1px solid var(--ink-line);
+  color:var(--paper);
+  font-family:var(--serif);
+  font-size:40px; font-weight:400;
+  line-height:1.4;
+  padding:20px 0;
+  resize:none;
+  outline:none;
+  min-height:140px;
+  letter-spacing:0.01em;
+}
+.wish-form textarea::placeholder{
+  color:#3a352b; font-style:italic;
+}
+.wish-form textarea:focus{ border-bottom-color:var(--amber); }
+.wish-form .note{
+  margin-top:32px;
+  width:100%;
+  background:transparent; border:0;
+  color:var(--paper-dim);
+  font-family:var(--display); font-style:italic;
+  font-size:17px; line-height:1.7;
+  padding:12px 0;
+  resize:none;
+  outline:none;
+  min-height:70px;
+}
+.wish-form .note::placeholder{ color:#3a352b; }
+.wish-form .tag-row{
+  margin-top:48px;
+  display:flex; gap:10px; flex-wrap:wrap;
+  justify-content:center;
+}
+.wish-form .ed-chip{
+  padding:6px 16px;
+  font-family:var(--sans);
+  font-size:10px; letter-spacing:0.28em; text-transform:uppercase;
+  color:var(--paper-dim);
+  border:1px solid var(--ink-line);
+  border-radius:999px;
+  background:transparent;
+  cursor:pointer; transition:all .4s ease;
+}
+.wish-form .ed-chip:hover,.wish-form .ed-chip.active{
+  color:var(--amber); border-color:var(--amber);
+}
+.wish-form .save-row{
+  margin-top:56px; display:flex; justify-content:center; gap:48px;
+}
+.wish-form .save-row .ed-action{ font-size:18px; }
+
+/* ============================================================
+   COLLECTION VIEW
+   ============================================================ */
+#view-collection{ background:var(--ink); min-height:100vh; }
+.coll-hero{
+  padding:120px 40px 80px;
+  text-align:center;
+  border-bottom:1px solid var(--ink-line);
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(200,160,90,0.08), transparent 60%);
+}
+.coll-hero .smallcaps{ margin-bottom:24px; }
+.coll-hero h1{
+  font-family:var(--serif); font-weight:900;
+  font-size:clamp(56px, 8vw, 120px);
+  line-height:1.05;
+  margin:0;
+  color:var(--paper);
+  letter-spacing:-0.01em;
+}
+.coll-hero h1 em{ color:var(--amber); font-style:italic; }
+.coll-hero .lede{
+  font-family:var(--display); font-style:italic;
+  font-size:22px; color:var(--paper-dim);
+  max-width:620px; margin:28px auto 0;
+  line-height:1.7;
+}
+.coll-stats{
+  display:flex; gap:64px; justify-content:center;
+  margin-top:48px;
+  flex-wrap:wrap;
+}
+.coll-stats .s{
+  font-family:var(--display);
+  text-align:center;
+}
+.coll-stats .s .num{
+  font-weight:700; font-size:56px; color:var(--amber);
+  line-height:1;
+}
+.coll-stats .s .lbl{
+  font-size:12px; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--muted); margin-top:8px;
+  font-family:var(--sans);
+}
+
+.year-section{
+  max-width:1400px; margin:0 auto;
+  padding:80px 40px;
+}
+.year-section .year{
+  font-family:var(--display); font-weight:900; font-style:italic;
+  font-size:clamp(120px, 18vw, 260px);
+  line-height:0.85;
+  color:transparent;
+  -webkit-text-stroke:1px var(--amber);
+  letter-spacing:-0.03em;
+  margin:0 0 40px;
+  user-select:none;
+}
+.year-section .year-count{
+  font-family:var(--display); font-style:italic;
+  font-size:18px; color:var(--muted);
+  margin-bottom:56px;
+  letter-spacing:0.04em;
+}
+.year-entries{
+  display:grid; gap:0;
+}
+.coll-entry{
+  display:grid; grid-template-columns:140px 1fr 200px;
+  gap:40px; align-items:baseline;
+  padding:32px 0;
+  border-top:1px solid var(--ink-line);
+  transition:background .5s ease;
+}
+.coll-entry:hover{ background:rgba(200,160,90,0.03); }
+.coll-entry .date{
+  font-family:var(--display); font-style:italic;
+  color:var(--amber); font-size:15px;
+  letter-spacing:0.08em;
+}
+.coll-entry h3{
+  font-family:var(--serif); font-weight:500;
+  font-size:30px; margin:0 0 10px;
+  color:var(--paper); line-height:1.25;
+}
+.coll-entry .reflect{
+  font-family:var(--display); font-style:italic;
+  font-size:15px; color:var(--paper-dim);
+  line-height:1.7;
+  max-width:780px;
+}
+.coll-entry .ce-tag{
+  font-family:var(--sans);
+  font-size:10px; letter-spacing:0.28em; text-transform:uppercase;
+  color:var(--muted);
+  text-align:right;
+}
+@media (max-width:900px){
+  .coll-entry{ grid-template-columns:1fr; gap:8px; }
+  .coll-entry .ce-tag{ text-align:left; }
+}
+
+/* ============================================================
+   FLOW VIEW
+   ============================================================ */
+#view-flow{ background:var(--ink); min-height:100vh; padding-bottom:120px; }
+.flow-head{
+  max-width:1200px; margin:0 auto;
+  text-align:center;
+  padding:80px 40px 40px;
+}
+.flow-head h1{
+  font-family:var(--serif); font-weight:700;
+  font-size:clamp(44px, 5.5vw, 72px);
+  margin:16px 0 20px;
+  color:var(--paper);
+}
+.flow-head h1 em{ color:var(--amber); font-style:italic; }
+.flow-head .lede{
+  font-family:var(--display); font-style:italic;
+  color:var(--paper-dim); font-size:18px;
+  max-width:640px; margin:0 auto; line-height:1.7;
+}
+
+.flow-block{
+  max-width:1400px; margin:72px auto 0;
+  padding:0 40px;
+}
+.flow-block-head{
+  display:flex; align-items:baseline; gap:24px;
+  border-bottom:1px solid var(--ink-line);
+  padding-bottom:24px; margin-bottom:48px;
+}
+.flow-block-head .num{
+  font-family:var(--display); font-weight:900; font-style:italic;
+  color:var(--amber); font-size:56px; line-height:1;
+}
+.flow-block-head h2{
+  font-family:var(--serif); font-weight:600;
+  font-size:32px; margin:0; color:var(--paper);
+}
+.flow-block-head p{
+  font-family:var(--display); font-style:italic;
+  color:var(--muted); font-size:15px;
+  margin-left:auto; max-width:420px; line-height:1.6;
+}
+
+.flow-stage{
+  display:grid; grid-template-columns:1fr 60px 1fr;
+  gap:24px; align-items:center;
+}
+@media (max-width:900px){ .flow-stage{ grid-template-columns:1fr; } }
+.flow-arrow{
+  text-align:center;
+  color:var(--amber);
+  font-family:var(--display); font-style:italic;
+}
+.flow-arrow .material-symbols-outlined{ font-size:32px; }
+.flow-arrow .lbl{
+  font-size:11px; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--muted); margin-top:6px;
+}
+
+.fstate-card{
+  background:var(--ink-2);
+  border:1px solid var(--ink-line);
+  border-radius:4px;
+  padding:36px 32px;
+  min-height:220px;
+}
+.fstate-card.md3{
+  background:var(--md-surface-1);
+  border-color:var(--md-outline-variant);
+  border-radius:20px;
+}
+.fstate-card .fs-label{
+  font-family:var(--sans);
+  font-size:10px; letter-spacing:0.28em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:16px;
+}
+.fstate-card.md3 .fs-label{ color:var(--md-on-surface-variant); }
+.fstate-card .fs-title{
+  font-family:var(--serif); font-weight:500;
+  font-size:30px; color:var(--paper); margin:0 0 10px;
+  line-height:1.25;
+}
+.fstate-card.md3 .fs-title{
+  font-family:var(--sans); font-weight:500; font-size:20px;
+  color:var(--md-on-surface);
+}
+.fstate-card .fs-meta{
+  font-family:var(--display); font-style:italic;
+  color:var(--muted); font-size:14px;
+  margin-top:8px;
+}
+.fstate-card.md3 .fs-meta{
+  font-family:var(--sans); font-style:normal;
+  color:var(--md-on-surface-variant); font-size:13px;
+  display:flex; gap:8px; flex-wrap:wrap;
+}
+
+/* Modal/sheet 升级 */
+.promote-sheet{
+  margin:40px auto 0;
+  max-width:640px;
+  background:var(--md-surface-2);
+  border:1px solid var(--md-outline-variant);
+  border-radius:28px;
+  padding:40px 36px;
+  color:var(--md-on-surface);
+}
+.promote-sheet::before{
+  content:''; display:block;
+  width:36px; height:4px; border-radius:2px;
+  background:var(--md-outline);
+  margin:-20px auto 24px;
+}
+.promote-sheet h4{
+  font-family:var(--sans); font-weight:500;
+  font-size:22px; margin:0 0 8px;
+  color:var(--md-on-surface);
+}
+.promote-sheet .ps-quote{
+  font-family:var(--serif);
+  font-size:22px; color:var(--paper);
+  border-left:2px solid var(--amber);
+  padding-left:16px; margin:20px 0;
+  line-height:1.4;
+}
+.promote-sheet .ps-note{
+  font-family:var(--sans); font-size:14px;
+  color:var(--md-on-surface-variant);
+  margin-bottom:24px;
+  line-height:1.6;
+}
+
+/* Demote — 非羞辱语气 */
+.demote-card{
+  margin:40px auto 0; max-width:720px;
+  background:
+    radial-gradient(ellipse at 30% 0%, rgba(200,160,90,0.1), transparent 60%),
+    #100d0a;
+  border:1px solid rgba(200,160,90,0.25);
+  border-radius:4px;
+  padding:48px 44px;
+  text-align:center;
+}
+.demote-card .dc-prompt{
+  font-family:var(--display); font-style:italic;
+  color:var(--amber); font-size:14px;
+  letter-spacing:0.22em; text-transform:uppercase;
+  margin-bottom:24px;
+}
+.demote-card h4{
+  font-family:var(--serif); font-weight:500;
+  font-size:30px; color:var(--paper); margin:0 0 16px;
+  line-height:1.4;
+}
+.demote-card .dc-body{
+  font-family:var(--display); font-style:italic;
+  font-size:17px; color:var(--paper-dim);
+  line-height:1.75; margin:0 auto; max-width:520px;
+}
+.demote-card .dc-actions{
+  margin-top:36px;
+  display:flex; justify-content:center; gap:36px;
+}
+
+/* ---------- footer ---------- */
+.page-foot{
+  text-align:center; padding:60px 20px;
+  color:var(--muted); font-family:var(--display); font-style:italic;
+  font-size:13px; letter-spacing:0.16em;
+  border-top:1px solid var(--ink-line);
+}
+.page-foot em{ color:var(--amber); font-style:normal; letter-spacing:0.24em; text-transform:uppercase; font-size:11px; }
+
+/* scroll bar */
+::-webkit-scrollbar{ width:10px; height:10px; }
+::-webkit-scrollbar-track{ background:#050505; }
+::-webkit-scrollbar-thumb{ background:#1f1a14; border-radius:10px; }
+::-webkit-scrollbar-thumb:hover{ background:#2b2519; }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     TOP NAV
+     ============================================================ -->
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="brand">TODO <em>/</em> <span style="font-family:var(--serif);font-style:normal;font-weight:500;">墨 夜</span></div>
+    <div class="tabs">
+      <button class="tab active" data-view="tasks">要做的 · Tasks</button>
+      <button class="tab" data-view="wishes">想做的 · Wishes</button>
+      <button class="tab" data-view="add">添加 · New</button>
+      <button class="tab" data-view="collection">做过了 · Collection</button>
+      <button class="tab" data-view="flow">流转 · Flow</button>
+    </div>
+    <div class="nav-meta">Vol. IV &nbsp;·&nbsp; 戊戌年春</div>
+  </div>
+</nav>
+
+
+<!-- ============================================================
+     1 · TASKS VIEW (MD3 dark)
+     ============================================================ -->
+<section class="view active" id="view-tasks">
+  <div class="tasks-wrap">
+    <!-- 手机预览 -->
+    <div class="phone-frame reveal">
+      <div class="phone-screen">
+        <div class="md-appbar">
+          <h1>要做的</h1>
+          <div class="md-appbar-actions">
+            <div class="ic"><span class="material-symbols-outlined">search</span></div>
+            <div class="ic"><span class="material-symbols-outlined">tune</span></div>
+            <div class="ic"><span class="material-symbols-outlined">menu_open</span></div>
+          </div>
+        </div>
+
+        <div class="task-list">
+          <div class="md-section">今天 · 4月18日 周六</div>
+
+          <div class="task">
+            <div class="task-check"></div>
+            <div class="task-body">
+              <div class="t-title">给爸妈打个电话，顺便问问要不要买新相册</div>
+              <div class="t-meta">
+                <span class="t-chip today"><span class="material-symbols-outlined">schedule</span> 20:00</span>
+                <span class="t-chip recurring"><span class="material-symbols-outlined">restart_alt</span> 每周</span>
+              </div>
+            </div>
+            <div class="task-trail">提醒</div>
+          </div>
+
+          <div class="task">
+            <div class="task-check"></div>
+            <div class="task-body">
+              <div class="t-title">把 todolist 同步冲突那个 bug 修掉</div>
+              <div class="t-meta">
+                <span class="t-chip today"><span class="material-symbols-outlined">today</span> 今天</span>
+              </div>
+            </div>
+            <div class="task-trail">—</div>
+          </div>
+
+          <div class="task">
+            <div class="task-check"></div>
+            <div class="task-body">
+              <div class="t-title">取快递（楼下丰巢 3-08）</div>
+              <div class="t-meta">
+                <span class="t-chip today"><span class="material-symbols-outlined">schedule</span> 18:30</span>
+              </div>
+            </div>
+            <div class="task-trail">—</div>
+          </div>
+
+          <div class="md-section">逾期</div>
+
+          <div class="task">
+            <div class="task-check"></div>
+            <div class="task-body">
+              <div class="t-title">预约牙医洗牙</div>
+              <div class="t-meta">
+                <span class="t-chip overdue"><span class="material-symbols-outlined">error</span> 逾期 3 天</span>
+              </div>
+            </div>
+            <div class="task-trail">—</div>
+          </div>
+
+          <div class="md-section">本周</div>
+
+          <div class="task">
+            <div class="task-check"></div>
+            <div class="task-body">
+              <div class="t-title">交水电费</div>
+              <div class="t-meta">
+                <span class="t-chip"><span class="material-symbols-outlined">calendar_month</span> 周二</span>
+                <span class="t-chip recurring">每月</span>
+              </div>
+            </div>
+            <div class="task-trail">—</div>
+          </div>
+
+          <div class="task">
+            <div class="task-check"></div>
+            <div class="task-body">
+              <div class="t-title">给阿林回邮件，把文档链接发过去</div>
+              <div class="t-meta">
+                <span class="t-chip"><span class="material-symbols-outlined">event</span> 周四</span>
+              </div>
+            </div>
+            <div class="task-trail">—</div>
+          </div>
+
+          <div class="md-section">今天 · 已完成</div>
+
+          <div class="task done">
+            <div class="task-check done"></div>
+            <div class="task-body">
+              <div class="t-title">晨会前把周报骨架列出来</div>
+              <div class="t-meta">
+                <span class="t-chip"><span class="material-symbols-outlined">check_circle</span> 09:42 完成</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="task done">
+            <div class="task-check done"></div>
+            <div class="task-body">
+              <div class="t-title">去超市买鸡蛋和牛奶</div>
+            </div>
+          </div>
+        </div>
+
+        <button class="fab" title="新增">
+          <span class="material-symbols-outlined">edit</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 右侧说明 -->
+    <div class="tasks-side reveal">
+      <div class="smallcaps" style="margin-bottom:20px;">VIEW 01 · The Functional Side</div>
+      <h2>要做的 &nbsp;<em>/ Tasks</em></h2>
+      <p class="lede">
+        这一面守着你真正要交付的事——有时间、有节律、有提醒。<br>
+        刻意做成 Material Design 3 暗色调：克制、明了、够用。
+        不追求美学，追求"看一眼就能动手"。
+      </p>
+
+      <div class="kv">
+        <div class="box">
+          <div class="num">3</div>
+          <div class="lbl">今天待办</div>
+        </div>
+        <div class="box">
+          <div class="num">1</div>
+          <div class="lbl">已逾期</div>
+        </div>
+        <div class="box">
+          <div class="num">2</div>
+          <div class="lbl">今日完成</div>
+        </div>
+      </div>
+
+      <div class="wish-gate">
+        <a href="#" data-goto="wishes">
+          <div>
+            <div class="g-title">翻到另一面 · 想做的</div>
+            <div class="g-sub">There is more to life than keeping busy.</div>
+          </div>
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
+      </div>
+
+      <div style="margin-top:36px; font-family:var(--display); font-style:italic; color:var(--muted); font-size:14px; line-height:1.8; max-width:640px;">
+        <p style="margin:0;">
+          —— 这是 TODO 的主场。打开 app 默认进这里。<br>
+          想做的事不带时间戳，不在这条清单里叫你。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     2 · WISHES VIEW (magazine)
+     ============================================================ -->
+<section class="view" id="view-wishes">
+
+  <!-- HERO -->
+  <div class="wish-hero">
+    <div class="wish-hero-inner">
+      <div class="issue">Vol. IV &nbsp;·&nbsp; 本期 17 件</div>
+      <h1>你<span class="em-amber">想</span>做的事</h1>
+      <p class="sub">
+        没有截止日，没有提醒，没有羞耻。<br>
+        只是偶尔翻开看看，哪件还想做，哪件可以去做了。
+      </p>
+      <div class="meta-strip">
+        <span>Wishes, Not Tasks</span>
+        <span>No Deadline</span>
+        <span>Read At Your Own Pace</span>
+      </div>
+    </div>
+    <div class="scroll-cue">向下翻页 &nbsp;↓</div>
+  </div>
+
+  <!-- SECTION · 想学的 -->
+  <div class="section-break reveal">
+    <div class="sb-en">Part One · To Learn</div>
+    <div class="sb-zh">想学的</div>
+    <div class="sb-rule"></div>
+  </div>
+
+  <div class="wish-grid">
+
+    <!-- HERO FEATURE — 冰岛极光 -->
+    <article class="wish-hero-card reveal">
+      <img src="https://picsum.photos/seed/aurora-iceland/2000/900" alt="Aurora" />
+      <div class="hc-body">
+        <div class="hc-tag">FEATURE · 想去的</div>
+        <h2>去一次冰岛<br>看极光</h2>
+        <div class="hc-epi">
+          "把这件事放在心里很多年了。<br>
+          总觉得要等到最合适的那一刻——但其实合适的那一刻从来不来。"
+        </div>
+        <div class="hc-foot">
+          <span class="since">加入 487 天</span>
+          <div>
+            <button class="ed-action">升级成任务</button>
+            <span class="ed-action-sep">·</span>
+            <button class="ed-action">做过了</button>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Feature medium: 学古琴 -->
+    <article class="wish-feature reveal">
+      <div class="wf-img"><img src="https://picsum.photos/seed/guqin-strings/1200/700" alt="" /></div>
+      <div class="wf-body">
+        <div class="wf-tag">On Learning</div>
+        <h3>学一下古琴</h3>
+        <p class="wf-epi">
+          七弦，不是用来演奏给别人听的。<br>
+          上次在苏州博物馆听了段《流水》，回来心里还响着。
+        </p>
+        <div class="wf-foot">
+          <span class="since">加入 213 天</span>
+          <div class="wf-actions">
+            <button class="ed-action">升级成任务</button>
+            <span class="ed-action-sep">·</span>
+            <button class="ed-action">做过了</button>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Feature medium: 小津 -->
+    <article class="wish-feature reveal">
+      <div class="wf-img"><img src="https://picsum.photos/seed/ozu-tatami/1200/700" alt="" /></div>
+      <div class="wf-body">
+        <div class="wf-tag">Cinema</div>
+        <h3>系统看一遍小津安二郎</h3>
+        <p class="wf-epi">
+          按年份。从《我出生了，但⋯》到《秋刀鱼之味》。<br>
+          一周一部，不赶。
+        </p>
+        <div class="wf-foot">
+          <span class="since">加入 96 天</span>
+          <div class="wf-actions">
+            <button class="ed-action">升级成任务</button>
+            <span class="ed-action-sep">·</span>
+            <button class="ed-action">做过了</button>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Text-only triplet -->
+    <article class="wish-text reveal">
+      <div class="wt-orn">· · ·</div>
+      <h3>学会冲一杯<br>像样的单品咖啡</h3>
+      <div class="wt-note">先从手冲开始。一台磨、一只壶，慢慢就有了。</div>
+      <div class="wt-foot">
+        <span>加入 58 天</span>
+        <div class="wt-actions">
+          <button class="ed-action">升级</button>
+          <span class="ed-action-sep">·</span>
+          <button class="ed-action">做过了</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="wish-text reveal">
+      <div class="wt-orn">· · ·</div>
+      <h3>把《人类简史》读完那半本</h3>
+      <div class="wt-note">停在农业革命那章三年了。</div>
+      <div class="wt-foot">
+        <span>加入 1124 天</span>
+        <div class="wt-actions">
+          <button class="ed-action">升级</button>
+          <span class="ed-action-sep">·</span>
+          <button class="ed-action">做过了</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="wish-text reveal">
+      <div class="wt-orn">· · ·</div>
+      <h3>认真练一次毛笔字</h3>
+      <div class="wt-note">从颜真卿多宝塔碑开始。不是为了成为什么。</div>
+      <div class="wt-foot">
+        <span>加入 302 天</span>
+        <div class="wt-actions">
+          <button class="ed-action">升级</button>
+          <span class="ed-action-sep">·</span>
+          <button class="ed-action">做过了</button>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+
+  <!-- SECTION · 想去的 -->
+  <div class="section-break reveal">
+    <div class="sb-en">Part Two · To Visit</div>
+    <div class="sb-zh">想去的</div>
+    <div class="sb-rule"></div>
+  </div>
+
+  <div class="wish-grid">
+
+    <!-- Medium text card -->
+    <article class="wish-mid reveal">
+      <div class="wm-tag">A Slow Walk</div>
+      <h3>周末去一趟<br>京都御苑</h3>
+      <p class="wm-epi">
+        不拍照。就带一本书。坐在那里看鸽子飞起来。<br>
+        上次去的时候是秋天，这次想去春天。
+      </p>
+      <div class="wm-foot">
+        <span class="since" style="font-family:var(--display);font-style:italic;color:var(--muted);font-size:13px;">加入 74 天</span>
+        <div class="wt-actions">
+          <button class="ed-action">升级成任务</button>
+          <span class="ed-action-sep">·</span>
+          <button class="ed-action">做过了</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="wish-mid reveal">
+      <div class="wm-tag">The Long Road</div>
+      <h3>走一趟<br>茶马古道</h3>
+      <p class="wm-epi">
+        哪怕只走从丽江到香格里拉那段。<br>
+        不为打卡。就想知道那条路的脚感是怎样的。
+      </p>
+      <div class="wm-foot">
+        <span class="since" style="font-family:var(--display);font-style:italic;color:var(--muted);font-size:13px;">加入 568 天</span>
+        <div class="wt-actions">
+          <button class="ed-action">升级成任务</button>
+          <span class="ed-action-sep">·</span>
+          <button class="ed-action">做过了</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Small cards row -->
+    <article class="wish-small reveal">
+      <h3>去一次新疆喀纳斯看秋叶</h3>
+      <div class="ws-foot">
+        <span>加入 190 天</span>
+        <span class="wt-actions"><button class="ed-action">升级</button></span>
+      </div>
+    </article>
+
+    <article class="wish-small reveal">
+      <h3>坐一次青藏铁路全程</h3>
+      <div class="ws-foot">
+        <span>加入 721 天</span>
+        <span class="wt-actions"><button class="ed-action">升级</button></span>
+      </div>
+    </article>
+
+    <article class="wish-small reveal">
+      <h3>去浙江安昌古镇吃酱鸭</h3>
+      <div class="ws-foot">
+        <span>加入 42 天</span>
+        <span class="wt-actions"><button class="ed-action">升级</button></span>
+      </div>
+    </article>
+
+    <article class="wish-small reveal">
+      <h3>在马德里看一场 Flamenco</h3>
+      <div class="ws-foot">
+        <span>加入 337 天</span>
+        <span class="wt-actions"><button class="ed-action">升级</button></span>
+      </div>
+    </article>
+
+  </div>
+
+  <!-- SECTION · 想做的 -->
+  <div class="section-break reveal">
+    <div class="sb-en">Part Three · To Make</div>
+    <div class="sb-zh">想做的</div>
+    <div class="sb-rule"></div>
+  </div>
+
+  <div class="wish-grid">
+
+    <!-- Feature: 胶片相机 -->
+    <article class="wish-feature reveal">
+      <div class="wf-img"><img src="https://picsum.photos/seed/film-camera-desk/1200/700" alt="" /></div>
+      <div class="wf-body">
+        <div class="wf-tag">Restoration</div>
+        <h3>把家里的胶片相机修好</h3>
+        <p class="wf-epi">
+          爷爷留下的凤凰 205，过片卡住了。找到北京那家修相机的老师傅。<br>
+          修好了拍一卷 Portra 400。
+        </p>
+        <div class="wf-foot">
+          <span class="since">加入 156 天</span>
+          <div class="wf-actions">
+            <button class="ed-action">升级成任务</button>
+            <span class="ed-action-sep">·</span>
+            <button class="ed-action">做过了</button>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Medium text feature: LLM 输入法 -->
+    <article class="wish-mid reveal" style="grid-column:span 6;">
+      <div class="wm-tag">Long-form · 想写</div>
+      <h3>写一篇关于<br>LLM 输入法的长文</h3>
+      <p class="wm-epi">
+        从 Mutable Input 到语义级补全，到"不打断思维流"这一件事。<br>
+        两万字，不发公众号，发给真正懂的人看就够了。
+      </p>
+      <div class="wm-foot">
+        <span class="since" style="font-family:var(--display);font-style:italic;color:var(--muted);font-size:13px;">加入 62 天</span>
+        <div class="wt-actions">
+          <button class="ed-action">升级成任务</button>
+          <span class="ed-action-sep">·</span>
+          <button class="ed-action">做过了</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Small text cards -->
+    <article class="wish-text reveal">
+      <div class="wt-orn">· · ·</div>
+      <h3>试试自己做可颂</h3>
+      <div class="wt-note">三天发酵，黄油折三次。有次做塌了，不服。</div>
+      <div class="wt-foot">
+        <span>加入 28 天</span>
+        <div class="wt-actions">
+          <button class="ed-action">升级</button>
+          <span class="ed-action-sep">·</span>
+          <button class="ed-action">做过了</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="wish-text reveal">
+      <div class="wt-orn">· · ·</div>
+      <h3>学做一道<br>让妈妈点头的红烧肉</h3>
+      <div class="wt-note">要带冰糖色，不是酱油色。火候慢慢摸。</div>
+      <div class="wt-foot">
+        <span>加入 83 天</span>
+        <div class="wt-actions">
+          <button class="ed-action">升级</button>
+          <span class="ed-action-sep">·</span>
+          <button class="ed-action">做过了</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="wish-text reveal">
+      <div class="wt-orn">· · ·</div>
+      <h3>把阳台改造成<br>一个小茶室</h3>
+      <div class="wt-note">一张矮桌，一把藤椅，一盏灯。周末用来发呆。</div>
+      <div class="wt-foot">
+        <span>加入 104 天</span>
+        <div class="wt-actions">
+          <button class="ed-action">升级</button>
+          <span class="ed-action-sep">·</span>
+          <button class="ed-action">做过了</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="wish-small reveal" style="grid-column:span 4;">
+      <h3>把老照片<br>全部数字化归档</h3>
+      <div class="ws-foot">
+        <span>加入 452 天</span>
+        <span class="wt-actions"><button class="ed-action">升级</button></span>
+      </div>
+    </article>
+
+    <article class="wish-small reveal" style="grid-column:span 4;">
+      <h3>给自己手写一本年度总结</h3>
+      <div class="ws-foot">
+        <span>加入 18 天</span>
+        <span class="wt-actions"><button class="ed-action">升级</button></span>
+      </div>
+    </article>
+
+    <article class="wish-small reveal" style="grid-column:span 4;">
+      <h3>做一个真正属于自己的桌面背景</h3>
+      <div class="ws-foot">
+        <span>加入 240 天</span>
+        <span class="wt-actions"><button class="ed-action">升级</button></span>
+      </div>
+    </article>
+
+  </div>
+
+  <!-- 结束语 -->
+  <div class="wish-end reveal">
+    <div class="issue-end">— End of Volume IV —</div>
+    <a class="to-collection" href="#" data-goto="collection">
+      本期完 · 过往合集 <span class="material-symbols-outlined">arrow_forward</span>
+    </a>
+  </div>
+
+</section>
+
+
+<!-- ============================================================
+     3 · ADD VIEW
+     ============================================================ -->
+<section class="view" id="view-add">
+  <div class="add-wrap">
+    <div class="add-head reveal">
+      <div class="smallcaps">VIEW 03 · Two Paths</div>
+      <h1>这件事，你想怎么对待？</h1>
+      <div class="sub">—— 先选路径，再写内容。路径不同，体验不同。</div>
+    </div>
+
+    <div class="add-choice">
+      <div class="choice-card task-choice active-choice" data-path="task">
+        <div class="cc-label">MD3 · 任务</div>
+        <h2>这是<br>要做的</h2>
+        <p class="cc-desc">
+          有期限、会提醒。放进主清单，
+          每天会被叫起来处理。<br>适合：报税 / 回邮件 / 周报。
+        </p>
+        <div class="cc-foot">
+          <span class="material-symbols-outlined">check_circle</span>
+          已选这条路径
+        </div>
+      </div>
+
+      <div class="choice-card wish-choice" data-path="wish">
+        <div class="cc-label">Magazine · 心愿</div>
+        <h2>这是<br>想做的</h2>
+        <p class="cc-desc">
+          无期限、不打扰。收进想做的里，
+          偶尔翻翻。<br>适合：学古琴 / 去冰岛 / 写长文。
+        </p>
+        <div class="cc-foot">
+          <span class="material-symbols-outlined">arrow_forward</span>
+          切换到这条
+        </div>
+      </div>
+    </div>
+
+    <!-- 任务 form -->
+    <div class="form-panel active" id="form-task">
+      <div class="task-form">
+        <h3>新建任务</h3>
+        <div class="md-field">
+          <label>标题</label>
+          <input type="text" value="给爸妈打电话" />
+        </div>
+        <div class="md-field">
+          <label>备注（可选）</label>
+          <textarea placeholder="加点上下文⋯⋯">顺便问问要不要帮他们订五月回老家的票</textarea>
+        </div>
+        <div class="md-row">
+          <div class="md-field">
+            <label>截止日</label>
+            <input type="text" value="2026-04-18 周六" />
+          </div>
+          <div class="md-field">
+            <label>提醒时间</label>
+            <input type="text" value="20:00" />
+          </div>
+        </div>
+        <div class="md-field" style="border-top:1px solid var(--md-outline-variant); padding-top:20px; margin-top:8px;">
+          <div style="font-family:var(--sans);font-size:12px;color:var(--md-on-surface-variant);margin-bottom:8px;">重复</div>
+          <div class="md-chipset">
+            <button class="md-chip">不重复</button>
+            <button class="md-chip active">每周</button>
+            <button class="md-chip">每月</button>
+            <button class="md-chip">自定义</button>
+          </div>
+        </div>
+        <div class="md-field" style="margin-top:16px;">
+          <div style="font-family:var(--sans);font-size:12px;color:var(--md-on-surface-variant);margin-bottom:8px;">震动模式</div>
+          <div class="md-chipset">
+            <button class="md-chip active">持续</button>
+            <button class="md-chip">仅一次</button>
+          </div>
+        </div>
+        <div class="md-actions">
+          <button class="md-btn text">取消</button>
+          <button class="md-btn filled">保存任务</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 心愿 form -->
+    <div class="form-panel" id="form-wish">
+      <div class="wish-form">
+        <div class="smallcaps">On This Page · Leather Journal</div>
+        <div class="prompt">写下你想做的，不用写什么时候。</div>
+        <textarea placeholder="比如：想学一下古琴⋯⋯">想系统看一遍伯格曼</textarea>
+        <textarea class="note" placeholder="（可选）想一下，为什么？">从《野草莓》开始，到《芬妮与亚历山大》。这个春天慢慢看，不用赶。</textarea>
+        <div class="tag-row">
+          <button class="ed-chip">想学的</button>
+          <button class="ed-chip">想去的</button>
+          <button class="ed-chip">想读的</button>
+          <button class="ed-chip active">想做的</button>
+        </div>
+        <div class="save-row">
+          <button class="ed-action">取消</button>
+          <button class="ed-action">收进本期 &nbsp;↓</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ============================================================
+     4 · COLLECTION VIEW
+     ============================================================ -->
+<section class="view" id="view-collection">
+  <div class="coll-hero reveal">
+    <div class="smallcaps">VIEW 04 · Year in Review</div>
+    <h1>做过的事 &nbsp;<em>/ Collection</em></h1>
+    <p class="lede">
+      过去一年你做了 <strong style="color:var(--amber);">19</strong> 件自己想做的事。<br>
+      不是必须做的，是真正想做的。
+    </p>
+    <div class="coll-stats">
+      <div class="s">
+        <div class="num">19</div>
+        <div class="lbl">Wishes Fulfilled · 2025</div>
+      </div>
+      <div class="s">
+        <div class="num">7</div>
+        <div class="lbl">Trips Taken · 想去的</div>
+      </div>
+      <div class="s">
+        <div class="num">4</div>
+        <div class="lbl">Books Finished · 想读的</div>
+      </div>
+      <div class="s">
+        <div class="num">8</div>
+        <div class="lbl">Skills Started · 想学的</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2025 -->
+  <div class="year-section reveal">
+    <div class="year">MMXXV</div>
+    <div class="year-count">2025 · 共 11 件</div>
+    <div class="year-entries">
+
+      <div class="coll-entry">
+        <div class="date">12 · 18</div>
+        <div>
+          <h3>读完了《昭和风味》</h3>
+          <p class="reflect">原来很多日剧里那种空气感，是从这本书里漏出来的。摘抄了 30 多处。</p>
+        </div>
+        <div class="ce-tag">To Read</div>
+      </div>
+
+      <div class="coll-entry">
+        <div class="date">11 · 24</div>
+        <div>
+          <h3>去了一趟松本清张纪念馆</h3>
+          <p class="reflect">比想象中简朴。展品不多，但每一件都有温度。</p>
+        </div>
+        <div class="ce-tag">To Visit</div>
+      </div>
+
+      <div class="coll-entry">
+        <div class="date">10 · 05</div>
+        <div>
+          <h3>第一次自己焙出一炉能喝的豆子</h3>
+          <p class="reflect">埃塞耶加雪菲，一爆后 40 秒下豆。香气对了。</p>
+        </div>
+        <div class="ce-tag">To Make</div>
+      </div>
+
+      <div class="coll-entry">
+        <div class="date">09 · 12</div>
+        <div>
+          <h3>学会了用 Neovim 写 Dart</h3>
+          <p class="reflect">坚持了 40 天。配好了 LSP + Copilot，现在反而舍不得 IDE 的鼠标了。</p>
+        </div>
+        <div class="ce-tag">To Learn</div>
+      </div>
+
+      <div class="coll-entry">
+        <div class="date">08 · 20</div>
+        <div>
+          <h3>独自在敦煌过了个五天</h3>
+          <p class="reflect">夜里看鸣沙山月牙泉，风从北面吹下来。第一次觉得独处也是一种盛宴。</p>
+        </div>
+        <div class="ce-tag">To Visit</div>
+      </div>
+
+      <div class="coll-entry">
+        <div class="date">07 · 03</div>
+        <div>
+          <h3>把家里的照片全部按年份整理好</h3>
+          <p class="reflect">整理了整整两个周末。翻到 2014 年父母在西安的那张合照。</p>
+        </div>
+        <div class="ce-tag">To Make</div>
+      </div>
+
+      <div class="coll-entry">
+        <div class="date">06 · 16</div>
+        <div>
+          <h3>读完了《海街日记》原作漫画</h3>
+          <p class="reflect">一直以为是电影先的。看完漫画才明白为什么是枝裕和会选它。</p>
+        </div>
+        <div class="ce-tag">To Read</div>
+      </div>
+
+      <div class="coll-entry">
+        <div class="date">05 · 02</div>
+        <div>
+          <h3>学了一首《阳关三叠》</h3>
+          <p class="reflect">古琴老师说这首简单。其实弹了一个月才能让自己听得下去。</p>
+        </div>
+        <div class="ce-tag">To Learn</div>
+      </div>
+
+      <div class="coll-entry">
+        <div class="date">04 · 11</div>
+        <div>
+          <h3>骑车从拱宸桥到塘栖</h3>
+          <p class="reflect">大运河从城市一直延伸到古镇。春天油菜花开。一路没拍照。</p>
+        </div>
+        <div class="ce-tag">To Visit</div>
+      </div>
+
+      <div class="coll-entry">
+        <div class="date">03 · 08</div>
+        <div>
+          <h3>给外婆做了一次生日录像</h3>
+          <p class="reflect">剪了 12 分钟。她看了三遍。</p>
+        </div>
+        <div class="ce-tag">To Make</div>
+      </div>
+
+      <div class="coll-entry">
+        <div class="date">01 · 22</div>
+        <div>
+          <h3>终于把《百年孤独》读完</h3>
+          <p class="reflect">第七次尝试。这次用 audiobook + 实体书对照，读了 4 个月。</p>
+        </div>
+        <div class="ce-tag">To Read</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 2024 -->
+  <div class="year-section reveal">
+    <div class="year">MMXXIV</div>
+    <div class="year-count">2024 · 共 8 件</div>
+    <div class="year-entries">
+
+      <div class="coll-entry">
+        <div class="date">11 · 30</div>
+        <div>
+          <h3>写完了第一篇长文《输入法的 10 年》</h3>
+          <p class="reflect">两万三千字。投给了少数派，主编没回。但写完的那一刻值了。</p>
+        </div>
+        <div class="ce-tag">To Make</div>
+      </div>
+
+      <div class="coll-entry">
+        <div class="date">10 · 14</div>
+        <div>
+          <h3>去了一次黄山，看了日出</h3>
+          <p class="reflect">住在光明顶。四点起床，冻得缩成一团。太阳出来的那一刻没说话。</p>
+        </div>
+        <div class="ce-tag">To Visit</div>
+      </div>
+
+      <div class="coll-entry">
+        <div class="date">08 · 28</div>
+        <div>
+          <h3>学会了做可丽饼</h3>
+          <p class="reflect">第一次请朋友过来，五个人，一个下午，吃光了 12 张。</p>
+        </div>
+        <div class="ce-tag">To Learn</div>
+      </div>
+
+      <div class="coll-entry">
+        <div class="date">07 · 04</div>
+        <div>
+          <h3>把 iPad 里攒了三年的音频课程听完</h3>
+          <p class="reflect">《中国美学十五讲》。通勤路上听的。最后两讲是走回家的路上听完的。</p>
+        </div>
+        <div class="ce-tag">To Learn</div>
+      </div>
+
+      <div class="coll-entry">
+        <div class="date">05 · 19</div>
+        <div>
+          <h3>第一次在家里煮了一锅拉面汤底</h3>
+          <p class="reflect">熬了 14 小时。最后的那碗味道对得起它。</p>
+        </div>
+        <div class="ce-tag">To Make</div>
+      </div>
+
+      <div class="coll-entry">
+        <div class="date">04 · 03</div>
+        <div>
+          <h3>在书店坐了一整天，读完了《安藤忠雄：建筑家》</h3>
+          <p class="reflect">台北诚品。外面下雨。没买这本书，因为想记住读它的那个下午。</p>
+        </div>
+        <div class="ce-tag">To Read</div>
+      </div>
+
+      <div class="coll-entry">
+        <div class="date">02 · 26</div>
+        <div>
+          <h3>学了一个月的法语</h3>
+          <p class="reflect">用 Duolingo。连续 31 天。到现在还只会点一杯咖啡，但够了。</p>
+        </div>
+        <div class="ce-tag">To Learn</div>
+      </div>
+
+      <div class="coll-entry">
+        <div class="date">01 · 09</div>
+        <div>
+          <h3>给自己过了一个安静的生日</h3>
+          <p class="reflect">没有蛋糕，没有聚会。一个人看了一整天的书，晚上煮了碗长寿面。</p>
+        </div>
+        <div class="ce-tag">To Make</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="wish-end">
+    <div class="issue-end">— End of Collection —</div>
+    <a class="to-collection" href="#" data-goto="wishes">
+      回到本期 · 还想做的 <span class="material-symbols-outlined">arrow_forward</span>
+    </a>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     5 · FLOW VIEW
+     ============================================================ -->
+<section class="view" id="view-flow">
+  <div class="flow-head reveal">
+    <div class="smallcaps">VIEW 05 · Bidirectional</div>
+    <h1>一件事可以<em>两面</em>走。</h1>
+    <p class="lede">
+      想做的事可以升级成任务，要做的事也可以放回想做的。<br>
+      不强制，不羞辱。节律由你。
+    </p>
+  </div>
+
+  <!-- Block 1 : 想→要 -->
+  <div class="flow-block reveal">
+    <div class="flow-block-head">
+      <div class="num">01</div>
+      <h2>想做的 &nbsp;→&nbsp; 要做的</h2>
+      <p>"心里那件事今天可以安排了" —— 从 Wishes 里挑一件，给它一个截止日，它就变成主清单里的任务。</p>
+    </div>
+
+    <div class="flow-stage">
+      <!-- Before: wish -->
+      <div class="fstate-card">
+        <div class="fs-label">BEFORE · 想做的</div>
+        <h3 class="fs-title" style="font-family:var(--serif);font-weight:600;font-size:32px;">试试自己做可颂</h3>
+        <div class="fs-meta">加入 28 天 · 尚未开始</div>
+      </div>
+
+      <div class="flow-arrow">
+        <span class="material-symbols-outlined">east</span>
+        <div class="lbl">Promote</div>
+      </div>
+
+      <!-- After: task -->
+      <div class="fstate-card md3">
+        <div class="fs-label">AFTER · 要做的</div>
+        <h3 class="fs-title">试试自己做可颂</h3>
+        <div class="fs-meta">
+          <span class="t-chip today"><span class="material-symbols-outlined" style="font-size:14px;">event</span> 周日</span>
+          <span class="t-chip"><span class="material-symbols-outlined" style="font-size:14px;">schedule</span> 09:00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: promote sheet -->
+    <div class="promote-sheet reveal">
+      <h4>升级成任务</h4>
+      <div class="ps-quote">试试自己做可颂</div>
+      <p class="ps-note">给它一个日子。不着急的话可以"本周末"。真的想做那天再设提醒。</p>
+      <div class="md-row">
+        <div class="md-field">
+          <label>截止日</label>
+          <input type="text" value="2026-04-19 周日" />
+        </div>
+        <div class="md-field">
+          <label>提醒时间（可选）</label>
+          <input type="text" value="09:00" />
+        </div>
+      </div>
+      <div class="md-actions">
+        <button class="md-btn text">再放一会儿</button>
+        <button class="md-btn filled">放进任务清单</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Block 2 : 要→想 -->
+  <div class="flow-block reveal" style="margin-top:120px;">
+    <div class="flow-block-head">
+      <div class="num">02</div>
+      <h2>要做的 &nbsp;→&nbsp; 想做的</h2>
+      <p>"这件事逾期好几次了，现在不想做了" —— 放回 Wishes 里，不算失败。它还在那，等哪天你又想起它。</p>
+    </div>
+
+    <div class="flow-stage">
+      <!-- Before: overdue task -->
+      <div class="fstate-card md3">
+        <div class="fs-label">BEFORE · 要做的（已逾期）</div>
+        <h3 class="fs-title">整理书房，把书按作者分类</h3>
+        <div class="fs-meta">
+          <span class="t-chip overdue"><span class="material-symbols-outlined" style="font-size:14px;">error</span> 逾期 24 天</span>
+          <span class="t-chip">延期 3 次</span>
+        </div>
+      </div>
+
+      <div class="flow-arrow">
+        <span class="material-symbols-outlined">west</span>
+        <div class="lbl">Demote · Kindly</div>
+      </div>
+
+      <!-- After: wish -->
+      <div class="fstate-card">
+        <div class="fs-label">AFTER · 想做的</div>
+        <h3 class="fs-title" style="font-family:var(--serif);font-weight:600;font-size:32px;">整理书房，把书按作者分类</h3>
+        <div class="fs-meta">回到想做的 · 无期限</div>
+      </div>
+    </div>
+
+    <!-- Demote card — NON-SHAMING -->
+    <div class="demote-card reveal">
+      <div class="dc-prompt">A gentle note</div>
+      <h4>这件事你现在<br>不想做了，<br>放回想做的吧。</h4>
+      <p class="dc-body">
+        没关系。它不是失败，只是此刻不是它的时间。<br>
+        放回想做的那一栏，它会安静地等着。<br>
+        哪天你又想起它，再升级回来就是了。
+      </p>
+      <div class="dc-actions">
+        <button class="ed-action">还想再试一次</button>
+        <button class="ed-action">放回想做的 &nbsp;↩</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" style="margin-top:140px;">
+    <hr class="rule" />
+    <div class="ornament">· · ·</div>
+    <div style="text-align:center; max-width:680px; margin:0 auto; font-family:var(--display); font-style:italic; color:var(--paper-dim); font-size:18px; line-height:1.8;">
+      要做的事督你走；<br>
+      想做的事等你回头看自己。<br>
+      <span style="color:var(--amber);">两条路，你都走。</span>
+    </div>
+  </div>
+</section>
+
+<footer class="page-foot">
+  <em>TODO / 墨夜</em> &nbsp;·&nbsp; Direction B · Dark Magazine &nbsp;·&nbsp; Static Preview
+</footer>
+
+<!-- ============================================================
+     JS — 最小交互
+     ============================================================ -->
+<script>
+(function(){
+  // Tab 切换
+  const tabs = document.querySelectorAll('.tab');
+  const views = document.querySelectorAll('.view');
+  function goto(name){
+    tabs.forEach(t => t.classList.toggle('active', t.dataset.view === name));
+    views.forEach(v => v.classList.toggle('active', v.id === 'view-' + name));
+    // 重新跑 reveal
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.view.active .reveal').forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if(rect.top < window.innerHeight - 40) el.classList.add('in');
+      });
+    });
+    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+  }
+  tabs.forEach(t => t.addEventListener('click', () => goto(t.dataset.view)));
+  document.querySelectorAll('[data-goto]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      goto(a.dataset.goto);
+    });
+  });
+
+  // ADD view — 路径切换
+  const choiceCards = document.querySelectorAll('.choice-card');
+  choiceCards.forEach(c => {
+    c.addEventListener('click', () => {
+      choiceCards.forEach(x => x.classList.remove('active-choice'));
+      c.classList.add('active-choice');
+      const path = c.dataset.path;
+      document.getElementById('form-task').classList.toggle('active', path === 'task');
+      document.getElementById('form-wish').classList.toggle('active', path === 'wish');
+    });
+  });
+
+  // 任务勾选 demo
+  document.querySelectorAll('.task-check').forEach(c => {
+    c.addEventListener('click', () => {
+      c.classList.toggle('done');
+      c.closest('.task').classList.toggle('done');
+    });
+  });
+
+  // MD3 chip 切换（同组单选）
+  document.querySelectorAll('.md-chipset').forEach(set => {
+    set.querySelectorAll('.md-chip').forEach(ch => {
+      ch.addEventListener('click', () => {
+        set.querySelectorAll('.md-chip').forEach(x => x.classList.remove('active'));
+        ch.classList.add('active');
+      });
+    });
+  });
+
+  // 心愿 tag
+  document.querySelectorAll('.wish-form .ed-chip').forEach(ch => {
+    ch.addEventListener('click', () => {
+      ch.parentElement.querySelectorAll('.ed-chip').forEach(x => x.classList.remove('active'));
+      ch.classList.add('active');
+    });
+  });
+
+  // Reveal on scroll
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.08, rootMargin:'0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  // 首屏立即显示
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.view.active .reveal').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if(rect.top < window.innerHeight) el.classList.add('in');
+    });
+  });
+})();
+</script>
+</body>
+</html>

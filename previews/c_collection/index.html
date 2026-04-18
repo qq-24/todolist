@@ -1,0 +1,2731 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>收藏匣 · Cabinet of Curiosities — 想做的与要做的</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0" rel="stylesheet">
+<style>
+/* ============ ROOT VARIABLES ============ */
+:root[data-theme="light"] {
+  --bg: #FAF7F2;
+  --bg-elevated: #F3EEE5;
+  --bg-card: #FFFEFB;
+  --ink: #1C1A17;
+  --ink-soft: #4A4640;
+  --ink-whisper: #8A8178;
+  --rule: #E4DCD0;
+  --rule-strong: #C9BEAE;
+  --accent: #6B4423;
+  --accent-soft: #A67C52;
+  --gold: #B08D3E;
+  --shadow-sm: 0 1px 2px rgba(60,40,20,.06), 0 2px 6px rgba(60,40,20,.04);
+  --shadow-md: 0 4px 12px rgba(60,40,20,.08), 0 8px 24px rgba(60,40,20,.06);
+  --shadow-lg: 0 8px 28px rgba(60,40,20,.12), 0 20px 48px rgba(60,40,20,.10);
+  --glow: 0 0 0 1px rgba(176,141,62,.20), 0 12px 32px rgba(176,141,62,.18);
+  --paper-texture: radial-gradient(circle at 20% 10%, rgba(176,141,62,.04), transparent 40%),
+                   radial-gradient(circle at 80% 70%, rgba(107,68,35,.03), transparent 50%);
+}
+:root[data-theme="dark"] {
+  --bg: #1C1A17;
+  --bg-elevated: #252320;
+  --bg-card: #2A2724;
+  --ink: #F0E8DB;
+  --ink-soft: #C3B8A5;
+  --ink-whisper: #7A7266;
+  --rule: #3A352F;
+  --rule-strong: #544C42;
+  --accent: #D4B684;
+  --accent-soft: #B08D3E;
+  --gold: #D4B684;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.3), 0 2px 6px rgba(0,0,0,.25);
+  --shadow-md: 0 4px 14px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.3);
+  --shadow-lg: 0 10px 32px rgba(0,0,0,.5), 0 24px 56px rgba(0,0,0,.4);
+  --glow: 0 0 0 1px rgba(212,182,132,.25), 0 16px 40px rgba(212,182,132,.12);
+  --paper-texture: radial-gradient(circle at 20% 10%, rgba(212,182,132,.04), transparent 40%),
+                   radial-gradient(circle at 80% 70%, rgba(166,124,82,.03), transparent 50%);
+}
+
+/* ============ RESET + BASE ============ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Serif SC', 'Cormorant Garamond', serif;
+  background: var(--bg);
+  background-image: var(--paper-texture);
+  color: var(--ink);
+  line-height: 1.65;
+  font-weight: 400;
+  min-height: 100vh;
+  transition: background .5s ease, color .5s ease;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "palt" 1;
+}
+.sans { font-family: 'Noto Sans SC', system-ui, sans-serif; }
+.serif { font-family: 'Noto Serif SC', serif; }
+.latin-italic { font-family: 'Cormorant Garamond', serif; font-style: italic; }
+.small-caps { font-variant: all-small-caps; letter-spacing: .18em; }
+
+/* ============ TOP NAV ============ */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--rule);
+}
+.topbar-inner {
+  max-width: 1680px; margin: 0 auto;
+  padding: 18px 40px;
+  display: flex; align-items: center; gap: 40px;
+}
+@media (max-width: 1023px) {
+  .topbar-inner { padding: 14px 20px; gap: 16px; }
+}
+@media (max-width: 639px) {
+  .topbar-inner { padding: 12px 16px; gap: 10px; flex-wrap: nowrap; }
+  .brand-en { display: none; }
+}
+.brand {
+  display: flex; align-items: baseline; gap: 14px;
+  flex-shrink: 0;
+}
+.brand-cn {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 500; font-size: 20px;
+  letter-spacing: .15em;
+}
+.brand-en {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-weight: 400;
+  font-size: 14px;
+  color: var(--ink-whisper);
+  letter-spacing: .04em;
+}
+.tabs {
+  display: flex; gap: 4px;
+  flex: 1;
+}
+@media (max-width: 1023px) {
+  .tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    white-space: nowrap;
+    gap: 2px;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+}
+.tab {
+  background: none; border: none; cursor: pointer;
+  padding: 10px 18px;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px; font-weight: 400;
+  color: var(--ink-soft);
+  letter-spacing: .12em;
+  border-radius: 2px;
+  position: relative;
+  transition: color .3s ease;
+  min-height: 44px;
+  flex-shrink: 0;
+}
+.tab:hover { color: var(--ink); }
+.tab.active { color: var(--ink); font-weight: 500; }
+.tab.active::after {
+  content: ''; position: absolute;
+  left: 50%; transform: translateX(-50%);
+  bottom: 2px;
+  width: 22px; height: 1px;
+  background: var(--gold);
+}
+.tab-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 11px;
+  color: var(--ink-whisper);
+  margin-right: 6px;
+}
+.theme-toggle {
+  background: none; border: 1px solid var(--rule-strong);
+  cursor: pointer;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  color: var(--ink-soft);
+  display: flex; align-items: center; justify-content: center;
+  transition: all .3s ease;
+  flex-shrink: 0;
+}
+.theme-toggle:hover {
+  border-color: var(--gold); color: var(--gold);
+  transform: rotate(25deg);
+}
+.theme-toggle .material-symbols-outlined { font-size: 20px; }
+
+/* ============ VIEW CONTAINER ============ */
+.view { display: none; animation: viewIn .6s ease; }
+.view.active { display: block; }
+@keyframes viewIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.viewport {
+  max-width: 1680px; margin: 0 auto;
+  padding: 48px 40px 120px;
+}
+@media (max-width: 1023px) { .viewport { padding: 40px 24px 100px; } }
+@media (max-width: 639px)  { .viewport { padding: 28px 16px 96px; } }
+
+/* ============ VIEW HEADER ============ */
+.view-header {
+  text-align: center;
+  margin-bottom: 56px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+}
+.view-eyebrow {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--gold);
+  letter-spacing: .15em;
+  margin-bottom: 14px;
+}
+.view-eyebrow::before, .view-eyebrow::after {
+  content: '·'; margin: 0 14px; color: var(--ink-whisper);
+}
+.view-title {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 300;
+  font-size: clamp(30px, 5vw, 48px);
+  letter-spacing: .08em;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+.view-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(15px, 1.6vw, 20px);
+  color: var(--ink-soft);
+  letter-spacing: .04em;
+}
+
+/* ============ ORNAMENTAL DIVIDERS ============ */
+.ornament {
+  display: flex; align-items: center; justify-content: center;
+  gap: 18px;
+  margin: 48px auto;
+  color: var(--accent-soft);
+  flex-wrap: wrap;
+}
+@media (max-width: 639px) {
+  .ornament { gap: 10px; margin: 32px auto; }
+  .ornament svg { width: 60px; height: 16px; }
+}
+.ornament-line {
+  flex: 1; max-width: 180px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rule-strong), transparent);
+}
+.ornament svg { opacity: .7; }
+.ornament-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--ink-whisper);
+  letter-spacing: .12em;
+}
+
+/* ============ TASKS VIEW (MD3) — responsive ============ */
+/* Desktop: sidebar filters | wide list | aside notes.  Mobile: single column + FAB. */
+.tasks-layout {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr) 320px;
+  gap: 40px;
+  align-items: start;
+}
+@media (max-width: 1200px) {
+  .tasks-layout { grid-template-columns: 240px minmax(0, 1fr); }
+  .tasks-aside { display: none; }
+}
+@media (max-width: 900px) {
+  .tasks-layout { grid-template-columns: 1fr; gap: 28px; }
+  .tasks-sidebar { order: 2; }
+  .tasks-main { order: 1; }
+}
+
+.tasks-sidebar {
+  position: sticky; top: 96px;
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 24px 22px;
+}
+@media (max-width: 900px) {
+  .tasks-sidebar { position: static; }
+}
+.sidebar-label {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 11px; font-weight: 500;
+  color: var(--ink-whisper);
+  letter-spacing: .2em;
+  margin: 4px 0 12px;
+}
+.sidebar-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px;
+  min-height: 44px;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 14px;
+  color: var(--ink-soft);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background .2s;
+}
+.sidebar-item:hover { background: var(--bg-elevated); color: var(--ink); }
+.sidebar-item.active {
+  background: var(--bg-elevated);
+  color: var(--ink); font-weight: 500;
+}
+.sidebar-item .count {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--ink-whisper); font-size: 13px;
+}
+.sidebar-divider {
+  height: 1px; background: var(--rule);
+  margin: 16px 0;
+}
+.tasks-aside {
+  padding: 28px 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  position: sticky; top: 96px;
+}
+.tasks-aside-eyebrow {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--gold);
+  letter-spacing: .15em;
+  margin-bottom: 12px;
+}
+.tasks-aside-body {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--ink-soft);
+}
+
+.md3-appbar {
+  padding: 16px 4px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.md3-title {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 500;
+  font-size: 24px;
+  letter-spacing: .04em;
+}
+.md3-icon-btn {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ink-soft);
+  background: none; border: none; cursor: pointer;
+  transition: background .2s;
+}
+.md3-icon-btn:hover { background: var(--bg-elevated); }
+
+.wish-portal {
+  margin: 8px 0 24px;
+  padding: 18px 20px;
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--gold) 12%, transparent),
+    color-mix(in srgb, var(--accent) 8%, transparent));
+  border: 1px solid color-mix(in srgb, var(--gold) 30%, transparent);
+  border-radius: 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer;
+  transition: all .3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.wish-portal::before {
+  content: ''; position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 85% 50%, color-mix(in srgb, var(--gold) 15%, transparent), transparent 60%);
+  pointer-events: none;
+}
+.wish-portal:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--glow);
+}
+.wish-portal-label {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: .08em;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.wish-portal-meta {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.wish-portal-arrow {
+  color: var(--gold);
+  font-size: 22px;
+}
+
+.section-label {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-whisper);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  margin: 20px 4px 10px;
+}
+.task-card {
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  display: flex; align-items: flex-start; gap: 12px;
+  transition: all .2s ease;
+}
+.task-card:hover {
+  border-color: var(--rule-strong);
+  box-shadow: var(--shadow-sm);
+}
+.task-check {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--rule-strong);
+  flex-shrink: 0;
+  margin-top: 2px;
+  cursor: pointer;
+  transition: all .2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.task-check:hover { border-color: var(--accent); }
+.task-check.done {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+.task-check.done::after {
+  content: '✓';
+  color: var(--bg);
+  font-size: 13px; font-weight: 700;
+}
+.task-body { flex: 1; min-width: 0; }
+.task-title {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 15px; font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.task-card.done .task-title {
+  color: var(--ink-whisper);
+  text-decoration: line-through;
+}
+.task-meta {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 12px;
+  color: var(--ink-whisper);
+  font-family: 'Noto Sans SC', sans-serif;
+}
+.task-chip {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--bg-elevated);
+  color: var(--ink-soft);
+}
+.task-chip.overdue {
+  background: color-mix(in srgb, #B85042 20%, transparent);
+  color: #B85042;
+}
+.task-chip.today {
+  background: color-mix(in srgb, var(--gold) 20%, transparent);
+  color: var(--gold);
+}
+.task-chip.soon {
+  background: color-mix(in srgb, var(--accent-soft) 20%, transparent);
+  color: var(--accent);
+}
+.md3-fab {
+  position: fixed; bottom: 24px; right: 24px;
+  width: 58px; height: 58px;
+  border-radius: 18px;
+  background: var(--ink);
+  color: var(--bg);
+  border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--shadow-md);
+  transition: transform .2s;
+  z-index: 50;
+}
+@media (min-width: 900px) { .md3-fab { display: none; } }
+.md3-fab:hover { transform: scale(1.06); }
+.md3-fab .material-symbols-outlined { font-size: 28px; }
+
+/* Desktop task view */
+.desktop-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+.desktop-header {
+  padding: 28px 36px;
+  border-bottom: 1px solid var(--rule);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.desktop-title-group h2 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 400;
+  font-size: 28px;
+  letter-spacing: .06em;
+  margin-bottom: 4px;
+}
+.desktop-title-group .sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--ink-whisper);
+}
+.desktop-actions { display: flex; gap: 8px; }
+.md3-btn {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 13px; font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: 1px solid var(--rule-strong);
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+  display: inline-flex; align-items: center; gap: 6px;
+  transition: all .2s;
+}
+.md3-btn:hover { background: var(--bg-elevated); }
+.md3-btn.filled {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+.md3-btn.filled:hover { opacity: .85; background: var(--ink); }
+.md3-btn .material-symbols-outlined { font-size: 18px; }
+
+.desktop-list { padding: 8px 24px 24px; }
+.desktop-task {
+  padding: 18px 12px;
+  display: flex; align-items: center; gap: 16px;
+  border-bottom: 1px solid var(--rule);
+  transition: background .2s;
+}
+.desktop-task:hover { background: var(--bg-elevated); }
+.desktop-task:last-child { border-bottom: none; }
+.desktop-task .task-check { width: 24px; height: 24px; margin: 0; }
+.desktop-task .task-body { flex: 1; }
+.desktop-task .task-title { font-size: 16px; }
+
+/* ============ WISHES VIEW — CABINET ============ */
+.filter-bar {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0;
+  margin-bottom: 56px;
+  padding: 14px 24px;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  flex-wrap: wrap;
+}
+@media (max-width: 639px) {
+  .filter-bar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 10px 12px;
+    margin-bottom: 36px;
+  }
+  .filter-bar::-webkit-scrollbar { display: none; }
+}
+.filter-chip {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px; font-weight: 400;
+  color: var(--ink-soft);
+  background: none; border: none;
+  padding: 6px 20px;
+  min-height: 44px;
+  cursor: pointer;
+  letter-spacing: .12em;
+  transition: color .25s;
+  position: relative;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.filter-chip:not(:last-child)::after {
+  content: '·';
+  position: absolute; right: -2px; top: 50%; transform: translateY(-50%);
+  color: var(--ink-whisper);
+}
+.filter-chip:hover { color: var(--ink); }
+.filter-chip.active {
+  color: var(--gold);
+  font-weight: 500;
+}
+.filter-count {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 11px;
+  color: var(--ink-whisper);
+  margin-left: 4px;
+  vertical-align: super;
+}
+
+/* Masonry via column-count */
+.masonry {
+  column-count: 4;
+  column-gap: 24px;
+}
+@media (min-width: 1600px) { .masonry { column-count: 5; } }
+@media (max-width: 1399px) and (min-width: 1024px) { .masonry { column-count: 4; } }
+@media (max-width: 1023px) and (min-width: 640px) { .masonry { column-count: 2; column-gap: 20px; } }
+@media (max-width: 639px) { .masonry { column-count: 1; } }
+
+.specimen {
+  break-inside: avoid;
+  margin: 0 0 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 24px;
+  position: relative;
+  transition: all .35s cubic-bezier(.2,.7,.2,1);
+  cursor: pointer;
+  overflow: hidden;
+}
+.specimen:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--glow);
+  border-color: color-mix(in srgb, var(--gold) 40%, var(--rule));
+}
+.specimen::before {
+  content: '';
+  position: absolute;
+  top: 10px; left: 10px; right: 10px; bottom: 10px;
+  border: 1px solid transparent;
+  pointer-events: none;
+  transition: border-color .35s ease;
+}
+.specimen:hover::before {
+  border-color: color-mix(in srgb, var(--gold) 20%, transparent);
+}
+
+/* catalog number top-right */
+.specimen-cat {
+  position: absolute;
+  top: 14px; right: 16px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 11px;
+  color: var(--ink-whisper);
+  letter-spacing: .1em;
+}
+
+/* category tag top-left */
+.specimen-tag {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  display: inline-block;
+}
+
+/* Card types */
+.specimen.small .specimen-title {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 400;
+  font-size: 18px;
+  letter-spacing: .04em;
+  line-height: 1.5;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.specimen.medium .specimen-title {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 400;
+  font-size: 22px;
+  letter-spacing: .03em;
+  line-height: 1.45;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.specimen.plaque {
+  padding: 42px 28px;
+  background: linear-gradient(180deg,
+    var(--bg-card),
+    color-mix(in srgb, var(--gold) 4%, var(--bg-card)));
+  border-color: var(--rule-strong);
+  text-align: center;
+}
+.specimen.plaque .specimen-title {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 300;
+  font-size: 30px;
+  letter-spacing: .12em;
+  line-height: 1.4;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+.specimen.plaque .specimen-tag { color: var(--accent); }
+.specimen.feature {
+  padding: 0;
+}
+.specimen.feature .feature-image {
+  width: 100%;
+  aspect-ratio: 4/5;
+  background: var(--bg-elevated);
+  position: relative;
+  overflow: hidden;
+}
+.specimen.feature .feature-image.wide { aspect-ratio: 4/3; }
+.specimen.feature .feature-image.tall { aspect-ratio: 3/5; }
+.specimen.feature .feature-body {
+  padding: 22px 24px 26px;
+}
+.specimen.feature .specimen-title {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 400;
+  font-size: 24px;
+  letter-spacing: .04em;
+  line-height: 1.4;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.specimen.feature .specimen-tag {
+  padding: 22px 24px 0;
+  display: block;
+}
+
+.specimen-quote {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--ink-soft);
+  font-style: normal;
+  border-left: 1px solid var(--gold);
+  padding-left: 14px;
+  margin: 12px 0;
+  letter-spacing: .03em;
+}
+.specimen-note {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin-bottom: 10px;
+  font-weight: 300;
+}
+
+/* Provenance line — always present */
+.provenance {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--ink-whisper);
+  letter-spacing: .03em;
+  line-height: 1.5;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule);
+  margin-top: 4px;
+}
+.provenance::before {
+  content: '※ ';
+  color: var(--gold);
+  font-style: normal;
+}
+
+/* Hover actions overlay */
+.specimen-actions {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 12px 16px;
+  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--bg-card) 96%, transparent) 40%);
+  display: flex; gap: 8px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all .3s ease;
+  pointer-events: none;
+}
+.specimen:hover .specimen-actions {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.specimen-action {
+  flex: 1;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 11px; font-weight: 500;
+  padding: 8px 10px;
+  border: 1px solid var(--rule-strong);
+  background: var(--bg-card);
+  color: var(--ink);
+  border-radius: 2px;
+  cursor: pointer;
+  letter-spacing: .1em;
+  transition: all .2s;
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+}
+.specimen-action:hover {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+.specimen-action.gold:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+.specimen-action .material-symbols-outlined { font-size: 14px; }
+
+/* Sketch/image decorations */
+.sketch {
+  width: 100%;
+  display: block;
+  margin-bottom: 14px;
+  color: var(--accent);
+  opacity: .8;
+}
+.feature-image svg {
+  width: 100%; height: 100%;
+  display: block;
+}
+.feature-image-caption {
+  position: absolute;
+  left: 12px; bottom: 10px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 11px;
+  color: rgba(255,255,255,.85);
+  letter-spacing: .05em;
+  background: rgba(0,0,0,.35);
+  padding: 4px 10px;
+  backdrop-filter: blur(6px);
+}
+
+/* Collection entry pointer at bottom */
+.collection-link {
+  margin: 80px auto 0;
+  text-align: center;
+}
+.collection-link a {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 15px;
+  color: var(--ink-soft);
+  text-decoration: none;
+  letter-spacing: .15em;
+  padding: 12px 28px;
+  border-top: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule-strong);
+  display: inline-block;
+  transition: all .3s ease;
+}
+.collection-link a:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+  letter-spacing: .22em;
+}
+.collection-link-sub {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-whisper);
+  margin-top: 12px;
+  letter-spacing: .08em;
+}
+
+/* ============ ADD VIEW ============ */
+.add-wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.add-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 64px;
+}
+@media (max-width: 639px) {
+  .add-switch { grid-template-columns: 1fr; gap: 16px; margin-bottom: 40px; }
+}
+.add-choice {
+  padding: 36px 32px;
+  border: 1px solid var(--rule);
+  background: var(--bg-card);
+  cursor: pointer;
+  border-radius: 3px;
+  text-align: left;
+  transition: all .35s ease;
+  position: relative;
+  overflow: hidden;
+}
+.add-choice:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--gold);
+}
+.add-choice.selected {
+  border-color: var(--gold);
+  box-shadow: var(--glow);
+}
+.add-choice-icon {
+  font-size: 32px !important;
+  color: var(--accent);
+  margin-bottom: 18px;
+  display: block;
+}
+.add-choice-title {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 500;
+  font-size: 22px;
+  letter-spacing: .1em;
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+.add-choice-latin {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--gold);
+  letter-spacing: .04em;
+  margin-bottom: 16px;
+}
+.add-choice-desc {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+  font-weight: 300;
+}
+
+.add-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+}
+@media (max-width: 1023px) {
+  .add-panels { grid-template-columns: 1fr; gap: 28px; }
+}
+/* On mobile, hide the task form — wish form is the star of this view */
+@media (max-width: 639px) {
+  .add-panels .add-panel.task-form { display: none; }
+  .add-panels .mobile-switch-hint { display: block; }
+}
+.add-panels .mobile-switch-hint { display: none; }
+.add-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  padding: 36px 32px;
+  border-radius: 3px;
+}
+.add-panel h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 400;
+  font-size: 22px;
+  letter-spacing: .08em;
+  margin-bottom: 6px;
+}
+.add-panel .panel-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--ink-whisper);
+  margin-bottom: 32px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* MD3 text fields */
+.md3-field {
+  margin-bottom: 24px;
+  position: relative;
+}
+.md3-field input, .md3-field textarea, .md3-field select {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--rule-strong);
+  border-radius: 4px;
+  padding: 14px 16px;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 14px;
+  color: var(--ink);
+  outline: none;
+  transition: border-color .2s;
+}
+.md3-field input:focus, .md3-field textarea:focus {
+  border-color: var(--accent);
+}
+.md3-field label {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+  display: block;
+  letter-spacing: .08em;
+}
+.md3-field textarea { min-height: 90px; resize: vertical; }
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Wish form — museum label style */
+.wish-form-label {
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--gold) 3%, var(--bg-card)),
+    var(--bg-card));
+  padding: 40px 36px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 3px;
+  text-align: center;
+  margin-bottom: 28px;
+  position: relative;
+}
+.wish-form-label::before, .wish-form-label::after {
+  content: '';
+  position: absolute;
+  width: 14px; height: 14px;
+  border: 1px solid var(--gold);
+}
+.wish-form-label::before { top: 10px; left: 10px; border-right: none; border-bottom: none; }
+.wish-form-label::after { bottom: 10px; right: 10px; border-left: none; border-top: none; }
+
+.wish-catalog {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 12px;
+  color: var(--gold);
+  letter-spacing: .15em;
+  margin-bottom: 14px;
+}
+.wish-form-label input.title-input {
+  width: 100%;
+  background: none;
+  border: none;
+  border-bottom: 1px dashed var(--rule-strong);
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 400;
+  font-size: 24px;
+  color: var(--ink);
+  text-align: center;
+  padding: 10px 0 14px;
+  letter-spacing: .08em;
+  outline: none;
+}
+.wish-form-label input.title-input:focus {
+  border-bottom-color: var(--gold);
+}
+.wish-form-label input.title-input::placeholder {
+  color: var(--ink-whisper);
+  font-style: italic;
+}
+.wish-form-meta {
+  margin-top: 18px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-whisper);
+  letter-spacing: .04em;
+}
+.category-chips {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-top: 20px;
+  justify-content: center;
+}
+.cat-chip {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 13px;
+  padding: 6px 16px;
+  border: 1px solid var(--rule-strong);
+  background: none;
+  color: var(--ink-soft);
+  cursor: pointer;
+  border-radius: 0;
+  letter-spacing: .1em;
+  transition: all .2s;
+}
+.cat-chip:hover, .cat-chip.active {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: color-mix(in srgb, var(--gold) 8%, transparent);
+}
+.wish-note {
+  width: 100%;
+  background: none;
+  border: 1px dashed var(--rule-strong);
+  padding: 14px 16px;
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 300;
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.7;
+  outline: none;
+  resize: vertical;
+  min-height: 90px;
+  border-radius: 2px;
+  margin-top: 16px;
+}
+.wish-note:focus { border-color: var(--gold); border-style: solid; }
+.wish-note::placeholder {
+  color: var(--ink-whisper);
+  font-style: italic;
+}
+.form-actions {
+  display: flex; gap: 10px;
+  margin-top: 8px;
+}
+
+/* ============ COLLECTION VIEW ============ */
+.collection-stats {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 48px;
+  align-items: center;
+  margin-bottom: 72px;
+  padding: 36px 40px;
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  position: relative;
+}
+@media (max-width: 639px) {
+  .collection-stats { padding: 24px 20px; gap: 20px; margin-bottom: 48px; }
+}
+.stat-total {
+  text-align: center;
+  border-right: 1px solid var(--rule);
+  padding-right: 40px;
+}
+.stat-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(60px, 8vw, 84px);
+  line-height: 1;
+  color: var(--gold);
+  letter-spacing: .02em;
+}
+.stat-label {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 13px;
+  letter-spacing: .2em;
+  color: var(--ink-soft);
+  margin-top: 8px;
+}
+.stat-breakdown {
+  display: flex; flex-wrap: wrap; gap: 28px 48px;
+}
+.breakdown-item {
+  display: flex; flex-direction: column; gap: 4px;
+}
+.breakdown-bar-wrap {
+  width: 140px; height: 3px;
+  background: var(--rule);
+  margin-top: 6px;
+  position: relative;
+}
+.breakdown-bar {
+  position: absolute; top: 0; left: 0;
+  height: 100%;
+  background: var(--gold);
+}
+.breakdown-name {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 13px;
+  color: var(--ink);
+  letter-spacing: .1em;
+}
+.breakdown-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--gold);
+}
+
+.year-section { margin-bottom: 72px; }
+.year-header {
+  display: flex; align-items: baseline; gap: 24px;
+  padding-bottom: 18px;
+  margin-bottom: 32px;
+  border-bottom: 2px solid var(--rule-strong);
+}
+.year-big {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: 64px;
+  color: var(--ink);
+  letter-spacing: .02em;
+  line-height: 1;
+}
+.year-count {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  color: var(--ink-whisper);
+  letter-spacing: .15em;
+}
+
+.year-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 28px;
+}
+.collection-entry {
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  padding: 24px 24px 22px;
+  border-radius: 3px;
+  position: relative;
+  transition: all .3s;
+}
+.collection-entry:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+.collection-entry-date {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--gold);
+  letter-spacing: .1em;
+  margin-bottom: 8px;
+}
+.collection-entry-seal {
+  position: absolute;
+  top: 16px; right: 16px;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  opacity: .65;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 11px;
+  letter-spacing: .05em;
+  text-align: center;
+  line-height: 1.1;
+}
+.collection-entry-title {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 400;
+  font-size: 19px;
+  letter-spacing: .04em;
+  line-height: 1.45;
+  color: var(--ink);
+  margin-bottom: 10px;
+  padding-right: 44px;
+}
+.collection-entry-cat {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--accent-soft);
+  letter-spacing: .25em;
+  margin-bottom: 12px;
+}
+.collection-entry-reflection {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+  font-style: normal;
+}
+.collection-entry-reflection::before {
+  content: '「';
+  color: var(--gold);
+  font-size: 16px;
+  margin-right: 2px;
+}
+.collection-entry-reflection::after {
+  content: '」';
+  color: var(--gold);
+  font-size: 16px;
+}
+
+/* ============ FLOW VIEW ============ */
+.flow-block {
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  padding: 48px;
+  border-radius: 3px;
+  margin-bottom: 40px;
+}
+.flow-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--rule);
+}
+.flow-eyebrow {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--gold);
+  letter-spacing: .2em;
+  margin-bottom: 10px;
+}
+.flow-title {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 400;
+  font-size: 26px;
+  letter-spacing: .1em;
+  margin-bottom: 8px;
+}
+.flow-desc {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  max-width: 560px;
+  margin: 0 auto;
+}
+.flow-stages {
+  display: grid;
+  grid-template-columns: 1fr 80px 1fr;
+  gap: 24px;
+  align-items: center;
+}
+@media (max-width: 900px) {
+  .flow-stages { grid-template-columns: 1fr; }
+  .flow-arrow { transform: rotate(90deg); margin: 0 auto; }
+}
+.flow-stage-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-whisper);
+  letter-spacing: .15em;
+  margin-bottom: 14px;
+  text-align: center;
+}
+.flow-arrow {
+  text-align: center;
+  color: var(--gold);
+  font-size: 48px;
+}
+.flow-arrow .small-caps {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 12px;
+  color: var(--ink-whisper);
+  margin-top: 8px;
+  letter-spacing: .15em;
+}
+
+.demo-specimen, .demo-task {
+  padding: 20px 22px;
+  border-radius: 3px;
+  border: 1px solid var(--rule);
+}
+.demo-specimen {
+  background: linear-gradient(180deg, var(--bg), color-mix(in srgb, var(--gold) 3%, var(--bg)));
+}
+.demo-task {
+  background: var(--bg);
+}
+.demo-title {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 500;
+  font-size: 18px;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.demo-meta {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12px;
+  color: var(--ink-soft);
+  font-weight: 300;
+}
+.demo-provenance {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 12px;
+  color: var(--ink-whisper);
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--rule);
+}
+.demo-cta {
+  margin-top: 14px;
+  padding: 10px 14px;
+  background: var(--bg-elevated);
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12px;
+  color: var(--ink-soft);
+  border-radius: 4px;
+  display: flex; align-items: center; gap: 8px;
+}
+.demo-cta.gentle {
+  background: color-mix(in srgb, var(--gold) 12%, transparent);
+  border: 1px dashed color-mix(in srgb, var(--gold) 40%, var(--rule));
+  color: var(--ink);
+}
+.demo-cta .material-symbols-outlined { font-size: 16px; color: var(--gold); }
+
+.flow-mini-notes {
+  margin-top: 28px;
+  padding: 18px 22px;
+  background: var(--bg);
+  border-left: 2px solid var(--gold);
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 300;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.9;
+}
+.flow-mini-notes strong {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: .05em;
+}
+.wording-tests {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+.wording-test {
+  padding: 14px 16px;
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  color: var(--ink);
+  position: relative;
+}
+.wording-test.chosen {
+  border-color: var(--gold);
+  background: color-mix(in srgb, var(--gold) 6%, var(--bg));
+}
+.wording-test .verdict {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 11px;
+  color: var(--ink-whisper);
+  margin-top: 6px;
+  letter-spacing: .04em;
+}
+.wording-test.chosen .verdict { color: var(--gold); }
+
+/* Footer */
+footer {
+  max-width: 1680px;
+  margin: 0 auto;
+  padding: 40px;
+  text-align: center;
+  border-top: 1px solid var(--rule);
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-whisper);
+  letter-spacing: .08em;
+}
+footer span { color: var(--gold); }
+
+@media (max-width: 768px) {
+  .topbar-inner { padding: 14px 18px; gap: 14px; flex-wrap: wrap; }
+  .viewport { padding: 28px 18px 80px; }
+  .view-title { font-size: 32px; }
+  .tasks-layout { gap: 36px; }
+  .collection-stats { grid-template-columns: 1fr; gap: 28px; }
+  .stat-total { border-right: none; border-bottom: 1px solid var(--rule); padding: 0 0 24px; }
+  .add-switch { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ TOP NAV ============ -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-cn">收藏匣</span>
+      <span class="brand-en">Cabinet of Curiosities — a museum of potential selves</span>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-view="tasks"><span class="tab-num">I.</span>要做的</button>
+      <button class="tab" data-view="wishes"><span class="tab-num">II.</span>想做的</button>
+      <button class="tab" data-view="add"><span class="tab-num">III.</span>记下新的</button>
+      <button class="tab" data-view="collection"><span class="tab-num">IV.</span>已完成的收藏</button>
+      <button class="tab" data-view="flow"><span class="tab-num">V.</span>双向流动</button>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" title="切换明暗">
+      <span class="material-symbols-outlined" id="themeIcon">dark_mode</span>
+    </button>
+  </div>
+</header>
+
+<!-- ============ VIEW 1: TASKS ============ -->
+<main>
+<section class="view active" id="view-tasks">
+  <div class="viewport">
+    <div class="view-header">
+      <div class="view-eyebrow">PART ONE</div>
+      <h1 class="view-title">要 做 的</h1>
+      <p class="view-sub">Things of this week — quiet, calendared, done.</p>
+    </div>
+
+    <div class="tasks-layout">
+      <!-- Mobile -->
+      <div>
+        <div class="device-label">Mobile · 400×820</div>
+        <div class="mobile-frame">
+          <div class="mobile-notch"></div>
+          <div class="mobile-screen">
+            <div class="md3-appbar">
+              <div class="md3-title">今天</div>
+              <button class="md3-icon-btn" title="筛选"><span class="material-symbols-outlined">tune</span></button>
+            </div>
+
+            <div class="wish-portal" onclick="switchView('wishes')">
+              <div>
+                <div class="wish-portal-label">想做的 · 32 件藏品</div>
+                <div class="wish-portal-meta">上次翻阅于 三周前</div>
+              </div>
+              <span class="material-symbols-outlined wish-portal-arrow">arrow_forward</span>
+            </div>
+
+            <div class="section-label">已逾期</div>
+            <div class="task-card">
+              <div class="task-check"></div>
+              <div class="task-body">
+                <div class="task-title">给老板回邮件：Q2 规划</div>
+                <div class="task-meta">
+                  <span class="task-chip overdue">逾期 2 天</span>
+                  <span>工作</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-label">今天</div>
+            <div class="task-card">
+              <div class="task-check"></div>
+              <div class="task-body">
+                <div class="task-title">取干洗的外套</div>
+                <div class="task-meta">
+                  <span class="task-chip today">18:00 前</span>
+                  <span>生活</span>
+                </div>
+              </div>
+            </div>
+            <div class="task-card">
+              <div class="task-check"></div>
+              <div class="task-body">
+                <div class="task-title">跑步 5 公里</div>
+                <div class="task-meta">
+                  <span class="task-chip today">今天</span>
+                  <span>健康</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-label">本周</div>
+            <div class="task-card">
+              <div class="task-check"></div>
+              <div class="task-body">
+                <div class="task-title">准备周五的设计评审材料</div>
+                <div class="task-meta">
+                  <span class="task-chip soon">周五</span>
+                  <span>工作</span>
+                </div>
+              </div>
+            </div>
+            <div class="task-card">
+              <div class="task-check"></div>
+              <div class="task-body">
+                <div class="task-title">预约下周的牙医</div>
+                <div class="task-meta">
+                  <span class="task-chip soon">周三前</span>
+                  <span>健康</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-label">已完成</div>
+            <div class="task-card done">
+              <div class="task-check done"></div>
+              <div class="task-body">
+                <div class="task-title">交房租</div>
+                <div class="task-meta"><span>今天 09:12 完成</span></div>
+              </div>
+            </div>
+            <div class="task-card done">
+              <div class="task-check done"></div>
+              <div class="task-body">
+                <div class="task-title">买牛奶和鸡蛋</div>
+                <div class="task-meta"><span>昨天 完成</span></div>
+              </div>
+            </div>
+          </div>
+          <button class="md3-fab" onclick="switchView('add')"><span class="material-symbols-outlined">add</span></button>
+        </div>
+      </div>
+
+      <!-- Desktop -->
+      <div>
+        <div class="device-label">Desktop · 全屏</div>
+        <div class="desktop-panel">
+          <div class="desktop-header">
+            <div class="desktop-title-group">
+              <h2>要做的</h2>
+              <div class="sub">Week of April 13 — April 19, 2026</div>
+            </div>
+            <div class="desktop-actions">
+              <button class="md3-btn"><span class="material-symbols-outlined">tune</span>筛选</button>
+              <button class="md3-btn filled" onclick="switchView('add')"><span class="material-symbols-outlined">add</span>新建</button>
+            </div>
+          </div>
+          <div class="desktop-list">
+            <div class="desktop-task">
+              <div class="task-check"></div>
+              <div class="task-body">
+                <div class="task-title">给老板回邮件：Q2 规划</div>
+                <div class="task-meta"><span class="task-chip overdue">逾期 2 天</span><span>工作 · 写作</span></div>
+              </div>
+              <span class="material-symbols-outlined" style="color:var(--ink-whisper);cursor:pointer;">more_horiz</span>
+            </div>
+            <div class="desktop-task">
+              <div class="task-check"></div>
+              <div class="task-body">
+                <div class="task-title">取干洗的外套</div>
+                <div class="task-meta"><span class="task-chip today">今天 18:00 前</span><span>生活</span></div>
+              </div>
+              <span class="material-symbols-outlined" style="color:var(--ink-whisper);cursor:pointer;">more_horiz</span>
+            </div>
+            <div class="desktop-task">
+              <div class="task-check"></div>
+              <div class="task-body">
+                <div class="task-title">跑步 5 公里</div>
+                <div class="task-meta"><span class="task-chip today">今天</span><span>健康 · 重复每周三次</span></div>
+              </div>
+              <span class="material-symbols-outlined" style="color:var(--ink-whisper);cursor:pointer;">more_horiz</span>
+            </div>
+            <div class="desktop-task">
+              <div class="task-check"></div>
+              <div class="task-body">
+                <div class="task-title">准备周五的设计评审材料</div>
+                <div class="task-meta"><span class="task-chip soon">周五</span><span>工作</span></div>
+              </div>
+              <span class="material-symbols-outlined" style="color:var(--ink-whisper);cursor:pointer;">more_horiz</span>
+            </div>
+            <div class="desktop-task">
+              <div class="task-check"></div>
+              <div class="task-body">
+                <div class="task-title">预约下周的牙医</div>
+                <div class="task-meta"><span class="task-chip soon">周三前</span><span>健康</span></div>
+              </div>
+              <span class="material-symbols-outlined" style="color:var(--ink-whisper);cursor:pointer;">more_horiz</span>
+            </div>
+            <div class="desktop-task">
+              <div class="task-check"></div>
+              <div class="task-body">
+                <div class="task-title">给爸妈寄茶叶</div>
+                <div class="task-meta"><span class="task-chip">下周一</span><span>家庭</span></div>
+              </div>
+              <span class="material-symbols-outlined" style="color:var(--ink-whisper);cursor:pointer;">more_horiz</span>
+            </div>
+            <div class="desktop-task done">
+              <div class="task-check done"></div>
+              <div class="task-body">
+                <div class="task-title">交房租</div>
+                <div class="task-meta"><span>今天 09:12 完成</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ornament" style="margin-top:56px;">
+          <div class="ornament-line"></div>
+          <svg width="60" height="16" viewBox="0 0 60 16" fill="none" stroke="currentColor" stroke-width="1">
+            <path d="M1 8 Q10 2, 20 8 T40 8 T59 8" fill="none"/>
+            <circle cx="30" cy="8" r="2" fill="currentColor"/>
+          </svg>
+          <div class="ornament-line"></div>
+        </div>
+
+        <div style="text-align:center; padding: 20px 40px;">
+          <p style="font-family:'Noto Serif SC', serif; font-weight:300; font-size:16px; line-height:1.9; color:var(--ink-soft); max-width:520px; margin:0 auto;">
+            任务是生活的骨架。<br>
+            想做的藏在另一个房间，不急着实现，也不会被遗忘。
+          </p>
+          <div style="margin-top:24px;">
+            <a href="#" onclick="switchView('wishes');return false;" style="font-family:'Cormorant Garamond', serif; font-style:italic; font-size:15px; color:var(--gold); text-decoration:none; letter-spacing:.08em;">
+              去收藏匣看看 →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VIEW 2: WISHES — THE CABINET ============ -->
+<section class="view" id="view-wishes">
+  <div class="viewport">
+    <div class="view-header">
+      <div class="view-eyebrow">PART TWO · THE CABINET</div>
+      <h1 class="view-title">想 做 的</h1>
+      <p class="view-sub">A cabinet of the selves I am quietly becoming.</p>
+    </div>
+
+    <div class="filter-bar">
+      <button class="filter-chip active">全部<span class="filter-count">32</span></button>
+      <button class="filter-chip">想学<span class="filter-count">11</span></button>
+      <button class="filter-chip">想去<span class="filter-count">7</span></button>
+      <button class="filter-chip">想读<span class="filter-count">5</span></button>
+      <button class="filter-chip">想做<span class="filter-count">9</span></button>
+    </div>
+
+    <!-- Ornament -->
+    <div class="ornament">
+      <div class="ornament-line"></div>
+      <svg width="90" height="20" viewBox="0 0 90 20" fill="none" stroke="currentColor" stroke-width="1">
+        <path d="M2 10 Q20 2, 30 10 Q45 18, 60 10 Q75 2, 88 10" fill="none" stroke-linecap="round"/>
+        <circle cx="45" cy="10" r="1.5" fill="currentColor"/>
+      </svg>
+      <span class="ornament-label">展厅 · 一</span>
+      <svg width="90" height="20" viewBox="0 0 90 20" fill="none" stroke="currentColor" stroke-width="1">
+        <path d="M2 10 Q15 18, 30 10 Q45 2, 60 10 Q70 18, 88 10" fill="none" stroke-linecap="round"/>
+        <circle cx="45" cy="10" r="1.5" fill="currentColor"/>
+      </svg>
+      <div class="ornament-line"></div>
+    </div>
+
+    <!-- ============ MASONRY WALL ============ -->
+    <div class="masonry">
+
+      <!-- FEATURE 1: 冰岛极光 (image, wide quote) -->
+      <div class="specimen feature">
+        <div class="feature-image">
+          <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="aurora" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#0a1428"/>
+                <stop offset="40%" stop-color="#1a3a4a"/>
+                <stop offset="70%" stop-color="#2d5a47"/>
+                <stop offset="100%" stop-color="#0a0e1a"/>
+              </linearGradient>
+              <linearGradient id="aurora2" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="rgba(130,255,180,0)"/>
+                <stop offset="40%" stop-color="rgba(130,255,180,.5)"/>
+                <stop offset="100%" stop-color="rgba(150,100,220,0)"/>
+              </linearGradient>
+            </defs>
+            <rect width="400" height="500" fill="url(#aurora)"/>
+            <path d="M0 180 Q100 120, 200 200 T400 160 L400 340 Q300 380, 200 320 T0 360 Z" fill="url(#aurora2)" opacity=".7"/>
+            <path d="M0 220 Q120 160, 240 240 T400 200 L400 320 Q280 360, 160 300 T0 340 Z" fill="url(#aurora2)" opacity=".4"/>
+            <circle cx="60" cy="80" r=".8" fill="#fff"/>
+            <circle cx="140" cy="50" r=".6" fill="#fff"/>
+            <circle cx="280" cy="90" r="1" fill="#fff"/>
+            <circle cx="340" cy="40" r=".7" fill="#fff"/>
+            <circle cx="200" cy="120" r=".5" fill="#fff"/>
+            <path d="M0 440 L80 420 L160 435 L240 425 L320 440 L400 430 L400 500 L0 500 Z" fill="#050810"/>
+          </svg>
+          <div class="feature-image-caption">Aurora Borealis · fieldwork sketch</div>
+        </div>
+        <div class="specimen-tag" style="padding:22px 24px 0;">No. 003 · 想去</div>
+        <div class="feature-body">
+          <div class="specimen-title">去一次冰岛看极光</div>
+          <div class="specimen-quote">不是度假，是想亲眼确认——光真的会在天上跳舞。</div>
+          <div class="provenance">想法诞生于 2024.11.03 · 来自一张朋友发来的照片</div>
+        </div>
+        <div class="specimen-actions">
+          <button class="specimen-action gold"><span class="material-symbols-outlined">north_east</span>升级成任务</button>
+          <button class="specimen-action"><span class="material-symbols-outlined">check</span>已完成 · 加入收藏</button>
+        </div>
+      </div>
+
+      <!-- SMALL LABEL 1 -->
+      <div class="specimen small">
+        <div class="specimen-cat">No. 017</div>
+        <div class="specimen-tag">想做</div>
+        <div class="specimen-title">把家里的胶片相机修好</div>
+        <div class="provenance">收入展柜 2025.06.12 · 整理抽屉时发现</div>
+        <div class="specimen-actions">
+          <button class="specimen-action gold"><span class="material-symbols-outlined">north_east</span>升级成任务</button>
+          <button class="specimen-action"><span class="material-symbols-outlined">check</span>已完成</button>
+        </div>
+      </div>
+
+      <!-- MEDIUM with sketch: 古琴 -->
+      <div class="specimen medium">
+        <div class="specimen-cat">No. 001</div>
+        <div class="specimen-tag">想学</div>
+        <svg class="sketch" viewBox="0 0 300 80" fill="none" stroke="currentColor" stroke-width="1">
+          <path d="M10 40 L290 40" stroke-linecap="round"/>
+          <path d="M10 48 L290 48" stroke-linecap="round" opacity=".6"/>
+          <path d="M10 56 L290 56" stroke-linecap="round" opacity=".4"/>
+          <ellipse cx="20" cy="40" rx="8" ry="18" fill="none"/>
+          <ellipse cx="280" cy="40" rx="8" ry="18" fill="none"/>
+          <circle cx="150" cy="20" r="2" fill="currentColor" opacity=".5"/>
+          <path d="M148 18 Q152 14, 156 18" stroke-linecap="round"/>
+        </svg>
+        <div class="specimen-title">学一下古琴</div>
+        <div class="specimen-note">先从《仙翁操》开始。也许永远弹不好，但想知道徽位在指尖的感觉。</div>
+        <div class="provenance">想法诞生于 2024.03.21 · 在西安碑林博物馆</div>
+        <div class="specimen-actions">
+          <button class="specimen-action gold"><span class="material-symbols-outlined">north_east</span>升级成任务</button>
+          <button class="specimen-action"><span class="material-symbols-outlined">check</span>已完成</button>
+        </div>
+      </div>
+
+      <!-- PLAQUE 1: 大字 -->
+      <div class="specimen plaque">
+        <div class="specimen-tag">想读 · No. 024</div>
+        <div class="specimen-title">读完<br>《人类简史》</div>
+        <div class="provenance">书架上站立了 11 个月 · 还在第 42 页</div>
+        <div class="specimen-actions">
+          <button class="specimen-action gold"><span class="material-symbols-outlined">north_east</span>升级成任务</button>
+          <button class="specimen-action"><span class="material-symbols-outlined">check</span>已完成</button>
+        </div>
+      </div>
+
+      <!-- SMALL 2 -->
+      <div class="specimen small">
+        <div class="specimen-cat">No. 029</div>
+        <div class="specimen-tag">想做</div>
+        <div class="specimen-title">学会冲单品咖啡</div>
+        <div class="provenance">想法诞生于 2025.09.14 · 在祖父江的一家小店</div>
+        <div class="specimen-actions">
+          <button class="specimen-action gold"><span class="material-symbols-outlined">north_east</span>升级成任务</button>
+          <button class="specimen-action"><span class="material-symbols-outlined">check</span>已完成</button>
+        </div>
+      </div>
+
+      <!-- MEDIUM sketch: 可颂 -->
+      <div class="specimen medium">
+        <div class="specimen-cat">No. 008</div>
+        <div class="specimen-tag">想做</div>
+        <svg class="sketch" viewBox="0 0 200 100" fill="none" stroke="currentColor" stroke-width="1">
+          <path d="M30 70 Q60 20, 100 30 Q140 20, 170 70 Q155 80, 140 70 Q125 78, 110 70 Q95 78, 80 70 Q65 78, 50 70 Q40 80, 30 70 Z" fill="none"/>
+          <path d="M50 58 Q60 52, 70 58" stroke-linecap="round"/>
+          <path d="M80 54 Q92 48, 104 54" stroke-linecap="round"/>
+          <path d="M115 54 Q127 48, 139 54" stroke-linecap="round"/>
+          <path d="M145 58 Q155 52, 165 58" stroke-linecap="round"/>
+        </svg>
+        <div class="specimen-title">试试自己做可颂</div>
+        <div class="provenance">想法诞生于 2025.02.08 · 在东京银座的一家面包店</div>
+        <div class="specimen-actions">
+          <button class="specimen-action gold"><span class="material-symbols-outlined">north_east</span>升级成任务</button>
+          <button class="specimen-action"><span class="material-symbols-outlined">check</span>已完成</button>
+        </div>
+      </div>
+
+      <!-- SMALL 3 -->
+      <div class="specimen small">
+        <div class="specimen-cat">No. 011</div>
+        <div class="specimen-tag">想做</div>
+        <div class="specimen-title">学会看星座</div>
+        <div class="provenance">收入展柜 2024.07.30 · 在甘南草原的夜里</div>
+        <div class="specimen-actions">
+          <button class="specimen-action gold"><span class="material-symbols-outlined">north_east</span>升级成任务</button>
+          <button class="specimen-action"><span class="material-symbols-outlined">check</span>已完成</button>
+        </div>
+      </div>
+
+      <!-- FEATURE 2: 小津安二郎 -->
+      <div class="specimen feature">
+        <div class="feature-image tall">
+          <svg viewBox="0 0 300 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="ozu" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#2a2420"/>
+                <stop offset="60%" stop-color="#3a2e24"/>
+                <stop offset="100%" stop-color="#1a1410"/>
+              </linearGradient>
+            </defs>
+            <rect width="300" height="500" fill="url(#ozu)"/>
+            <!-- Tatami room — low perspective -->
+            <rect x="0" y="340" width="300" height="160" fill="#5a4a38" opacity=".4"/>
+            <line x1="0" y1="360" x2="300" y2="360" stroke="#8a7458" stroke-width=".5" opacity=".6"/>
+            <line x1="0" y1="400" x2="300" y2="400" stroke="#8a7458" stroke-width=".5" opacity=".6"/>
+            <line x1="0" y1="440" x2="300" y2="440" stroke="#8a7458" stroke-width=".5" opacity=".6"/>
+            <line x1="0" y1="480" x2="300" y2="480" stroke="#8a7458" stroke-width=".5" opacity=".6"/>
+            <line x1="100" y1="340" x2="100" y2="500" stroke="#8a7458" stroke-width=".5" opacity=".6"/>
+            <line x1="200" y1="340" x2="200" y2="500" stroke="#8a7458" stroke-width=".5" opacity=".6"/>
+            <!-- Shoji -->
+            <rect x="30" y="80" width="240" height="240" fill="#c8b896" opacity=".25"/>
+            <line x1="30" y1="140" x2="270" y2="140" stroke="#3a2e24" stroke-width="1.5"/>
+            <line x1="30" y1="200" x2="270" y2="200" stroke="#3a2e24" stroke-width="1.5"/>
+            <line x1="30" y1="260" x2="270" y2="260" stroke="#3a2e24" stroke-width="1.5"/>
+            <line x1="90" y1="80" x2="90" y2="320" stroke="#3a2e24" stroke-width="1.5"/>
+            <line x1="150" y1="80" x2="150" y2="320" stroke="#3a2e24" stroke-width="1.5"/>
+            <line x1="210" y1="80" x2="210" y2="320" stroke="#3a2e24" stroke-width="1.5"/>
+            <!-- Vase silhouette -->
+            <path d="M140 320 L140 300 Q138 290, 142 285 Q150 280, 158 285 Q162 290, 160 300 L160 320 Z" fill="#1a1410"/>
+          </svg>
+          <div class="feature-image-caption">tatami room study</div>
+        </div>
+        <div class="specimen-tag" style="padding:22px 24px 0;">No. 006 · 想做</div>
+        <div class="feature-body">
+          <div class="specimen-title">系统看一遍<br>小津安二郎</div>
+          <div class="specimen-note">按拍摄年代。先《晚春》，最后《秋刀鱼之味》。每部看完写三行字。</div>
+          <div class="provenance">收入展柜 2023.12.24 · 在平安夜一个人的家里</div>
+        </div>
+        <div class="specimen-actions">
+          <button class="specimen-action gold"><span class="material-symbols-outlined">north_east</span>升级成任务</button>
+          <button class="specimen-action"><span class="material-symbols-outlined">check</span>已完成</button>
+        </div>
+      </div>
+
+      <!-- SMALL 4 -->
+      <div class="specimen small">
+        <div class="specimen-cat">No. 022</div>
+        <div class="specimen-tag">想做</div>
+        <div class="specimen-title">把老照片数字化归档</div>
+        <div class="provenance">想法诞生于 2024.02.14 · 春节整理妈妈的相册时</div>
+        <div class="specimen-actions">
+          <button class="specimen-action gold"><span class="material-symbols-outlined">north_east</span>升级成任务</button>
+          <button class="specimen-action"><span class="material-symbols-outlined">check</span>已完成</button>
+        </div>
+      </div>
+
+      <!-- MEDIUM: 红烧肉 -->
+      <div class="specimen medium">
+        <div class="specimen-cat">No. 015</div>
+        <div class="specimen-tag">想学</div>
+        <svg class="sketch" viewBox="0 0 200 80" fill="none" stroke="currentColor" stroke-width="1">
+          <ellipse cx="100" cy="55" rx="70" ry="18" fill="none"/>
+          <ellipse cx="100" cy="50" rx="60" ry="15" fill="none"/>
+          <path d="M50 45 Q60 35, 75 42 Q85 32, 100 40 Q115 32, 125 42 Q140 35, 150 45" stroke-linecap="round" opacity=".7"/>
+          <path d="M70 35 Q72 28, 78 32" stroke-linecap="round" opacity=".5"/>
+          <path d="M120 32 Q125 25, 131 30" stroke-linecap="round" opacity=".5"/>
+        </svg>
+        <div class="specimen-title">学做一道像样的红烧肉</div>
+        <div class="specimen-note">外婆做的那种，冰糖先炒，再转小火慢炖四十分钟。</div>
+        <div class="provenance">收入展柜 2024.12.31 · 除夕夜在外婆家</div>
+        <div class="specimen-actions">
+          <button class="specimen-action gold"><span class="material-symbols-outlined">north_east</span>升级成任务</button>
+          <button class="specimen-action"><span class="material-symbols-outlined">check</span>已完成</button>
+        </div>
+      </div>
+
+      <!-- PLAQUE 2 -->
+      <div class="specimen plaque">
+        <div class="specimen-tag">想去 · No. 027</div>
+        <div class="specimen-title">走一趟<br>茶马古道</div>
+        <div class="provenance">像一个未寄出的邮戳 · 等一个可以请长假的秋天</div>
+        <div class="specimen-actions">
+          <button class="specimen-action gold"><span class="material-symbols-outlined">north_east</span>升级成任务</button>
+          <button class="specimen-action"><span class="material-symbols-outlined">check</span>已完成</button>
+        </div>
+      </div>
+
+      <!-- SMALL 5 -->
+      <div class="specimen small">
+        <div class="specimen-cat">No. 031</div>
+        <div class="specimen-tag">想做</div>
+        <div class="specimen-title">组一台复古游戏机</div>
+        <div class="provenance">想法诞生于 2025.11.22 · 在秋叶原一家中古店</div>
+        <div class="specimen-actions">
+          <button class="specimen-action gold"><span class="material-symbols-outlined">north_east</span>升级成任务</button>
+          <button class="specimen-action"><span class="material-symbols-outlined">check</span>已完成</button>
+        </div>
+      </div>
+
+      <!-- FEATURE 3: 长文 LLM 输入法 -->
+      <div class="specimen feature">
+        <div class="feature-image wide">
+          <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="paper" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#f0e8d8"/>
+                <stop offset="100%" stop-color="#d8c8a8"/>
+              </linearGradient>
+            </defs>
+            <rect width="400" height="300" fill="url(#paper)"/>
+            <!-- Paper lines -->
+            <line x1="40" y1="60" x2="360" y2="60" stroke="#6b4423" stroke-width=".6" opacity=".4"/>
+            <line x1="40" y1="90" x2="320" y2="90" stroke="#6b4423" stroke-width=".6" opacity=".4"/>
+            <line x1="40" y1="120" x2="340" y2="120" stroke="#6b4423" stroke-width=".6" opacity=".4"/>
+            <line x1="40" y1="150" x2="300" y2="150" stroke="#6b4423" stroke-width=".6" opacity=".4"/>
+            <line x1="40" y1="180" x2="350" y2="180" stroke="#6b4423" stroke-width=".6" opacity=".4"/>
+            <line x1="40" y1="210" x2="280" y2="210" stroke="#6b4423" stroke-width=".6" opacity=".4"/>
+            <!-- Title squiggle -->
+            <text x="200" y="40" text-anchor="middle" fill="#6b4423" font-family="serif" font-style="italic" font-size="14" opacity=".7">Notes on typing</text>
+            <!-- Ink blot -->
+            <circle cx="340" cy="240" r="18" fill="#3a2418" opacity=".3"/>
+            <circle cx="345" cy="235" r="8" fill="#3a2418" opacity=".5"/>
+          </svg>
+          <div class="feature-image-caption">draft, pp.3</div>
+        </div>
+        <div class="specimen-tag" style="padding:22px 24px 0;">No. 009 · 想做</div>
+        <div class="feature-body">
+          <div class="specimen-title">写一篇关于 LLM 输入法的长文</div>
+          <div class="specimen-quote">关于键盘如何变成一个有耐心的、会倾听的东西。大概 6000 字，要有两张亲手画的图。</div>
+          <div class="provenance">想法诞生于 2025.07.18 · 某个失眠的凌晨三点</div>
+        </div>
+        <div class="specimen-actions">
+          <button class="specimen-action gold"><span class="material-symbols-outlined">north_east</span>升级成任务</button>
+          <button class="specimen-action"><span class="material-symbols-outlined">check</span>已完成</button>
+        </div>
+      </div>
+
+      <!-- SMALL 6 -->
+      <div class="specimen small">
+        <div class="specimen-cat">No. 018</div>
+        <div class="specimen-tag">想去</div>
+        <div class="specimen-title">周末去京都御苑走走</div>
+        <div class="provenance">想法诞生于 2025.04.09 · 在京都旅行最后一天错过了</div>
+        <div class="specimen-actions">
+          <button class="specimen-action gold"><span class="material-symbols-outlined">north_east</span>升级成任务</button>
+          <button class="specimen-action"><span class="material-symbols-outlined">check</span>已完成</button>
+        </div>
+      </div>
+
+      <!-- MEDIUM: 阳台茶室 -->
+      <div class="specimen medium">
+        <div class="specimen-cat">No. 025</div>
+        <div class="specimen-tag">想做</div>
+        <svg class="sketch" viewBox="0 0 200 90" fill="none" stroke="currentColor" stroke-width="1">
+          <rect x="20" y="20" width="160" height="55" fill="none"/>
+          <line x1="100" y1="20" x2="100" y2="75"/>
+          <rect x="40" y="45" width="25" height="30" fill="none" opacity=".7"/>
+          <circle cx="135" cy="55" r="8" fill="none" opacity=".7"/>
+          <path d="M125 50 Q130 42, 135 50" stroke-linecap="round" opacity=".5"/>
+          <line x1="20" y1="78" x2="180" y2="78" stroke-width="1.2"/>
+        </svg>
+        <div class="specimen-title">把阳台改造成茶室</div>
+        <div class="specimen-note">一张矮桌、一盏蜡烛、一个小炉子。雨天可以看雨，晴天可以发呆。</div>
+        <div class="provenance">收入展柜 2025.10.05 · 租到新房子的第一周</div>
+        <div class="specimen-actions">
+          <button class="specimen-action gold"><span class="material-symbols-outlined">north_east</span>升级成任务</button>
+          <button class="specimen-action"><span class="material-symbols-outlined">check</span>已完成</button>
+        </div>
+      </div>
+
+      <!-- SMALL 7 -->
+      <div class="specimen small">
+        <div class="specimen-cat">No. 013</div>
+        <div class="specimen-tag">想学</div>
+        <div class="specimen-title">学日文能看懂松本清张原文</div>
+        <div class="provenance">想法诞生于 2024.08.17 · 在东京神保町旧书店</div>
+        <div class="specimen-actions">
+          <button class="specimen-action gold"><span class="material-symbols-outlined">north_east</span>升级成任务</button>
+          <button class="specimen-action"><span class="material-symbols-outlined">check</span>已完成</button>
+        </div>
+      </div>
+
+      <!-- FEATURE 4: 给父母拍肖像 -->
+      <div class="specimen feature">
+        <div class="feature-image">
+          <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="portrait" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#3a2e24"/>
+                <stop offset="50%" stop-color="#2a2018"/>
+                <stop offset="100%" stop-color="#1a1208"/>
+              </linearGradient>
+              <radialGradient id="lamp" cx=".5" cy=".35" r=".4">
+                <stop offset="0%" stop-color="rgba(240,200,130,.4)"/>
+                <stop offset="100%" stop-color="rgba(240,200,130,0)"/>
+              </radialGradient>
+            </defs>
+            <rect width="400" height="500" fill="url(#portrait)"/>
+            <rect width="400" height="500" fill="url(#lamp)"/>
+            <!-- Two silhouettes -->
+            <ellipse cx="150" cy="280" rx="48" ry="56" fill="#1a1208"/>
+            <path d="M100 340 Q110 310, 150 312 Q190 310, 200 340 L200 500 L100 500 Z" fill="#1a1208"/>
+            <ellipse cx="250" cy="290" rx="44" ry="52" fill="#0a0604"/>
+            <path d="M205 340 Q215 320, 250 322 Q285 320, 295 340 L295 500 L205 500 Z" fill="#0a0604"/>
+          </svg>
+          <div class="feature-image-caption">portrait study · father & mother</div>
+        </div>
+        <div class="specimen-tag" style="padding:22px 24px 0;">No. 033 · 想做</div>
+        <div class="feature-body">
+          <div class="specimen-title">给父母拍一次正经的肖像</div>
+          <div class="specimen-quote">他们这辈子没拍过一张像样的合影。希望我还来得及。</div>
+          <div class="provenance">收入展柜 2026.01.28 · 春节帮爸爸整理旧相册时</div>
+        </div>
+        <div class="specimen-actions">
+          <button class="specimen-action gold"><span class="material-symbols-outlined">north_east</span>升级成任务</button>
+          <button class="specimen-action"><span class="material-symbols-outlined">check</span>已完成</button>
+        </div>
+      </div>
+
+      <!-- SMALL 8 -->
+      <div class="specimen small">
+        <div class="specimen-cat">No. 036</div>
+        <div class="specimen-tag">想学</div>
+        <div class="specimen-title">学会修自行车</div>
+        <div class="provenance">想法诞生于 2026.03.02 · 又一次推车走回家</div>
+        <div class="specimen-actions">
+          <button class="specimen-action gold"><span class="material-symbols-outlined">north_east</span>升级成任务</button>
+          <button class="specimen-action"><span class="material-symbols-outlined">check</span>已完成</button>
+        </div>
+      </div>
+
+      <!-- SMALL 9: plaque-ish -->
+      <div class="specimen small">
+        <div class="specimen-cat">No. 039</div>
+        <div class="specimen-tag">想读</div>
+        <div class="specimen-title">重读一次《红楼梦》</div>
+        <div class="provenance">想法诞生于 2026.02.14 · 来自一次散步</div>
+        <div class="specimen-actions">
+          <button class="specimen-action gold"><span class="material-symbols-outlined">north_east</span>升级成任务</button>
+          <button class="specimen-action"><span class="material-symbols-outlined">check</span>已完成</button>
+        </div>
+      </div>
+
+      <!-- MEDIUM: 手写 -->
+      <div class="specimen medium">
+        <div class="specimen-cat">No. 042</div>
+        <div class="specimen-tag">想学</div>
+        <svg class="sketch" viewBox="0 0 220 70" fill="none" stroke="currentColor" stroke-width="1">
+          <path d="M20 50 Q30 20, 45 40 Q55 55, 70 30 Q80 45, 95 25" stroke-linecap="round" stroke-width="1.5"/>
+          <path d="M110 45 Q120 25, 135 40 Q145 55, 160 30" stroke-linecap="round" stroke-width="1.5"/>
+          <path d="M170 45 Q185 25, 200 40" stroke-linecap="round" stroke-width="1.5"/>
+          <circle cx="105" cy="40" r="1" fill="currentColor"/>
+        </svg>
+        <div class="specimen-title">练一手像样的硬笔字</div>
+        <div class="specimen-note">写给自己看也好。每天五分钟就够了。</div>
+        <div class="provenance">收入展柜 2025.08.30 · 在一家文具店看到沾水笔</div>
+        <div class="specimen-actions">
+          <button class="specimen-action gold"><span class="material-symbols-outlined">north_east</span>升级成任务</button>
+          <button class="specimen-action"><span class="material-symbols-outlined">check</span>已完成</button>
+        </div>
+      </div>
+
+    </div>
+    <!-- /masonry -->
+
+    <!-- Collection link -->
+    <div class="collection-link">
+      <a href="#" onclick="switchView('collection');return false;">已完成的收藏 · 41 件</a>
+      <span class="collection-link-sub">the self I have already become</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VIEW 3: ADD ============ -->
+<section class="view" id="view-add">
+  <div class="viewport">
+    <div class="view-header">
+      <div class="view-eyebrow">PART THREE</div>
+      <h1 class="view-title">记 下 新 的</h1>
+      <p class="view-sub">a task to be done — or a specimen to be kept.</p>
+    </div>
+
+    <div class="add-wrap">
+      <div class="add-switch">
+        <button class="add-choice">
+          <span class="material-symbols-outlined add-choice-icon">event_available</span>
+          <div class="add-choice-title">要 做 的</div>
+          <div class="add-choice-latin">Thing · with a deadline</div>
+          <div class="add-choice-desc">
+            有截止时间的事。<br>
+            会出现在今天、本周、逾期列表里，完成后从列表消失。
+          </div>
+        </button>
+        <button class="add-choice selected">
+          <span class="material-symbols-outlined add-choice-icon">collections_bookmark</span>
+          <div class="add-choice-title">想 做 的</div>
+          <div class="add-choice-latin">Specimen · kept in the cabinet</div>
+          <div class="add-choice-desc">
+            没有时间压力的事。<br>
+            收入展柜，供偶尔翻阅、偶尔拿出来做一件。
+          </div>
+        </button>
+      </div>
+
+      <div class="add-panels">
+        <!-- TASK FORM -->
+        <div class="add-panel">
+          <h3>新建任务</h3>
+          <div class="panel-sub">MD3 · task form</div>
+          <div class="md3-field">
+            <label>任务</label>
+            <input type="text" placeholder="给周五的汇报准备提纲">
+          </div>
+          <div class="field-row">
+            <div class="md3-field">
+              <label>截止</label>
+              <input type="text" placeholder="2026-04-24 18:00">
+            </div>
+            <div class="md3-field">
+              <label>分类</label>
+              <select><option>工作</option><option>生活</option><option>健康</option><option>家庭</option></select>
+            </div>
+          </div>
+          <div class="md3-field">
+            <label>备注（可选）</label>
+            <textarea placeholder="一段话说明，或者贴一个链接..."></textarea>
+          </div>
+          <div class="form-actions">
+            <button class="md3-btn filled"><span class="material-symbols-outlined">done</span>添加到任务</button>
+            <button class="md3-btn">取消</button>
+          </div>
+        </div>
+
+        <!-- WISH FORM -->
+        <div class="add-panel" style="background: linear-gradient(180deg, color-mix(in srgb, var(--gold) 3%, var(--bg-card)), var(--bg-card));">
+          <h3>收入展柜</h3>
+          <div class="panel-sub">museum label · wish form</div>
+
+          <div class="wish-form-label">
+            <div class="wish-catalog">SPECIMEN · No. 043</div>
+            <input class="title-input" type="text" placeholder="想做一件什么样的事？">
+            <div class="wish-form-meta">收入展柜于 2026.04.18 · 来自此刻</div>
+          </div>
+
+          <div class="category-chips">
+            <button class="cat-chip">想学</button>
+            <button class="cat-chip active">想去</button>
+            <button class="cat-chip">想读</button>
+            <button class="cat-chip">想做</button>
+            <button class="cat-chip">+</button>
+          </div>
+
+          <textarea class="wish-note" placeholder="一段注脚，或一个念头的出处（可留空）..."></textarea>
+
+          <div class="form-actions" style="margin-top: 20px;">
+            <button class="md3-btn filled" style="background: var(--gold); border-color: var(--gold);">
+              <span class="material-symbols-outlined">collections_bookmark</span>收入展柜
+            </button>
+            <button class="md3-btn">取消</button>
+          </div>
+
+          <div style="margin-top: 28px; padding-top: 20px; border-top: 1px dashed var(--rule); font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 13px; color: var(--ink-whisper); line-height: 1.8; text-align: center;">
+            没有截止时间。<br>
+            没有优先级。<br>
+            只是你在某一刻想到的 · 一个未来的自己。
+          </div>
+        </div>
+      </div>
+
+      <div class="ornament" style="margin-top: 72px;">
+        <div class="ornament-line"></div>
+        <svg width="100" height="24" viewBox="0 0 100 24" fill="none" stroke="currentColor" stroke-width="1">
+          <path d="M4 12 Q12 4, 22 12 Q34 20, 50 12 Q66 4, 78 12 Q88 20, 96 12" fill="none" stroke-linecap="round"/>
+          <circle cx="50" cy="12" r="2" fill="currentColor" opacity=".7"/>
+        </svg>
+        <div class="ornament-line"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VIEW 4: COLLECTION ============ -->
+<section class="view" id="view-collection">
+  <div class="viewport">
+    <div class="view-header">
+      <div class="view-eyebrow">PART FOUR · THE ARCHIVE</div>
+      <h1 class="view-title">已完成的收藏</h1>
+      <p class="view-sub">the selves I have quietly become.</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="collection-stats">
+      <div class="stat-total">
+        <div class="stat-number">41</div>
+        <div class="stat-label">件 藏 品</div>
+      </div>
+      <div class="stat-breakdown">
+        <div class="breakdown-item">
+          <span class="breakdown-name">想学 <span class="breakdown-num">14</span></span>
+          <div class="breakdown-bar-wrap"><div class="breakdown-bar" style="width: 85%"></div></div>
+        </div>
+        <div class="breakdown-item">
+          <span class="breakdown-name">想去 <span class="breakdown-num">9</span></span>
+          <div class="breakdown-bar-wrap"><div class="breakdown-bar" style="width: 55%"></div></div>
+        </div>
+        <div class="breakdown-item">
+          <span class="breakdown-name">想读 <span class="breakdown-num">8</span></span>
+          <div class="breakdown-bar-wrap"><div class="breakdown-bar" style="width: 48%"></div></div>
+        </div>
+        <div class="breakdown-item">
+          <span class="breakdown-name">想做 <span class="breakdown-num">10</span></span>
+          <div class="breakdown-bar-wrap"><div class="breakdown-bar" style="width: 62%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Year 2026 -->
+    <div class="year-section">
+      <div class="year-header">
+        <span class="year-big">2026</span>
+        <span class="year-count">至今 · 6 件</span>
+      </div>
+      <div class="year-grid">
+        <div class="collection-entry">
+          <div class="collection-entry-date">03 · 12 · 2026</div>
+          <div class="collection-entry-seal">MMXXVI</div>
+          <div class="collection-entry-title">学会了冲手冲咖啡</div>
+          <div class="collection-entry-cat">想做 · SPECIMEN No. 029</div>
+          <div class="collection-entry-reflection">比想象中更像一种冥想。水注下去那几秒，什么都不用想。</div>
+        </div>
+        <div class="collection-entry">
+          <div class="collection-entry-date">02 · 28 · 2026</div>
+          <div class="collection-entry-seal">MMXXVI</div>
+          <div class="collection-entry-title">读完《百年孤独》</div>
+          <div class="collection-entry-cat">想读 · SPECIMEN No. 004</div>
+          <div class="collection-entry-reflection">花了七个月。最后一页合上的那个下午，窗外在下雨。</div>
+        </div>
+        <div class="collection-entry">
+          <div class="collection-entry-date">02 · 14 · 2026</div>
+          <div class="collection-entry-seal">MMXXVI</div>
+          <div class="collection-entry-title">自己做了一次酸种面包</div>
+          <div class="collection-entry-cat">想做 · SPECIMEN No. 021</div>
+          <div class="collection-entry-reflection">发酵用了两天。切开那一刻听到壳裂的声音，值了。</div>
+        </div>
+        <div class="collection-entry">
+          <div class="collection-entry-date">01 · 30 · 2026</div>
+          <div class="collection-entry-seal">MMXXVI</div>
+          <div class="collection-entry-title">去了一次乌镇</div>
+          <div class="collection-entry-cat">想去 · SPECIMEN No. 019</div>
+          <div class="collection-entry-reflection">淡季的下午，整条街上只有我和一只橘猫。</div>
+        </div>
+        <div class="collection-entry">
+          <div class="collection-entry-date">01 · 18 · 2026</div>
+          <div class="collection-entry-seal">MMXXVI</div>
+          <div class="collection-entry-title">学会了系领结</div>
+          <div class="collection-entry-cat">想学 · SPECIMEN No. 034</div>
+        </div>
+        <div class="collection-entry">
+          <div class="collection-entry-date">01 · 07 · 2026</div>
+          <div class="collection-entry-seal">MMXXVI</div>
+          <div class="collection-entry-title">读完《房思琪的初恋乐园》</div>
+          <div class="collection-entry-cat">想读 · SPECIMEN No. 014</div>
+          <div class="collection-entry-reflection">不轻松。但读完了。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Year 2025 -->
+    <div class="year-section">
+      <div class="year-header">
+        <span class="year-big">2025</span>
+        <span class="year-count">共 · 18 件</span>
+      </div>
+      <div class="year-grid">
+        <div class="collection-entry">
+          <div class="collection-entry-date">12 · 20 · 2025</div>
+          <div class="collection-entry-seal">MMXXV</div>
+          <div class="collection-entry-title">写完了年度总结（8000 字）</div>
+          <div class="collection-entry-cat">想做 · SPECIMEN No. 010</div>
+          <div class="collection-entry-reflection">第一次认真写给自己。删了三遍，留下的都是真的。</div>
+        </div>
+        <div class="collection-entry">
+          <div class="collection-entry-date">11 · 05 · 2025</div>
+          <div class="collection-entry-seal">MMXXV</div>
+          <div class="collection-entry-title">去了一次黄山</div>
+          <div class="collection-entry-cat">想去 · SPECIMEN No. 005</div>
+          <div class="collection-entry-reflection">凌晨四点上山，日出的那一刻理解了为什么古人非要画它。</div>
+        </div>
+        <div class="collection-entry">
+          <div class="collection-entry-date">10 · 14 · 2025</div>
+          <div class="collection-entry-seal">MMXXV</div>
+          <div class="collection-entry-title">学会了打太极</div>
+          <div class="collection-entry-cat">想学 · SPECIMEN No. 026</div>
+          <div class="collection-entry-reflection">从二十四式开始，早上在公园跟着大爷们打。</div>
+        </div>
+        <div class="collection-entry">
+          <div class="collection-entry-date">09 · 22 · 2025</div>
+          <div class="collection-entry-seal">MMXXV</div>
+          <div class="collection-entry-title">完成了一次半程马拉松</div>
+          <div class="collection-entry-cat">想做 · SPECIMEN No. 012</div>
+        </div>
+        <div class="collection-entry">
+          <div class="collection-entry-date">08 · 08 · 2025</div>
+          <div class="collection-entry-seal">MMXXV</div>
+          <div class="collection-entry-title">看完了是枝裕和全集</div>
+          <div class="collection-entry-cat">想做 · SPECIMEN No. 016</div>
+          <div class="collection-entry-reflection">《步履不停》看了两遍。在第二遍时才懂了那句"人生总是有点慢一拍"。</div>
+        </div>
+        <div class="collection-entry">
+          <div class="collection-entry-date">07 · 12 · 2025</div>
+          <div class="collection-entry-seal">MMXXV</div>
+          <div class="collection-entry-title">给奶奶过了一次生日</div>
+          <div class="collection-entry-cat">想做 · SPECIMEN No. 020</div>
+          <div class="collection-entry-reflection">她 83 了，这是她一生中第一个生日蛋糕。</div>
+        </div>
+        <div class="collection-entry">
+          <div class="collection-entry-date">06 · 03 · 2025</div>
+          <div class="collection-entry-seal">MMXXV</div>
+          <div class="collection-entry-title">学会了基础 SwiftUI</div>
+          <div class="collection-entry-cat">想学 · SPECIMEN No. 028</div>
+        </div>
+        <div class="collection-entry">
+          <div class="collection-entry-date">05 · 18 · 2025</div>
+          <div class="collection-entry-seal">MMXXV</div>
+          <div class="collection-entry-title">去了一次敦煌</div>
+          <div class="collection-entry-cat">想去 · SPECIMEN No. 007</div>
+          <div class="collection-entry-reflection">在莫高窟 45 窟前站了十分钟。出来的时候沙漠的风很烫。</div>
+        </div>
+        <div class="collection-entry">
+          <div class="collection-entry-date">04 · 02 · 2025</div>
+          <div class="collection-entry-seal">MMXXV</div>
+          <div class="collection-entry-title">读完《追忆似水年华》卷一</div>
+          <div class="collection-entry-cat">想读 · SPECIMEN No. 002</div>
+          <div class="collection-entry-reflection">读了 14 个月。一块玛德琳蛋糕可以写 40 页，真好。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Year 2024 -->
+    <div class="year-section">
+      <div class="year-header">
+        <span class="year-big">2024</span>
+        <span class="year-count">共 · 17 件</span>
+      </div>
+      <div class="year-grid">
+        <div class="collection-entry">
+          <div class="collection-entry-date">12 · 31 · 2024</div>
+          <div class="collection-entry-seal">MMXXIV</div>
+          <div class="collection-entry-title">一个人跨年看了一场电影</div>
+          <div class="collection-entry-cat">想做 · SPECIMEN No. 023</div>
+        </div>
+        <div class="collection-entry">
+          <div class="collection-entry-date">11 · 10 · 2024</div>
+          <div class="collection-entry-seal">MMXXIV</div>
+          <div class="collection-entry-title">学会了做寿司</div>
+          <div class="collection-entry-cat">想学 · SPECIMEN No. 030</div>
+          <div class="collection-entry-reflection">醋饭的比例是关键。失败了三次才做出一个能看的。</div>
+        </div>
+        <div class="collection-entry">
+          <div class="collection-entry-date">10 · 01 · 2024</div>
+          <div class="collection-entry-seal">MMXXIV</div>
+          <div class="collection-entry-title">搬到了一个有阳光的房子</div>
+          <div class="collection-entry-cat">想做 · SPECIMEN No. 032</div>
+          <div class="collection-entry-reflection">找了三个月。第一个早晨醒来看到天花板上的光斑，哭了。</div>
+        </div>
+        <div class="collection-entry">
+          <div class="collection-entry-date">08 · 15 · 2024</div>
+          <div class="collection-entry-seal">MMXXIV</div>
+          <div class="collection-entry-title">学了基础的书法</div>
+          <div class="collection-entry-cat">想学 · SPECIMEN No. 035</div>
+        </div>
+        <div class="collection-entry">
+          <div class="collection-entry-date">07 · 04 · 2024</div>
+          <div class="collection-entry-seal">MMXXIV</div>
+          <div class="collection-entry-title">去了青海湖</div>
+          <div class="collection-entry-cat">想去 · SPECIMEN No. 037</div>
+          <div class="collection-entry-reflection">蓝得不真实。站在湖边说不出话来。</div>
+        </div>
+        <div class="collection-entry">
+          <div class="collection-entry-date">03 · 20 · 2024</div>
+          <div class="collection-entry-seal">MMXXIV</div>
+          <div class="collection-entry-title">读完《万历十五年》</div>
+          <div class="collection-entry-cat">想读 · SPECIMEN No. 038</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; padding: 40px; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 15px; color: var(--ink-whisper); letter-spacing: .08em;">
+      · end of archive · 开始时间 2024.01 ·
+    </div>
+  </div>
+</section>
+
+<!-- ============ VIEW 5: FLOW ============ -->
+<section class="view" id="view-flow">
+  <div class="viewport">
+    <div class="view-header">
+      <div class="view-eyebrow">PART FIVE · BIDIRECTIONAL</div>
+      <h1 class="view-title">双 向 流 动</h1>
+      <p class="view-sub">between the cabinet and the calendar — no shame in either direction.</p>
+    </div>
+
+    <!-- FLOW 1: Wish → Task -->
+    <div class="flow-block">
+      <div class="flow-header">
+        <div class="flow-eyebrow">FLOW · ONE</div>
+        <div class="flow-title">想做的 · 升级成任务</div>
+        <p class="flow-desc">当某件想做的事突然变得紧迫，或者你已经准备好开始，就把它从展柜请出来。</p>
+      </div>
+      <div class="flow-stages">
+        <div>
+          <div class="flow-stage-label">BEFORE · 展柜中</div>
+          <div class="demo-specimen">
+            <div class="specimen-tag" style="margin-bottom:10px;">No. 015 · 想学</div>
+            <div class="demo-title">学做一道像样的红烧肉</div>
+            <div class="demo-meta">外婆做的那种 · 冰糖先炒</div>
+            <div class="demo-provenance">※ 收入展柜 2024.12.31 · 除夕夜在外婆家</div>
+            <div class="demo-cta gentle">
+              <span class="material-symbols-outlined">north_east</span>
+              <span>下周外婆来 · 想做给她吃 · 升级成任务</span>
+            </div>
+          </div>
+        </div>
+        <div class="flow-arrow">
+          →
+          <span class="small-caps">promote</span>
+        </div>
+        <div>
+          <div class="flow-stage-label">AFTER · 任务列表</div>
+          <div class="demo-task">
+            <div style="display:flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+              <div class="task-check"></div>
+              <div>
+                <div class="demo-title" style="margin: 0;">学做一道像样的红烧肉</div>
+              </div>
+            </div>
+            <div class="demo-meta" style="padding-left: 32px;">
+              <span class="task-chip soon">周日前</span>
+              <span style="margin-left: 8px;">生活 · 来自收藏匣 No. 015</span>
+            </div>
+            <div class="demo-cta" style="margin-top: 14px; margin-left: 32px;">
+              <span class="material-symbols-outlined">link</span>
+              <span>完成后自动回到展柜 · 盖上完成戳</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flow-mini-notes">
+        <strong>升级交互：</strong>
+        展柜卡片长按 → 弹出一张纸一样的截止日期选择器，从卡片底部滑出。填完后卡片做一个短暂的"翻页"动画，飞向顶部任务列表。原卡片位置留下一个淡淡的印记："已外借"。
+      </div>
+    </div>
+
+    <!-- FLOW 2: Task → Wish (the tender one) -->
+    <div class="flow-block">
+      <div class="flow-header">
+        <div class="flow-eyebrow">FLOW · TWO · the tender one</div>
+        <div class="flow-title">要做的 · 放回收藏匣</div>
+        <p class="flow-desc">一件事迟迟没做完，不一定是你的错。也许只是它现在不适合有截止时间。</p>
+      </div>
+      <div class="flow-stages">
+        <div>
+          <div class="flow-stage-label">BEFORE · 逾期 9 天</div>
+          <div class="demo-task">
+            <div style="display:flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+              <div class="task-check"></div>
+              <div>
+                <div class="demo-title" style="margin: 0;">写一篇关于 LLM 输入法的长文</div>
+              </div>
+            </div>
+            <div class="demo-meta" style="padding-left: 32px;">
+              <span class="task-chip overdue">逾期 9 天</span>
+              <span style="margin-left: 8px;">写作</span>
+            </div>
+            <div class="demo-cta gentle" style="margin-top: 14px; margin-left: 32px;">
+              <span class="material-symbols-outlined">collections_bookmark</span>
+              <span>暂时不想做？放回收藏匣，没时间压力也可以。</span>
+            </div>
+          </div>
+        </div>
+        <div class="flow-arrow">
+          ←
+          <span class="small-caps">relieve</span>
+        </div>
+        <div>
+          <div class="flow-stage-label">AFTER · 回到展柜</div>
+          <div class="demo-specimen">
+            <div class="specimen-tag" style="margin-bottom:10px;">No. 009 · 想做</div>
+            <div class="demo-title">写一篇关于 LLM 输入法的长文</div>
+            <div class="demo-meta">一段 6000 字的长文 · 带两张手绘图</div>
+            <div class="demo-provenance">※ 收入展柜 2025.07.18 · 某个失眠的凌晨三点<br>
+              <span style="color: var(--gold);">← 2026.04.15 从任务放回 · 等合适的时候</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-mini-notes">
+        <strong>用词测试：</strong>
+        逾期任务旁边的那一行文案，它决定了用户会不会把这件事做完，还是把它从心里抹掉。"放回收藏匣"的动作不能带一丁点"失败"的暗示。
+      </div>
+      <div class="wording-tests">
+        <div class="wording-test">
+          稍后再做
+          <span class="verdict">× 太泛 · 没有解决"我失败了"的羞耻感</span>
+        </div>
+        <div class="wording-test">
+          删除任务
+          <span class="verdict">× 等于丢掉 · 心理上是放弃</span>
+        </div>
+        <div class="wording-test">
+          取消截止时间
+          <span class="verdict">△ 太工具化 · 不温柔</span>
+        </div>
+        <div class="wording-test chosen">
+          暂时不想做？<br>放回收藏匣
+          <span class="verdict">✓ "暂时"暗示可以回来 · "收藏匣"给它一个体面的家</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- FLOW 3: Complete -->
+    <div class="flow-block">
+      <div class="flow-header">
+        <div class="flow-eyebrow">FLOW · THREE</div>
+        <div class="flow-title">想做的 · 直接完成</div>
+        <p class="flow-desc">有些事做了就是做了，不必先升级成任务。</p>
+      </div>
+      <div class="flow-stages">
+        <div>
+          <div class="flow-stage-label">BEFORE · 展柜中</div>
+          <div class="demo-specimen">
+            <div class="specimen-tag" style="margin-bottom:10px;">No. 011 · 想做</div>
+            <div class="demo-title">学会看星座</div>
+            <div class="demo-provenance">※ 收入展柜 2024.07.30 · 在甘南草原的夜里</div>
+            <div class="demo-cta gentle">
+              <span class="material-symbols-outlined">check</span>
+              <span>已完成 · 加入收藏</span>
+            </div>
+          </div>
+        </div>
+        <div class="flow-arrow">
+          →
+          <span class="small-caps">accomplish</span>
+        </div>
+        <div>
+          <div class="flow-stage-label">AFTER · 归入藏品</div>
+          <div class="collection-entry" style="margin: 0;">
+            <div class="collection-entry-date">04 · 18 · 2026</div>
+            <div class="collection-entry-seal">MMXXVI</div>
+            <div class="collection-entry-title">学会了看星座</div>
+            <div class="collection-entry-cat">想做 · SPECIMEN No. 011</div>
+            <textarea placeholder="留一句感想（可选）..." style="margin-top: 12px; width: 100%; background: var(--bg); border: 1px dashed var(--rule-strong); padding: 10px 12px; font-family: 'Noto Serif SC', serif; font-weight: 300; font-size: 13px; color: var(--ink); line-height: 1.7; outline: none; resize: vertical; min-height: 60px; border-radius: 2px;"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="flow-mini-notes">
+        <strong>完成动画：</strong>
+        卡片微微上升，一枚印章从右上角缓缓盖下（"完成 · 2026.04.18"），卡片轻轻翻转 180°，进入已完成的收藏。原展柜位置不留痕迹——因为它已经变成了你。
+      </div>
+    </div>
+
+    <div class="ornament" style="margin-top: 72px;">
+      <div class="ornament-line"></div>
+      <svg width="120" height="24" viewBox="0 0 120 24" fill="none" stroke="currentColor" stroke-width="1">
+        <path d="M4 12 Q20 2, 40 12 Q60 22, 80 12 Q100 2, 116 12" fill="none" stroke-linecap="round"/>
+        <circle cx="60" cy="12" r="2.5" fill="currentColor" opacity=".7"/>
+        <circle cx="20" cy="12" r="1" fill="currentColor" opacity=".4"/>
+        <circle cx="100" cy="12" r="1" fill="currentColor" opacity=".4"/>
+      </svg>
+      <div class="ornament-line"></div>
+    </div>
+
+    <div style="text-align:center; padding: 20px 40px 40px;">
+      <p style="font-family:'Noto Serif SC', serif; font-weight:300; font-size:17px; line-height:2; color:var(--ink-soft); max-width:580px; margin:0 auto; letter-spacing: .04em;">
+        展柜和日历之间 · 没有单向的路。<br>
+        一件事可以反复往返 —— 因为人也会反复。
+      </p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  收藏匣 · Cabinet of Curiosities &nbsp;·&nbsp;
+  <span>Direction C</span> · redesign preview for a Flutter todo app
+</footer>
+
+<script>
+// ============ THEME TOGGLE ============
+const root = document.documentElement;
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon = document.getElementById('themeIcon');
+
+function setTheme(theme) {
+  root.setAttribute('data-theme', theme);
+  themeIcon.textContent = theme === 'dark' ? 'light_mode' : 'dark_mode';
+  try { localStorage.setItem('cabinet-theme', theme); } catch(e) {}
+}
+(function initTheme() {
+  let saved = null;
+  try { saved = localStorage.getItem('cabinet-theme'); } catch(e) {}
+  setTheme(saved || 'light');
+})();
+themeToggle.addEventListener('click', () => {
+  const cur = root.getAttribute('data-theme');
+  setTheme(cur === 'dark' ? 'light' : 'dark');
+});
+
+// ============ TABS ============
+const tabs = document.querySelectorAll('.tab');
+const views = document.querySelectorAll('.view');
+
+function switchView(name) {
+  tabs.forEach(t => t.classList.toggle('active', t.dataset.view === name));
+  views.forEach(v => v.classList.toggle('active', v.id === 'view-' + name));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+window.switchView = switchView;
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => switchView(tab.dataset.view));
+});
+
+// ============ FILTER CHIPS (wishes) ============
+document.querySelectorAll('.filter-chip').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('.filter-chip').forEach(x => x.classList.remove('active'));
+    c.classList.add('active');
+  });
+});
+
+// ============ CATEGORY CHIPS (wish form) ============
+document.querySelectorAll('.cat-chip').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('.cat-chip').forEach(x => x.classList.remove('active'));
+    c.classList.add('active');
+  });
+});
+
+// ============ ADD CHOICE ============
+document.querySelectorAll('.add-choice').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('.add-choice').forEach(x => x.classList.remove('selected'));
+    c.classList.add('selected');
+  });
+});
+
+// ============ TASK CHECK TOGGLE ============
+document.querySelectorAll('.task-check').forEach(ch => {
+  ch.addEventListener('click', (e) => {
+    e.stopPropagation();
+    ch.classList.toggle('done');
+    const card = ch.closest('.task-card, .desktop-task');
+    if (card) card.classList.toggle('done');
+  });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2645 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>书房风 · Study Room — Todo 重设计预览</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Ma+Shan+Zheng&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0" rel="stylesheet">
+<style>
+/* ================================================================
+   书房风 · Study Room
+   Palette: ink #1a1a1a / rice paper #F5EFE4 / vermilion #B8322F / warm gray
+   ================================================================ */
+:root {
+  --ink: #1a1a1a;
+  --ink-soft: #2a2622;
+  --ink-line: #3a3430;
+  --rice: #F5EFE4;
+  --rice-deep: #EDE4D3;
+  --rice-shadow: #DDD2BC;
+  --vermilion: #B8322F;
+  --vermilion-dim: #8a2624;
+  --warm-gray: #8a817a;
+  --warm-gray-deep: #5a524b;
+  --warm-gray-soft: #b8ada3;
+  /* MD3 dark for task side */
+  --md-surface: #141210;
+  --md-surface-1: #1c1a17;
+  --md-surface-2: #242017;
+  --md-surface-3: #2d2720;
+  --md-on-surface: #e7e0d4;
+  --md-on-surface-var: #b8ada3;
+  --md-outline: #554e44;
+  --md-primary: #e8c280;
+  --md-error: #e4685a;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  font-family: 'Noto Sans SC', -apple-system, sans-serif;
+  background: #0d0b09;
+  color: var(--rice);
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+  user-select: none;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font: inherit; background: none; border: none; color: inherit; cursor: pointer; }
+
+/* ================================================================
+   Top tab nav
+   ================================================================ */
+.tab-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(13, 11, 9, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(245, 239, 228, 0.08);
+}
+.tab-nav-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 18px 48px;
+  display: flex;
+  align-items: center;
+  gap: 48px;
+}
+.brand {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: 0.1em;
+  color: var(--rice);
+}
+.brand .seal {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  background: var(--vermilion);
+  color: var(--rice);
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: 14px;
+  text-align: center;
+  line-height: 22px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+.tab {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  padding: 10px 22px;
+  color: var(--warm-gray);
+  border-radius: 2px;
+  transition: all 300ms ease;
+  position: relative;
+}
+.tab:hover { color: var(--rice); }
+.tab.active {
+  color: var(--rice);
+}
+.tab.active::after {
+  content: '';
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 2px;
+  height: 1px;
+  background: var(--vermilion);
+}
+.tab-num {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 11px;
+  color: var(--warm-gray-deep);
+  margin-right: 8px;
+  font-style: italic;
+}
+
+/* ================================================================
+   View container
+   ================================================================ */
+.view { display: none; animation: fadeIn 500ms ease; }
+.view.active { display: block; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.view-header {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 64px 48px 32px;
+}
+.view-title {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 300;
+  font-size: 44px;
+  letter-spacing: 0.05em;
+  color: var(--rice);
+  margin-bottom: 12px;
+}
+.view-title .accent {
+  font-family: 'Ma Shan Zheng', serif;
+  color: var(--vermilion);
+  font-size: 38px;
+  margin-left: 16px;
+}
+.view-subtitle {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 15px;
+  color: var(--warm-gray);
+  letter-spacing: 0.05em;
+  line-height: 1.9;
+  max-width: 680px;
+}
+.view-subtitle .divider {
+  color: var(--vermilion);
+  margin: 0 10px;
+}
+
+/* thin rule */
+.rule {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+.rule-line {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(245,239,228,0.12) 20%, rgba(245,239,228,0.12) 80%, transparent);
+}
+
+/* ================================================================
+   Footer tag for every view
+   ================================================================ */
+.view-footer {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 80px 48px 64px;
+  text-align: center;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  color: var(--warm-gray-deep);
+}
+.view-footer .seal-mini {
+  color: var(--vermilion);
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: 14px;
+  letter-spacing: normal;
+  margin: 0 8px;
+}
+
+/* ================================================================
+   VIEW 1 · TASKS — MD3 dark
+   ================================================================ */
+.tasks-body {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 48px 48px;
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 48px;
+  align-items: start;
+}
+@media (max-width: 1100px) { .tasks-body { grid-template-columns: 1fr; } }
+
+.device-label {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  color: var(--warm-gray-deep);
+  margin-bottom: 18px;
+  text-transform: uppercase;
+}
+.device-label .dot { color: var(--vermilion); margin: 0 6px; }
+
+/* Mobile frame */
+.mobile-frame {
+  width: 400px;
+  height: 820px;
+  background: var(--md-surface);
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.status-bar {
+  height: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  font-size: 12px;
+  color: var(--md-on-surface);
+  font-weight: 500;
+  font-family: -apple-system, sans-serif;
+}
+.status-bar .icons { display: flex; gap: 6px; }
+.status-bar .icons .material-symbols-outlined { font-size: 14px; }
+
+/* MD3 app bar */
+.app-bar {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px 8px 20px;
+  gap: 8px;
+}
+.app-bar .menu-btn, .app-bar .action-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--md-on-surface);
+  transition: background 300ms ease;
+}
+.app-bar .menu-btn:hover, .app-bar .action-btn:hover { background: rgba(255,255,255,0.06); }
+.app-bar .app-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--md-on-surface);
+  flex: 1;
+  margin-left: 4px;
+}
+.app-bar .actions { display: flex; gap: 4px; }
+.sync-dot {
+  width: 6px; height: 6px; border-radius: 3px; background: #6dc585;
+  display: inline-block; margin-right: 8px; vertical-align: middle;
+}
+
+/* Segment filter */
+.segment {
+  display: flex;
+  gap: 8px;
+  padding: 8px 16px 16px;
+  overflow-x: auto;
+}
+.segment .chip {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid var(--md-outline);
+  color: var(--md-on-surface-var);
+  white-space: nowrap;
+  transition: all 300ms ease;
+}
+.segment .chip.active {
+  background: var(--md-surface-3);
+  color: var(--md-primary);
+  border-color: var(--md-primary);
+}
+.segment .chip:hover { color: var(--md-on-surface); }
+
+/* Task list */
+.task-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 8px 96px;
+}
+.section-heading {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: var(--md-on-surface-var);
+  padding: 16px 16px 8px;
+  text-transform: uppercase;
+}
+.section-heading .count {
+  color: var(--warm-gray-deep);
+  font-weight: 400;
+  margin-left: 6px;
+}
+
+.task-card {
+  display: flex;
+  gap: 14px;
+  padding: 14px 16px;
+  margin: 2px 8px;
+  border-radius: 12px;
+  transition: background 300ms ease;
+  align-items: flex-start;
+}
+.task-card:hover { background: var(--md-surface-1); }
+.task-card.overdue { background: rgba(184,50,47,0.08); }
+.task-card.overdue:hover { background: rgba(184,50,47,0.14); }
+
+.task-check {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 2px solid var(--md-outline);
+  flex-shrink: 0;
+  margin-top: 4px;
+  position: relative;
+  transition: all 300ms ease;
+}
+.task-check:hover { border-color: var(--md-primary); }
+.task-check.done {
+  background: var(--md-primary);
+  border-color: var(--md-primary);
+}
+.task-check.done::after {
+  content: '';
+  position: absolute;
+  left: 4px; top: 1px;
+  width: 5px; height: 10px;
+  border: solid var(--md-surface);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.task-body { flex: 1; min-width: 0; }
+.task-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--md-on-surface);
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+}
+.task-card.done .task-title {
+  color: var(--md-on-surface-var);
+  text-decoration: line-through;
+  text-decoration-color: var(--warm-gray);
+}
+.task-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--md-on-surface-var);
+  flex-wrap: wrap;
+}
+.task-meta .material-symbols-outlined { font-size: 14px; }
+.task-meta .meta-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.task-meta .overdue-text { color: var(--md-error); }
+.task-meta .today-text { color: var(--md-primary); }
+
+/* FAB */
+.fab {
+  position: absolute;
+  right: 20px;
+  bottom: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: var(--md-primary);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(232,194,128,0.25);
+  transition: all 300ms ease;
+}
+.fab:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(232,194,128,0.35); }
+.fab .material-symbols-outlined { font-size: 26px; }
+
+/* Bottom nav with wish entry */
+.bottom-nav {
+  display: flex;
+  border-top: 1px solid var(--md-outline);
+  background: var(--md-surface);
+}
+.bottom-nav .nav-item {
+  flex: 1;
+  padding: 12px 0 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--md-on-surface-var);
+  font-family: 'Noto Serif SC', serif;
+  letter-spacing: 0.1em;
+  transition: color 300ms ease;
+}
+.bottom-nav .nav-item.active { color: var(--md-primary); }
+.bottom-nav .nav-item:hover { color: var(--md-on-surface); }
+.bottom-nav .nav-item .material-symbols-outlined { font-size: 22px; }
+
+/* Desktop panel */
+.desktop-panel {
+  background: var(--md-surface);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  min-height: 820px;
+  display: flex;
+  flex-direction: column;
+}
+.desktop-header {
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--md-outline);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.desktop-header h2 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 500;
+  font-size: 22px;
+  color: var(--md-on-surface);
+  letter-spacing: 0.05em;
+}
+.desktop-header .sync-status {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--md-on-surface-var);
+  font-family: 'Noto Serif SC', serif;
+}
+.desktop-header .icon-btn {
+  width: 40px; height: 40px; border-radius: 20px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--md-on-surface-var);
+  transition: all 300ms ease;
+}
+.desktop-header .icon-btn:hover { background: var(--md-surface-2); color: var(--md-on-surface); }
+
+.desktop-body {
+  display: grid;
+  grid-template-columns: 220px 1fr 320px;
+  flex: 1;
+}
+.desktop-sidebar {
+  padding: 20px 12px;
+  border-right: 1px solid var(--md-outline);
+}
+.desktop-sidebar .side-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 16px;
+  border-radius: 24px;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  color: var(--md-on-surface-var);
+  margin-bottom: 2px;
+  transition: background 300ms ease;
+  letter-spacing: 0.05em;
+}
+.desktop-sidebar .side-item:hover { background: var(--md-surface-1); color: var(--md-on-surface); }
+.desktop-sidebar .side-item.active {
+  background: var(--md-surface-3);
+  color: var(--md-primary);
+}
+.desktop-sidebar .side-item .count {
+  margin-left: auto;
+  font-size: 12px;
+  opacity: 0.7;
+}
+.desktop-sidebar .side-divider {
+  height: 1px;
+  background: var(--md-outline);
+  margin: 16px 16px;
+}
+.desktop-sidebar .side-label {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: var(--warm-gray-deep);
+  padding: 8px 16px;
+  text-transform: uppercase;
+}
+.wish-entry-desk {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px dashed var(--md-outline);
+  margin: 8px 8px 0;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 13px;
+  color: var(--rice);
+  background: linear-gradient(135deg, rgba(245,239,228,0.03), rgba(184,50,47,0.04));
+  transition: all 300ms ease;
+}
+.wish-entry-desk:hover {
+  border-color: var(--vermilion);
+  background: linear-gradient(135deg, rgba(245,239,228,0.06), rgba(184,50,47,0.08));
+}
+.wish-entry-desk .seal-mini {
+  font-family: 'Ma Shan Zheng', serif;
+  color: var(--vermilion);
+  font-size: 18px;
+}
+.wish-entry-desk .arrow { margin-left: auto; color: var(--warm-gray); }
+
+.desktop-main { padding: 24px 40px; overflow-y: auto; }
+.desktop-main .task-card { padding: 18px 20px; margin: 4px 0; }
+.desktop-main .task-title { font-size: 16px; }
+
+.desktop-detail {
+  border-left: 1px solid var(--md-outline);
+  padding: 28px 28px;
+  background: var(--md-surface-1);
+}
+.desktop-detail .detail-eyebrow {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: var(--warm-gray-deep);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.desktop-detail .detail-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--md-on-surface);
+  line-height: 1.5;
+  margin-bottom: 20px;
+  letter-spacing: 0.03em;
+}
+.desktop-detail .detail-row {
+  display: flex;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 13px;
+  color: var(--md-on-surface-var);
+  font-family: 'Noto Serif SC', serif;
+}
+.desktop-detail .detail-row .material-symbols-outlined {
+  font-size: 18px;
+  color: var(--warm-gray);
+}
+.desktop-detail .detail-row .label { width: 60px; color: var(--warm-gray-deep); }
+.desktop-detail .detail-row .value { color: var(--md-on-surface); flex: 1; }
+.desktop-detail .demote-hint {
+  margin-top: 24px;
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(184,50,47,0.06);
+  border-left: 2px solid var(--vermilion);
+  font-family: 'Noto Serif SC', serif;
+  font-size: 13px;
+  color: var(--md-on-surface-var);
+  line-height: 1.9;
+}
+.desktop-detail .demote-hint .hint-action {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--vermilion);
+  border-bottom: 1px solid var(--vermilion-dim);
+  padding-bottom: 2px;
+  transition: all 300ms ease;
+}
+.desktop-detail .demote-hint .hint-action:hover { color: #d9483f; border-color: #d9483f; }
+
+/* ================================================================
+   VIEW 2 · WISHES — Rice paper magazine
+   ================================================================ */
+.wishes-stage {
+  background: var(--rice);
+  color: var(--ink);
+  position: relative;
+  padding: 72px 0 120px;
+  background-image:
+    radial-gradient(ellipse at top, rgba(220,205,180,0.3), transparent 60%),
+    radial-gradient(ellipse at 80% 40%, rgba(184,50,47,0.03), transparent 50%);
+}
+.wishes-stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(115deg, transparent, transparent 40px, rgba(90,82,75,0.015) 40px, rgba(90,82,75,0.015) 41px);
+  pointer-events: none;
+}
+.wishes-inner {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 0 80px;
+  position: relative;
+}
+.wish-masthead {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(26,26,26,0.2);
+  margin-bottom: 64px;
+}
+.wish-masthead .mast-left .kicker {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 12px;
+  letter-spacing: 0.45em;
+  color: var(--warm-gray-deep);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.wish-masthead .mast-left .kicker .seal-char {
+  font-family: 'Ma Shan Zheng', serif;
+  color: var(--vermilion);
+  font-size: 20px;
+  letter-spacing: normal;
+  margin-right: 10px;
+}
+.wish-masthead h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 300;
+  font-size: 88px;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+}
+.wish-masthead h1 em {
+  font-family: 'Ma Shan Zheng', serif;
+  font-style: normal;
+  color: var(--vermilion);
+  font-size: 76px;
+  margin-left: 8px;
+}
+.wish-masthead .mast-right {
+  text-align: right;
+  font-family: 'Noto Serif SC', serif;
+  color: var(--warm-gray-deep);
+  font-size: 13px;
+  line-height: 2;
+  max-width: 280px;
+}
+.wish-masthead .mast-right .issue {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: var(--warm-gray);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+.wish-masthead .mast-right .pull {
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: 14px;
+}
+.vertical-deco {
+  position: absolute;
+  right: 24px;
+  top: 120px;
+  writing-mode: vertical-rl;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 11px;
+  letter-spacing: 0.8em;
+  color: var(--warm-gray);
+  text-transform: uppercase;
+}
+.wish-section { margin-bottom: 96px; }
+.wish-section-header {
+  display: grid;
+  grid-template-columns: 220px 1fr auto;
+  align-items: baseline;
+  gap: 40px;
+  margin-bottom: 40px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(26,26,26,0.15);
+}
+.wish-section-header .cat-name {
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: 48px;
+  color: var(--ink);
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+.wish-section-header .cat-name::first-letter { color: var(--vermilion); }
+.wish-section-header .cat-desc {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--warm-gray-deep);
+  letter-spacing: 0.05em;
+  line-height: 1.9;
+}
+.wish-section-header .cat-meta {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  color: var(--warm-gray);
+  text-transform: uppercase;
+}
+.wish-section-header .cat-meta .num {
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--vermilion);
+  letter-spacing: normal;
+  display: inline-block;
+  margin-right: 6px;
+  vertical-align: -4px;
+}
+.wish-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 40px 48px;
+}
+.wish-item { position: relative; }
+.wish-item.w-6 { grid-column: span 6; }
+.wish-item.w-5 { grid-column: span 5; }
+.wish-item.w-4 { grid-column: span 4; }
+.wish-item.w-3 { grid-column: span 3; }
+.wish-item.w-7 { grid-column: span 7; }
+.wish-item.w-8 { grid-column: span 8; }
+.wish-item .w-tag {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  color: var(--vermilion);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.wish-item h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  margin-bottom: 14px;
+  transition: color 300ms ease;
+}
+.wish-item.size-xl h3 { font-size: 40px; font-weight: 400; }
+.wish-item.size-lg h3 { font-size: 30px; font-weight: 400; }
+.wish-item.size-md h3 { font-size: 22px; }
+.wish-item.size-sm h3 { font-size: 18px; }
+.wish-item .w-note {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  color: var(--warm-gray-deep);
+  line-height: 1.9;
+  max-width: 42ch;
+  margin-bottom: 18px;
+  font-weight: 300;
+}
+.wish-item .w-foot {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-height: 24px;
+}
+.wish-item .w-days {
+  font-family: 'Noto Serif SC', serif;
+  font-style: italic;
+  font-size: 12px;
+  color: var(--warm-gray);
+  letter-spacing: 0.05em;
+}
+.wish-item .w-actions {
+  display: flex;
+  gap: 16px;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: all 300ms ease;
+}
+.wish-item:hover .w-actions { opacity: 1; transform: translateX(0); }
+.wish-item:hover h3 { color: var(--vermilion-dim); }
+.wish-item .w-action {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+  border-bottom: 1px solid rgba(26,26,26,0.3);
+  padding-bottom: 2px;
+  transition: all 300ms ease;
+}
+.wish-item .w-action:hover { color: var(--vermilion); border-color: var(--vermilion); }
+.wish-item .w-action.primary { color: var(--vermilion); border-color: var(--vermilion-dim); }
+.pull-quote {
+  grid-column: span 6;
+  padding: 32px 40px;
+  border-left: 2px solid var(--vermilion);
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 300;
+  font-size: 22px;
+  line-height: 1.9;
+  color: var(--ink-soft);
+  letter-spacing: 0.03em;
+  font-style: italic;
+}
+.pull-quote .cite {
+  display: block;
+  font-size: 12px;
+  font-style: normal;
+  letter-spacing: 0.3em;
+  color: var(--warm-gray);
+  margin-top: 16px;
+  text-transform: uppercase;
+}
+.collection-entry {
+  margin-top: 80px;
+  padding: 48px 0 0;
+  border-top: 1px solid rgba(26,26,26,0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+.collection-entry .ce-left .ce-label {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  color: var(--warm-gray);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.collection-entry .ce-left h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 300;
+  font-size: 40px;
+  color: var(--ink);
+  letter-spacing: 0.03em;
+}
+.collection-entry .ce-left h3 em {
+  font-family: 'Ma Shan Zheng', serif;
+  font-style: normal;
+  color: var(--vermilion);
+  font-size: 36px;
+  margin: 0 6px;
+}
+.collection-entry .ce-right {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--warm-gray-deep);
+  border-bottom: 1px solid var(--warm-gray);
+  padding-bottom: 4px;
+  transition: all 300ms ease;
+}
+.collection-entry .ce-right:hover { color: var(--vermilion); border-color: var(--vermilion); }
+</style>
+<style>
+/* ================================================================
+   VIEW 3 · ADD — two-choice entry + dual forms
+   ================================================================ */
+.add-stage { background: #0d0b09; padding: 0 0 80px; }
+.add-entry {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 48px 64px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+.add-choice {
+  padding: 64px 48px;
+  border-radius: 4px;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 300ms ease;
+  position: relative;
+  overflow: hidden;
+}
+.add-choice.task-choice {
+  background: var(--md-surface-1);
+  border: 1px solid var(--md-outline);
+  color: var(--md-on-surface);
+}
+.add-choice.task-choice:hover {
+  background: var(--md-surface-2);
+  transform: translateY(-2px);
+}
+.add-choice.wish-choice {
+  background: var(--rice);
+  color: var(--ink);
+  border: 1px solid rgba(26,26,26,0.12);
+}
+.add-choice.wish-choice:hover {
+  background: var(--rice-deep);
+  transform: translateY(-2px);
+}
+.add-choice .ac-kicker {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 12px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+.add-choice .ac-big {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 400;
+  font-size: 56px;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  margin-top: 12px;
+}
+.add-choice.wish-choice .ac-big em {
+  font-family: 'Ma Shan Zheng', serif;
+  font-style: normal;
+  color: var(--vermilion);
+  margin-left: 6px;
+}
+.add-choice .ac-sub {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  font-style: italic;
+  opacity: 0.6;
+  margin-top: 16px;
+  line-height: 1.9;
+}
+.add-choice .ac-arrow {
+  position: absolute;
+  right: 40px;
+  bottom: 40px;
+  font-size: 28px;
+  opacity: 0.3;
+  transition: all 300ms ease;
+}
+.add-choice:hover .ac-arrow { opacity: 0.8; transform: translateX(6px); }
+
+.forms-row {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 48px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* Task form — MD3 */
+.task-form {
+  background: var(--md-surface-1);
+  padding: 40px;
+  border-radius: 16px;
+  color: var(--md-on-surface);
+}
+.form-label {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  color: var(--warm-gray);
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+.md-field {
+  position: relative;
+  margin-bottom: 24px;
+}
+.md-field input, .md-field textarea {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--md-outline);
+  border-radius: 8px;
+  padding: 18px 16px 10px;
+  color: var(--md-on-surface);
+  font-family: 'Noto Serif SC', serif;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 300ms ease;
+  resize: none;
+}
+.md-field input:focus, .md-field textarea:focus { border-color: var(--md-primary); }
+.md-field .md-label {
+  position: absolute;
+  top: -7px;
+  left: 12px;
+  background: var(--md-surface-1);
+  padding: 0 6px;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--md-on-surface-var);
+  font-family: 'Noto Serif SC', serif;
+}
+.md-field .md-support {
+  font-size: 11px;
+  color: var(--warm-gray);
+  margin-top: 6px;
+  margin-left: 16px;
+  font-family: 'Noto Serif SC', serif;
+  letter-spacing: 0.1em;
+}
+.md-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.md-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--md-outline);
+  color: var(--md-on-surface-var);
+  font-size: 13px;
+  font-family: 'Noto Serif SC', serif;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  transition: all 300ms ease;
+}
+.md-pill.active {
+  background: var(--md-surface-3);
+  color: var(--md-primary);
+  border-color: var(--md-primary);
+}
+.md-pill .material-symbols-outlined { font-size: 16px; }
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--md-outline);
+}
+.btn-filled {
+  background: var(--md-primary);
+  color: var(--ink);
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 500;
+  padding: 12px 28px;
+  border-radius: 22px;
+  letter-spacing: 0.1em;
+  font-size: 14px;
+  transition: all 300ms ease;
+}
+.btn-filled:hover { filter: brightness(1.05); transform: translateY(-1px); }
+.btn-text {
+  color: var(--md-on-surface-var);
+  font-family: 'Noto Serif SC', serif;
+  padding: 12px 20px;
+  font-size: 14px;
+}
+
+/* Wish form — journal */
+.wish-form {
+  background: var(--rice);
+  color: var(--ink);
+  padding: 56px 56px 48px;
+  border-radius: 4px;
+  background-image: repeating-linear-gradient(115deg, transparent, transparent 40px, rgba(90,82,75,0.02) 40px, rgba(90,82,75,0.02) 41px);
+  min-height: 480px;
+  position: relative;
+}
+.wish-form .wf-kicker {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  color: var(--warm-gray-deep);
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+.wish-form .wf-kicker .seal-char {
+  font-family: 'Ma Shan Zheng', serif;
+  color: var(--vermilion);
+  font-size: 20px;
+  margin-right: 10px;
+  letter-spacing: normal;
+}
+.wish-form .wf-title-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(26,26,26,0.25);
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 400;
+  font-size: 36px;
+  color: var(--ink);
+  padding: 12px 0;
+  outline: none;
+  letter-spacing: 0.03em;
+}
+.wish-form .wf-title-input::placeholder { color: rgba(26,26,26,0.25); font-style: italic; font-weight: 300; }
+.wish-form .wf-hint {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 12px;
+  font-style: italic;
+  color: var(--warm-gray);
+  margin-top: 8px;
+  letter-spacing: 0.05em;
+}
+.wish-form .wf-note {
+  width: 100%;
+  background: transparent;
+  border: none;
+  margin-top: 32px;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 16px;
+  color: var(--ink-soft);
+  line-height: 2;
+  outline: none;
+  min-height: 140px;
+  resize: none;
+}
+.wish-form .wf-note::placeholder { color: rgba(26,26,26,0.25); font-style: italic; }
+.wish-form .wf-cats { margin-top: 40px; display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.wish-form .wf-cats .cat-label {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  color: var(--warm-gray);
+  text-transform: uppercase;
+  margin-right: 4px;
+}
+.wish-form .wf-cat {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  color: var(--ink-soft);
+  padding: 4px 0;
+  border-bottom: 1px solid transparent;
+  transition: all 300ms ease;
+}
+.wish-form .wf-cat:hover { border-color: var(--ink-soft); }
+.wish-form .wf-cat.active { color: var(--vermilion); border-color: var(--vermilion); }
+.wish-form .wf-actions {
+  margin-top: 48px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(26,26,26,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.wish-form .wf-omission {
+  font-family: 'Noto Serif SC', serif;
+  font-style: italic;
+  font-size: 12px;
+  color: var(--warm-gray);
+  letter-spacing: 0.05em;
+}
+.wish-form .wf-submit {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  letter-spacing: 0.2em;
+  color: var(--rice);
+  background: var(--ink);
+  padding: 12px 32px;
+  border-radius: 2px;
+  transition: all 300ms ease;
+}
+.wish-form .wf-submit:hover { background: var(--vermilion); }
+
+.form-comparison-note {
+  max-width: 1400px;
+  margin: 56px auto 0;
+  padding: 0 48px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--warm-gray);
+  line-height: 1.9;
+  letter-spacing: 0.03em;
+}
+.form-comparison-note .fcn-left, .form-comparison-note .fcn-right {
+  padding: 20px 24px;
+  border-left: 1px solid var(--warm-gray-deep);
+}
+.form-comparison-note .fcn-right { border-left-color: var(--vermilion-dim); }
+
+/* ================================================================
+   VIEW 4 · COLLECTION
+   ================================================================ */
+.coll-stage {
+  background: var(--rice);
+  color: var(--ink);
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(220,205,180,0.35), transparent 50%),
+    radial-gradient(ellipse at 90% 60%, rgba(184,50,47,0.04), transparent 50%);
+  position: relative;
+  padding: 80px 0 120px;
+}
+.coll-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 80px;
+  position: relative;
+}
+.coll-masthead {
+  text-align: center;
+  padding-bottom: 56px;
+  margin-bottom: 80px;
+  border-bottom: 1px solid rgba(26,26,26,0.2);
+}
+.coll-masthead .cm-kicker {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 12px;
+  letter-spacing: 0.5em;
+  color: var(--warm-gray-deep);
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+.coll-masthead .cm-kicker .seal-char {
+  font-family: 'Ma Shan Zheng', serif;
+  color: var(--vermilion);
+  font-size: 22px;
+  margin: 0 14px;
+  letter-spacing: normal;
+}
+.coll-masthead h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 300;
+  font-size: 64px;
+  line-height: 1.3;
+  color: var(--ink);
+  letter-spacing: 0.05em;
+  margin-bottom: 32px;
+}
+.coll-masthead h1 em {
+  font-family: 'Ma Shan Zheng', serif;
+  font-style: normal;
+  color: var(--vermilion);
+  font-size: 72px;
+  margin: 0 10px;
+}
+.coll-masthead .cm-stat {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 16px;
+  font-style: italic;
+  color: var(--warm-gray-deep);
+  letter-spacing: 0.08em;
+  line-height: 2;
+  max-width: 640px;
+  margin: 0 auto;
+}
+.coll-masthead .cm-stat em {
+  font-style: normal;
+  color: var(--vermilion);
+  font-weight: 500;
+  font-size: 20px;
+  margin: 0 4px;
+}
+
+.year-block { margin-bottom: 120px; position: relative; }
+.year-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 48px;
+  margin-bottom: 48px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(26,26,26,0.2);
+}
+.year-header .year-num {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 200;
+  font-size: 140px;
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
+.year-header .year-intro {
+  font-family: 'Noto Serif SC', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--warm-gray-deep);
+  line-height: 2;
+  letter-spacing: 0.05em;
+  max-width: 480px;
+}
+.year-header .year-count {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  color: var(--warm-gray);
+  text-transform: uppercase;
+  text-align: right;
+}
+.year-header .year-count .num {
+  font-size: 40px;
+  color: var(--vermilion);
+  letter-spacing: normal;
+  display: block;
+  font-weight: 300;
+  margin-bottom: 4px;
+}
+
+.coll-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 56px 80px;
+}
+.coll-entry {
+  padding-bottom: 28px;
+  border-bottom: 1px dashed rgba(26,26,26,0.15);
+  transition: all 300ms ease;
+}
+.coll-entry:hover { border-bottom-color: var(--vermilion); }
+.coll-entry .ce-meta {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  color: var(--warm-gray);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.coll-entry .ce-meta .dot { color: var(--vermilion); margin: 0 8px; }
+.coll-entry h4 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 400;
+  font-size: 26px;
+  color: var(--ink);
+  line-height: 1.5;
+  letter-spacing: 0.03em;
+  margin-bottom: 12px;
+  transition: color 300ms ease;
+}
+.coll-entry:hover h4 { color: var(--vermilion-dim); }
+.coll-entry .ce-reflect {
+  font-family: 'Noto Serif SC', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--warm-gray-deep);
+  line-height: 2;
+  letter-spacing: 0.03em;
+  max-width: 48ch;
+}
+
+/* ================================================================
+   VIEW 5 · FLOW
+   ================================================================ */
+.flow-stage { padding: 0 0 96px; }
+.flow-row {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 48px 96px;
+}
+.flow-title-bar {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  letter-spacing: 0.3em;
+  color: var(--warm-gray);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(245,239,228,0.08);
+}
+.flow-title-bar .chapter {
+  font-family: 'Ma Shan Zheng', serif;
+  color: var(--vermilion);
+  font-size: 24px;
+  margin-right: 14px;
+  letter-spacing: normal;
+}
+.flow-title-bar h2 {
+  display: inline;
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 400;
+  font-size: 28px;
+  color: var(--rice);
+  letter-spacing: 0.05em;
+}
+.flow-lede {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 15px;
+  color: var(--warm-gray);
+  line-height: 2;
+  font-style: italic;
+  max-width: 720px;
+  margin: 24px 0 56px;
+  letter-spacing: 0.03em;
+}
+
+.flow-stage-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 40px;
+  align-items: center;
+}
+.flow-stage-grid .arrow-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: var(--vermilion);
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: 28px;
+  letter-spacing: normal;
+}
+.flow-stage-grid .arrow-col .arrow-big {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 40px;
+  font-weight: 300;
+  line-height: 1;
+}
+.flow-stage-grid .arrow-col .arrow-caption {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 11px;
+  color: var(--warm-gray);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  writing-mode: horizontal-tb;
+  text-align: center;
+  max-width: 100px;
+}
+
+/* flow cards */
+.flow-card {
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.flow-card.paper {
+  background: var(--rice);
+  color: var(--ink);
+  background-image: repeating-linear-gradient(115deg, transparent, transparent 40px, rgba(90,82,75,0.02) 40px, rgba(90,82,75,0.02) 41px);
+  padding: 48px;
+}
+.flow-card.dark {
+  background: var(--md-surface-1);
+  color: var(--md-on-surface);
+  padding: 40px;
+}
+.flow-card .fc-label {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  opacity: 0.55;
+  margin-bottom: 20px;
+}
+.flow-card.paper .fc-label .seal-char {
+  font-family: 'Ma Shan Zheng', serif;
+  color: var(--vermilion);
+  font-size: 18px;
+  margin-right: 10px;
+  letter-spacing: normal;
+}
+.flow-card .fc-title {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  letter-spacing: 0.03em;
+}
+.flow-card .fc-note {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  line-height: 1.9;
+  font-style: italic;
+  opacity: 0.7;
+  margin-bottom: 24px;
+}
+.flow-card.paper .fc-foot, .flow-card.dark .fc-foot {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  font-style: italic;
+  opacity: 0.5;
+  padding-top: 20px;
+  border-top: 1px solid currentColor;
+  border-top-color: rgba(26,26,26,0.1);
+}
+.flow-card.dark .fc-foot { border-top-color: rgba(255,255,255,0.06); }
+
+/* promote sheet */
+.promote-sheet {
+  background: var(--ink);
+  color: var(--rice);
+  border-radius: 24px 24px 4px 4px;
+  padding: 40px 40px 32px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  border: 1px solid rgba(245,239,228,0.08);
+}
+.promote-sheet::before {
+  content: '';
+  width: 40px; height: 4px; border-radius: 2px;
+  background: var(--warm-gray-deep);
+  position: absolute;
+  top: 12px; left: 50%; transform: translateX(-50%);
+}
+.promote-sheet .ps-kicker {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  color: var(--warm-gray);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  margin-top: 8px;
+}
+.promote-sheet h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 400;
+  font-size: 24px;
+  letter-spacing: 0.03em;
+  margin-bottom: 24px;
+}
+.promote-sheet .ps-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-top: 1px solid rgba(245,239,228,0.08);
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  color: var(--rice);
+}
+.promote-sheet .ps-row .material-symbols-outlined { color: var(--warm-gray); font-size: 20px; }
+.promote-sheet .ps-row .ps-label { width: 80px; color: var(--warm-gray); font-size: 12px; letter-spacing: 0.15em; }
+.promote-sheet .ps-row .ps-value { flex: 1; }
+.promote-sheet .ps-row .ps-value.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0;
+  padding: 6px 14px;
+  border-radius: 16px;
+  border: 1px solid var(--md-outline);
+  color: var(--md-primary);
+  font-size: 12px;
+}
+.promote-sheet .ps-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 28px;
+}
+
+.gentle-hint {
+  background: linear-gradient(180deg, rgba(184,50,47,0.08), rgba(184,50,47,0.02));
+  border: 1px solid rgba(184,50,47,0.25);
+  border-radius: 12px;
+  padding: 28px 32px;
+  margin-top: 24px;
+}
+.gentle-hint .gh-label {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  color: var(--vermilion);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.gentle-hint h4 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 400;
+  font-size: 20px;
+  color: var(--rice);
+  line-height: 1.7;
+  letter-spacing: 0.03em;
+  margin-bottom: 16px;
+}
+.gentle-hint .gh-note {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--warm-gray);
+  line-height: 1.9;
+  margin-bottom: 20px;
+}
+.gentle-hint .gh-actions {
+  display: flex;
+  gap: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(245,239,228,0.06);
+}
+.gentle-hint .gh-action {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  color: var(--rice);
+  padding: 10px 20px;
+  border-radius: 2px;
+  transition: all 300ms ease;
+  letter-spacing: 0.1em;
+}
+.gentle-hint .gh-action.primary {
+  background: var(--vermilion);
+  color: var(--rice);
+}
+.gentle-hint .gh-action.primary:hover { background: #d9483f; }
+.gentle-hint .gh-action.secondary {
+  color: var(--warm-gray);
+  border-bottom: 1px solid var(--warm-gray-deep);
+  padding-bottom: 4px;
+  border-radius: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+.gentle-hint .gh-action.secondary:hover { color: var(--rice); border-color: var(--rice); }
+</style>
+</head>
+<body>
+
+<nav class="tab-nav">
+  <div class="tab-nav-inner">
+    <div class="brand"><span class="seal">书</span>书房 · Study Room</div>
+    <div class="tabs">
+      <button class="tab active" data-view="tasks"><span class="tab-num">一</span>要做的</button>
+      <button class="tab" data-view="wishes"><span class="tab-num">二</span>想做的</button>
+      <button class="tab" data-view="add"><span class="tab-num">三</span>新建</button>
+      <button class="tab" data-view="collection"><span class="tab-num">四</span>过往合集</button>
+      <button class="tab" data-view="flow"><span class="tab-num">五</span>流转</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <!-- ==================== VIEW 1 · TASKS ==================== -->
+  <section class="view active" id="view-tasks">
+    <div class="view-header">
+      <div class="view-title">要做的 <span class="accent">事</span></div>
+      <div class="view-subtitle">有时限、有提醒、有节奏。<span class="divider">·</span>延续 Material 3 的克制与清晰，留给截止日期该有的重量。</div>
+    </div>
+    <div class="rule"><div class="rule-line"></div></div>
+
+    <div class="tasks-body">
+      <!-- Mobile -->
+      <div>
+        <div class="device-label">移动端<span class="dot">·</span>MOBILE 400×820</div>
+        <div class="mobile-frame">
+          <div class="status-bar">
+            <span>9:41</span>
+            <div class="icons">
+              <span class="material-symbols-outlined">signal_cellular_alt</span>
+              <span class="material-symbols-outlined">wifi</span>
+              <span class="material-symbols-outlined">battery_full</span>
+            </div>
+          </div>
+          <div class="app-bar">
+            <button class="menu-btn"><span class="material-symbols-outlined">menu</span></button>
+            <div class="app-title">要做的</div>
+            <div class="actions">
+              <button class="action-btn" title="已同步"><span class="material-symbols-outlined">cloud_done</span></button>
+              <button class="action-btn"><span class="material-symbols-outlined">search</span></button>
+            </div>
+          </div>
+          <div class="segment">
+            <div class="chip active">全部 7</div>
+            <div class="chip">今天 2</div>
+            <div class="chip">本周 3</div>
+            <div class="chip">已逾期 1</div>
+          </div>
+          <div class="task-list">
+            <div class="section-heading">今天<span class="count">· 4月18日</span></div>
+
+            <div class="task-card overdue">
+              <div class="task-check"></div>
+              <div class="task-body">
+                <div class="task-title">交季度汇报初稿给主管</div>
+                <div class="task-meta">
+                  <span class="meta-chip overdue-text"><span class="material-symbols-outlined">error</span>已逾期 2 天</span>
+                  <span class="meta-chip"><span class="material-symbols-outlined">notifications</span>昨天 18:00</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="task-card">
+              <div class="task-check"></div>
+              <div class="task-body">
+                <div class="task-title">给爸妈寄的茶叶到了，下楼取快递</div>
+                <div class="task-meta">
+                  <span class="meta-chip today-text"><span class="material-symbols-outlined">today</span>今天</span>
+                  <span class="meta-chip"><span class="material-symbols-outlined">location_on</span>菜鸟驿站</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="task-card">
+              <div class="task-check"></div>
+              <div class="task-body">
+                <div class="task-title">17:30 和小徐线上同步项目进度</div>
+                <div class="task-meta">
+                  <span class="meta-chip today-text"><span class="material-symbols-outlined">schedule</span>今天 17:30</span>
+                  <span class="meta-chip"><span class="material-symbols-outlined">notifications</span>提前 10 分钟</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-heading">本周</div>
+
+            <div class="task-card">
+              <div class="task-check"></div>
+              <div class="task-body">
+                <div class="task-title">预约周六下午的体检</div>
+                <div class="task-meta">
+                  <span class="meta-chip"><span class="material-symbols-outlined">event</span>周六 14:00</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="task-card">
+              <div class="task-check"></div>
+              <div class="task-body">
+                <div class="task-title">每周浇一次绿萝和琴叶榕</div>
+                <div class="task-meta">
+                  <span class="meta-chip"><span class="material-symbols-outlined">event</span>周日</span>
+                  <span class="meta-chip"><span class="material-symbols-outlined">loop</span>每周循环</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="task-card">
+              <div class="task-check"></div>
+              <div class="task-body">
+                <div class="task-title">读完《人类简史》第 3 章</div>
+                <div class="task-meta">
+                  <span class="meta-chip"><span class="material-symbols-outlined">event</span>周日</span>
+                  <span class="meta-chip" style="color: var(--vermilion); opacity: 0.7;"><span class="material-symbols-outlined">auto_stories</span>源自想做的</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-heading">已完成</div>
+
+            <div class="task-card done">
+              <div class="task-check done"></div>
+              <div class="task-body">
+                <div class="task-title">把阳台那盆死掉的多肉清掉</div>
+                <div class="task-meta">
+                  <span class="meta-chip"><span class="material-symbols-outlined">done</span>昨天完成</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bottom-nav">
+            <button class="nav-item active"><span class="material-symbols-outlined">checklist</span>要做的</button>
+            <button class="nav-item"><span class="material-symbols-outlined">auto_stories</span>想做的</button>
+            <button class="nav-item"><span class="material-symbols-outlined">settings</span>设置</button>
+          </div>
+
+          <button class="fab" style="bottom: 80px;"><span class="material-symbols-outlined">add</span></button>
+        </div>
+      </div>
+
+      <!-- Desktop -->
+      <div>
+        <div class="device-label">桌面端<span class="dot">·</span>DESKTOP RESPONSIVE</div>
+        <div class="desktop-panel">
+          <div class="desktop-header">
+            <button class="icon-btn"><span class="material-symbols-outlined">menu</span></button>
+            <h2>要做的</h2>
+            <div class="sync-status"><span class="sync-dot"></span>已同步 · 刚刚</div>
+            <button class="icon-btn"><span class="material-symbols-outlined">search</span></button>
+            <button class="icon-btn"><span class="material-symbols-outlined">tune</span></button>
+            <button class="icon-btn"><span class="material-symbols-outlined">cloud_done</span></button>
+          </div>
+          <div class="desktop-body">
+            <div class="desktop-sidebar">
+              <div class="side-label">视图</div>
+              <div class="side-item active"><span class="material-symbols-outlined">inbox</span>全部 <span class="count">7</span></div>
+              <div class="side-item"><span class="material-symbols-outlined">today</span>今天 <span class="count">2</span></div>
+              <div class="side-item"><span class="material-symbols-outlined">date_range</span>本周 <span class="count">3</span></div>
+              <div class="side-item"><span class="material-symbols-outlined">error_outline</span>已逾期 <span class="count">1</span></div>
+              <div class="side-item"><span class="material-symbols-outlined">loop</span>循环任务 <span class="count">2</span></div>
+              <div class="side-item"><span class="material-symbols-outlined">done_all</span>已完成</div>
+              <div class="side-divider"></div>
+              <div class="side-label">别处</div>
+              <a class="wish-entry-desk" href="#" onclick="document.querySelector('[data-view=wishes]').click();return false;">
+                <span class="seal-mini">想</span>
+                <div>
+                  <div>想做的</div>
+                  <div style="font-size: 11px; color: var(--warm-gray); font-style: italic; letter-spacing: 0.05em;">慢慢翻一翻</div>
+                </div>
+                <span class="arrow material-symbols-outlined">arrow_forward</span>
+              </a>
+            </div>
+
+            <div class="desktop-main">
+              <div class="section-heading">今天<span class="count">· 4月18日 · 周六</span></div>
+              <div class="task-card overdue">
+                <div class="task-check"></div>
+                <div class="task-body">
+                  <div class="task-title">交季度汇报初稿给主管</div>
+                  <div class="task-meta">
+                    <span class="meta-chip overdue-text"><span class="material-symbols-outlined">error</span>已逾期 2 天</span>
+                    <span class="meta-chip"><span class="material-symbols-outlined">notifications</span>昨天 18:00 提醒过一次</span>
+                    <span class="meta-chip"><span class="material-symbols-outlined">folder</span>工作</span>
+                  </div>
+                </div>
+              </div>
+              <div class="task-card">
+                <div class="task-check"></div>
+                <div class="task-body">
+                  <div class="task-title">给爸妈寄的茶叶到了，下楼取快递</div>
+                  <div class="task-meta">
+                    <span class="meta-chip today-text"><span class="material-symbols-outlined">today</span>今天</span>
+                    <span class="meta-chip"><span class="material-symbols-outlined">location_on</span>小区北门菜鸟驿站</span>
+                  </div>
+                </div>
+              </div>
+              <div class="task-card">
+                <div class="task-check"></div>
+                <div class="task-body">
+                  <div class="task-title">17:30 和小徐线上同步项目进度</div>
+                  <div class="task-meta">
+                    <span class="meta-chip today-text"><span class="material-symbols-outlined">schedule</span>今天 17:30</span>
+                    <span class="meta-chip"><span class="material-symbols-outlined">notifications</span>提前 10 分钟提醒</span>
+                    <span class="meta-chip"><span class="material-symbols-outlined">videocam</span>腾讯会议</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="section-heading" style="margin-top: 24px;">本周</div>
+              <div class="task-card">
+                <div class="task-check"></div>
+                <div class="task-body">
+                  <div class="task-title">预约周六下午的体检</div>
+                  <div class="task-meta">
+                    <span class="meta-chip"><span class="material-symbols-outlined">event</span>周六 14:00</span>
+                    <span class="meta-chip"><span class="material-symbols-outlined">folder</span>生活</span>
+                  </div>
+                </div>
+              </div>
+              <div class="task-card">
+                <div class="task-check"></div>
+                <div class="task-body">
+                  <div class="task-title">每周浇一次绿萝和琴叶榕</div>
+                  <div class="task-meta">
+                    <span class="meta-chip"><span class="material-symbols-outlined">event</span>周日</span>
+                    <span class="meta-chip"><span class="material-symbols-outlined">loop</span>每周循环 · 已持续 14 周</span>
+                  </div>
+                </div>
+              </div>
+              <div class="task-card">
+                <div class="task-check"></div>
+                <div class="task-body">
+                  <div class="task-title">读完《人类简史》第 3 章</div>
+                  <div class="task-meta">
+                    <span class="meta-chip"><span class="material-symbols-outlined">event</span>周日晚</span>
+                    <span class="meta-chip" style="color: var(--vermilion); opacity: 0.75;"><span class="material-symbols-outlined">auto_stories</span>4 月 10 日从想做的升级而来</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="section-heading" style="margin-top: 24px;">已完成</div>
+              <div class="task-card done">
+                <div class="task-check done"></div>
+                <div class="task-body">
+                  <div class="task-title">把阳台那盆死掉的多肉清掉</div>
+                  <div class="task-meta">
+                    <span class="meta-chip"><span class="material-symbols-outlined">done</span>昨天完成</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="desktop-detail">
+              <div class="detail-eyebrow">详情 · Detail</div>
+              <div class="detail-title">交季度汇报初稿给主管</div>
+              <div class="detail-row"><span class="material-symbols-outlined">event</span><span class="label">截止</span><span class="value">4月16日 18:00 · 已逾期 2 天</span></div>
+              <div class="detail-row"><span class="material-symbols-outlined">notifications</span><span class="label">提醒</span><span class="value">到期前 2 小时</span></div>
+              <div class="detail-row"><span class="material-symbols-outlined">loop</span><span class="label">循环</span><span class="value">不循环</span></div>
+              <div class="detail-row"><span class="material-symbols-outlined">folder</span><span class="label">分类</span><span class="value">工作</span></div>
+              <div class="detail-row"><span class="material-symbols-outlined">description</span><span class="label">描述</span><span class="value" style="line-height: 1.9;">Q1 业绩 + Q2 计划，先写草稿给主管过一遍，周五前终稿。</span></div>
+
+              <div class="demote-hint">
+                这件事已经逾期 2 天了。<br>
+                如果它现在对你不那么重要 ——
+                <a class="hint-action" href="#" onclick="document.querySelector('[data-view=flow]').click();return false;">放回「想做的」，哪天再说 →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="view-footer">书 <span class="seal-mini">壹</span> 卷 — 要做的 · TASKS</div>
+  </section>
+  <!-- ==================== VIEW 2 · WISHES ==================== -->
+  <section class="view" id="view-wishes">
+    <div class="wishes-stage">
+      <div class="wishes-inner">
+
+        <div class="vertical-deco">想 · 做 · 的 · 事 &nbsp;&nbsp; WISHES &nbsp;&nbsp; 书房 VOL · 肆</div>
+
+        <header class="wish-masthead">
+          <div class="mast-left">
+            <div class="kicker"><span class="seal-char">想</span>WISHES · 无期限 · 只是想着</div>
+            <h1>想做的 <em>事</em></h1>
+          </div>
+          <div class="mast-right">
+            <div class="issue">VOL · 肆 &nbsp;/&nbsp; 二〇二六 春</div>
+            <div class="pull">"不是待办，是还想着的事。<br>翻到时挑一件，做一点，算一点。"</div>
+          </div>
+        </header>
+
+        <!-- 想学的 -->
+        <section class="wish-section">
+          <header class="wish-section-header">
+            <div class="cat-name">想学的</div>
+            <div class="cat-desc">那些一直放在心上、打算有一天要上手的手艺与知识。<br>学不完也没关系，学的过程本身就算。</div>
+            <div class="cat-meta"><span class="num">肆</span>件</div>
+          </header>
+
+          <div class="wish-grid">
+            <article class="wish-item size-xl w-6">
+              <div class="w-tag">音 · 律</div>
+              <h3>学一下古琴</h3>
+              <p class="w-note">想从《仙翁操》开始。先不纠结手型，听见自己按出一个音就够了。王老师说入门琴三千多就能买。</p>
+              <div class="w-foot">
+                <span class="w-days">加入 <em>87</em> 天</span>
+                <div class="w-actions">
+                  <a class="w-action primary" href="#">升级成任务</a>
+                  <a class="w-action" href="#">做过了</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="wish-item size-lg w-5" style="grid-column-start: 8;">
+              <div class="w-tag">咖 · 啡</div>
+              <h3>学会冲单品咖啡</h3>
+              <p class="w-note">手冲粉水比 1:15，V60 滤杯。先从一包耶加雪菲练起。</p>
+              <div class="w-foot">
+                <span class="w-days">加入 <em>42</em> 天</span>
+                <div class="w-actions">
+                  <a class="w-action primary" href="#">升级成任务</a>
+                  <a class="w-action" href="#">做过了</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="wish-item size-md w-4">
+              <h3>学做一道像样的红烧肉</h3>
+              <p class="w-note">外婆那种颜色深、肉颤颤的做法。冰糖、黄酒、耐心。</p>
+              <div class="w-foot">
+                <span class="w-days">加入 <em>124</em> 天</span>
+                <div class="w-actions">
+                  <a class="w-action primary" href="#">升级成任务</a>
+                  <a class="w-action" href="#">做过了</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="wish-item size-md w-4">
+              <h3>学会看星座</h3>
+              <p class="w-note">不是星座运势。是夜空里真的认出北斗、猎户、天蝎。</p>
+              <div class="w-foot">
+                <span class="w-days">加入 <em>203</em> 天</span>
+                <div class="w-actions">
+                  <a class="w-action primary" href="#">升级成任务</a>
+                  <a class="w-action" href="#">做过了</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="wish-item size-sm w-4">
+              <h3>试试自己做可颂</h3>
+              <p class="w-note">黄油折叠起码三折三次。周末下雨天做最合适。</p>
+              <div class="w-foot">
+                <span class="w-days">加入 <em>58</em> 天</span>
+                <div class="w-actions">
+                  <a class="w-action primary" href="#">升级成任务</a>
+                  <a class="w-action" href="#">做过了</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 想去的 -->
+        <section class="wish-section">
+          <header class="wish-section-header">
+            <div class="cat-name">想去的</div>
+            <div class="cat-desc">地图上的一些坐标，心里的一些地名。<br>有的很远，有的就在附近，但一直没走到。</div>
+            <div class="cat-meta"><span class="num">肆</span>处</div>
+          </header>
+
+          <div class="wish-grid">
+            <article class="wish-item size-xl w-7">
+              <div class="w-tag">远 · 行</div>
+              <h3>去一次冰岛看极光</h3>
+              <p class="w-note">九月到三月最好。想住在雷克雅未克郊外的小木屋里，一个人发几天呆。先不定时间，先把钱攒着。</p>
+              <div class="w-foot">
+                <span class="w-days">加入 <em>312</em> 天</span>
+                <div class="w-actions">
+                  <a class="w-action primary" href="#">升级成任务</a>
+                  <a class="w-action" href="#">做过了</a>
+                </div>
+              </div>
+            </article>
+
+            <aside class="pull-quote">
+              "想去的地方，先不急。<br>就像书架上的书——<br>知道它在那里，本身已是一种安心。"
+              <span class="cite">—— 编者按</span>
+            </aside>
+
+            <article class="wish-item size-md w-5">
+              <h3>周末去京都御苑走走</h3>
+              <p class="w-note">只是走走。不排行程，不打卡，不赶末班车。</p>
+              <div class="w-foot">
+                <span class="w-days">加入 <em>96</em> 天</span>
+                <div class="w-actions">
+                  <a class="w-action primary" href="#">升级成任务</a>
+                  <a class="w-action" href="#">做过了</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="wish-item size-md w-4">
+              <h3>走一趟茶马古道</h3>
+              <p class="w-note">从丽江一路到拉萨。身体要练好一点再说。</p>
+              <div class="w-foot">
+                <span class="w-days">加入 <em>421</em> 天</span>
+                <div class="w-actions">
+                  <a class="w-action primary" href="#">升级成任务</a>
+                  <a class="w-action" href="#">做过了</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="wish-item size-sm w-3">
+              <h3>去看一次萤火虫</h3>
+              <div class="w-foot">
+                <span class="w-days">加入 <em>18</em> 天</span>
+                <div class="w-actions">
+                  <a class="w-action primary" href="#">升级成任务</a>
+                  <a class="w-action" href="#">做过了</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 想做的 -->
+        <section class="wish-section">
+          <header class="wish-section-header">
+            <div class="cat-name">想做的</div>
+            <div class="cat-desc">和手、和身边这方生活有关的事情。<br>不大，但都是自己念着的。</div>
+            <div class="cat-meta"><span class="num">伍</span>件</div>
+          </header>
+
+          <div class="wish-grid">
+            <article class="wish-item size-lg w-6">
+              <div class="w-tag">写 · 作</div>
+              <h3>写一篇关于 LLM 输入法的长文</h3>
+              <p class="w-note">不是测评，是想讲清楚"让模型帮你写下你要写的字"这件事里的，那些模糊和矛盾。构思了好几个月，一直没动笔。</p>
+              <div class="w-foot">
+                <span class="w-days">加入 <em>163</em> 天</span>
+                <div class="w-actions">
+                  <a class="w-action primary" href="#">升级成任务</a>
+                  <a class="w-action" href="#">做过了</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="wish-item size-md w-6">
+              <h3>把阳台改造成一方小茶室</h3>
+              <p class="w-note">一张小榻榻米、一盏和纸灯、一壶铁壶。不贵的版本就好。</p>
+              <div class="w-foot">
+                <span class="w-days">加入 <em>75</em> 天</span>
+                <div class="w-actions">
+                  <a class="w-action primary" href="#">升级成任务</a>
+                  <a class="w-action" href="#">做过了</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="wish-item size-md w-4">
+              <h3>把家里的胶片相机修好</h3>
+              <p class="w-note">Olympus OM-1，测光坏了。淘宝有人修。</p>
+              <div class="w-foot">
+                <span class="w-days">加入 <em>231</em> 天</span>
+                <div class="w-actions">
+                  <a class="w-action primary" href="#">升级成任务</a>
+                  <a class="w-action" href="#">做过了</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="wish-item size-md w-4">
+              <h3>把老照片数字化归档</h3>
+              <p class="w-note">老家那几本相册。爸妈年轻时比我好看。</p>
+              <div class="w-foot">
+                <span class="w-days">加入 <em>189</em> 天</span>
+                <div class="w-actions">
+                  <a class="w-action primary" href="#">升级成任务</a>
+                  <a class="w-action" href="#">做过了</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="wish-item size-sm w-4">
+              <h3>组一台小巧的复古游戏机</h3>
+              <p class="w-note">树莓派 5 + RetroPie。做小学暑假那套红白机的壳子。</p>
+              <div class="w-foot">
+                <span class="w-days">加入 <em>54</em> 天</span>
+                <div class="w-actions">
+                  <a class="w-action primary" href="#">升级成任务</a>
+                  <a class="w-action" href="#">做过了</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 想读的 / 想看的 -->
+        <section class="wish-section">
+          <header class="wish-section-header">
+            <div class="cat-name">想读的</div>
+            <div class="cat-desc">书架上等我的、片单里还没看的。<br>慢慢来。</div>
+            <div class="cat-meta"><span class="num">叁</span>件</div>
+          </header>
+
+          <div class="wish-grid">
+            <article class="wish-item size-lg w-5">
+              <div class="w-tag">书</div>
+              <h3>读完《人类简史》</h3>
+              <p class="w-note">已经读到第二部分。4 月 10 日已经升级成任务在推进了。</p>
+              <div class="w-foot">
+                <span class="w-days" style="color: var(--vermilion); opacity: 0.7;">已升级成任务 · 任务面进行中</span>
+              </div>
+            </article>
+
+            <article class="wish-item size-lg w-7">
+              <div class="w-tag">电 · 影</div>
+              <h3>系统看一遍小津安二郎</h3>
+              <p class="w-note">按年份，从《晚春》开始。每周一部，不赶。榻榻米上的那台摄影机，是我心里的一种节奏。</p>
+              <div class="w-foot">
+                <span class="w-days">加入 <em>148</em> 天</span>
+                <div class="w-actions">
+                  <a class="w-action primary" href="#">升级成任务</a>
+                  <a class="w-action" href="#">做过了</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="wish-item size-md w-6">
+              <h3>重读一遍《瓦尔登湖》</h3>
+              <p class="w-note">大学时读过，现在读应该是另一本书了。</p>
+              <div class="w-foot">
+                <span class="w-days">加入 <em>33</em> 天</span>
+                <div class="w-actions">
+                  <a class="w-action primary" href="#">升级成任务</a>
+                  <a class="w-action" href="#">做过了</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="wish-item size-sm w-6">
+              <h3>看完侯孝贤的《海上花》</h3>
+              <p class="w-note">三个小时的版本。要找一个完整的周末下午。</p>
+              <div class="w-foot">
+                <span class="w-days">加入 <em>67</em> 天</span>
+                <div class="w-actions">
+                  <a class="w-action primary" href="#">升级成任务</a>
+                  <a class="w-action" href="#">做过了</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Collection entry -->
+        <div class="collection-entry">
+          <div class="ce-left">
+            <div class="ce-label">做过的事 · 往年合集</div>
+            <h3>翻一翻 <em>已经做过</em> 的那些</h3>
+          </div>
+          <a class="ce-right" href="#" onclick="document.querySelector('[data-view=collection]').click();return false;">过往合集 →</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- ==================== VIEW 3 · ADD ==================== -->
+  <section class="view" id="view-add">
+    <div class="view-header">
+      <div class="view-title">新建一条 <span class="accent">事</span></div>
+      <div class="view-subtitle">先问自己一句：它有时限吗？<span class="divider">·</span>两种入口，两种语气。选错了也可以随时搬家。</div>
+    </div>
+    <div class="rule"><div class="rule-line"></div></div>
+
+    <div class="add-stage">
+      <div class="add-entry">
+        <div class="add-choice task-choice">
+          <div>
+            <div class="ac-kicker">TASKS · 有期限</div>
+            <div class="ac-big">这是要做的</div>
+          </div>
+          <div class="ac-sub">要在某一天之前做完。需要提醒，需要被推着走。</div>
+          <span class="ac-arrow material-symbols-outlined">arrow_forward</span>
+        </div>
+        <div class="add-choice wish-choice">
+          <div>
+            <div class="ac-kicker">WISHES · 无期限</div>
+            <div class="ac-big">这是想 <em>做</em> 的</div>
+          </div>
+          <div class="ac-sub">只是想着，不急。写下来就放进书房。哪天翻到了再看。</div>
+          <span class="ac-arrow material-symbols-outlined">arrow_forward</span>
+        </div>
+      </div>
+
+      <div class="forms-row">
+        <!-- Task form -->
+        <div class="task-form">
+          <div class="form-label">TASK FORM · Material 3</div>
+          <div class="md-field">
+            <span class="md-label">标题</span>
+            <input type="text" value="交季度汇报初稿给主管">
+          </div>
+          <div class="md-field">
+            <span class="md-label">描述</span>
+            <textarea rows="3">Q1 业绩 + Q2 计划，先写草稿给主管过一遍，周五前终稿。</textarea>
+          </div>
+          <div class="md-row">
+            <div class="md-field">
+              <span class="md-label">截止日期</span>
+              <input type="text" value="2026-04-20 · 周一">
+              <div class="md-support">剩余 2 天</div>
+            </div>
+            <div class="md-field">
+              <span class="md-label">截止时间</span>
+              <input type="text" value="18:00">
+            </div>
+          </div>
+          <div style="margin-top: 8px;">
+            <div style="font-family: 'Noto Serif SC', serif; font-size: 11px; letter-spacing: 0.2em; color: var(--warm-gray); margin-bottom: 10px;">提醒</div>
+            <span class="md-pill active"><span class="material-symbols-outlined">notifications</span>到期前 2 小时</span>
+            <span class="md-pill"><span class="material-symbols-outlined">notifications</span>到期时</span>
+            <span class="md-pill"><span class="material-symbols-outlined">add</span>自定义</span>
+          </div>
+          <div style="margin-top: 20px;">
+            <div style="font-family: 'Noto Serif SC', serif; font-size: 11px; letter-spacing: 0.2em; color: var(--warm-gray); margin-bottom: 10px;">循环</div>
+            <span class="md-pill active">不循环</span>
+            <span class="md-pill"><span class="material-symbols-outlined">loop</span>每天</span>
+            <span class="md-pill"><span class="material-symbols-outlined">loop</span>每周</span>
+            <span class="md-pill"><span class="material-symbols-outlined">loop</span>每月</span>
+          </div>
+          <div style="margin-top: 20px;">
+            <div style="font-family: 'Noto Serif SC', serif; font-size: 11px; letter-spacing: 0.2em; color: var(--warm-gray); margin-bottom: 10px;">分类</div>
+            <span class="md-pill active"><span class="material-symbols-outlined">work</span>工作</span>
+            <span class="md-pill"><span class="material-symbols-outlined">spa</span>生活</span>
+            <span class="md-pill"><span class="material-symbols-outlined">school</span>学习</span>
+          </div>
+          <div class="form-actions">
+            <button class="btn-text">取消</button>
+            <button class="btn-text">保存草稿</button>
+            <button class="btn-filled">创建任务</button>
+          </div>
+        </div>
+
+        <!-- Wish form -->
+        <div class="wish-form">
+          <div class="wf-kicker"><span class="seal-char">想</span>WISH FORM · 日记本一页</div>
+          <input type="text" class="wf-title-input" value="学一下古琴">
+          <div class="wf-hint">写一行就好。标点随意。</div>
+          <textarea class="wf-note" rows="4">想从《仙翁操》开始。先不纠结手型，听见自己按出一个音就够了。王老师说入门琴三千多就能买。</textarea>
+          <div class="wf-cats">
+            <span class="cat-label">归到</span>
+            <a class="wf-cat active">想学的</a>
+            <a class="wf-cat">想去的</a>
+            <a class="wf-cat">想做的</a>
+            <a class="wf-cat">想读的</a>
+          </div>
+          <div class="wf-actions">
+            <span class="wf-omission">无需时间 · 无需提醒 · 无需分量</span>
+            <button class="wf-submit">写进书房</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-comparison-note">
+        <div class="fcn-left">任务那侧 —— 表单字段完整、配色克制、提交按钮"创建任务"。交给它就等于给自己立了个 Deadline。</div>
+        <div class="fcn-right">想做的这侧 —— 只有标题、几行随笔、一个归属。没有时间，没有提醒。按钮写的是"写进书房"，像合上一本日记。</div>
+      </div>
+    </div>
+
+    <div class="view-footer">书 <span class="seal-mini">叁</span> 卷 — 新建 · ADD FLOW</div>
+  </section>
+
+  <!-- ==================== VIEW 4 · COLLECTION ==================== -->
+  <section class="view" id="view-collection">
+    <div class="coll-stage">
+      <div class="coll-inner">
+
+        <header class="coll-masthead">
+          <div class="cm-kicker">做 过 的 <span class="seal-char">书</span> 事 · 过 往 合 集</div>
+          <h1>已经 <em>做过</em> 的那些</h1>
+          <p class="cm-stat">过去的这些年里，你做了 <em>37</em> 件自己 <em>真的想做</em> 的事。<br>不是任务，不是 KPI，是你自己写下、自己完成的。</p>
+        </header>
+
+        <!-- 2026 -->
+        <section class="year-block">
+          <header class="year-header">
+            <div class="year-num">2026</div>
+            <div class="year-intro">今年才过了四分之一，已经做成了几件自己念了很久的事。翻过这一页的时候，应该是心里有底的。</div>
+            <div class="year-count"><span class="num">04</span>件 / 至今</div>
+          </header>
+          <div class="coll-grid">
+            <article class="coll-entry">
+              <div class="ce-meta">三月 · 2026 <span class="dot">·</span> 酝酿 128 天</div>
+              <h4>把家里的胶片相机修好了</h4>
+              <p class="ce-reflect">测光修好那天，装了卷 Portra 400 在阳台试拍。出片时看见阳光的颜色，就觉得这钱花得值。</p>
+            </article>
+            <article class="coll-entry">
+              <div class="ce-meta">二月 · 2026 <span class="dot">·</span> 酝酿 63 天</div>
+              <h4>学会冲单品咖啡</h4>
+              <p class="ce-reflect">练到第十几包粉，突然就明白"风味"两个字是怎么回事了。现在每天早晨都会慢慢冲一杯。</p>
+            </article>
+            <article class="coll-entry">
+              <div class="ce-meta">一月 · 2026 <span class="dot">·</span> 酝酿 201 天</div>
+              <h4>把阳台改造成一方小茶室</h4>
+              <p class="ce-reflect">一块 1.2 米的小榻榻米，一盏朴素的和纸灯。不大，但坐下来能待一下午。</p>
+            </article>
+            <article class="coll-entry">
+              <div class="ce-meta">一月 · 2026 <span class="dot">·</span> 酝酿 45 天</div>
+              <h4>试着做了一次可颂</h4>
+              <p class="ce-reflect">第一次烤出来没起酥，第二次勉强算像样。味道还行，过程很解压。</p>
+            </article>
+          </div>
+        </section>
+
+        <!-- 2025 -->
+        <section class="year-block">
+          <header class="year-header">
+            <div class="year-num">2025</div>
+            <div class="year-intro">搬家那一年。半年里一直在收拾，下半年才缓过来。<br>能在那种状态下还做成这些，回头看还挺吃惊。</div>
+            <div class="year-count"><span class="num">14</span>件 / 全年</div>
+          </header>
+          <div class="coll-grid">
+            <article class="coll-entry">
+              <div class="ce-meta">十二月 · 2025 <span class="dot">·</span> 酝酿 92 天</div>
+              <h4>一个人去了一趟京都</h4>
+              <p class="ce-reflect">在御苑走了整整一个下午。银杏掉得满地都是，那天没拍几张照。</p>
+            </article>
+            <article class="coll-entry">
+              <div class="ce-meta">十一月 · 2025 <span class="dot">·</span> 酝酿 48 天</div>
+              <h4>看完了小津安二郎所有的彩色片</h4>
+              <p class="ce-reflect">从《彼岸花》到《秋刀鱼之味》。看到最后一部的时候真的舍不得。</p>
+            </article>
+            <article class="coll-entry">
+              <div class="ce-meta">十月 · 2025 <span class="dot">·</span> 酝酿 31 天</div>
+              <h4>把老家老照片都数字化归了档</h4>
+              <p class="ce-reflect">扫了四百多张。看见 1997 年那张全家福里，外公还在笑。</p>
+            </article>
+            <article class="coll-entry">
+              <div class="ce-meta">九月 · 2025 <span class="dot">·</span> 酝酿 17 天</div>
+              <h4>学做红烧肉，成了</h4>
+              <p class="ce-reflect">颜色没外婆那样深，但肉是颤的。妈妈尝了一口说"有那个意思"。</p>
+            </article>
+            <article class="coll-entry">
+              <div class="ce-meta">八月 · 2025 <span class="dot">·</span> 酝酿 74 天</div>
+              <h4>读完了《百年孤独》</h4>
+              <p class="ce-reflect">读了第三遍。这次终于把家谱那张图看懂了。</p>
+            </article>
+            <article class="coll-entry">
+              <div class="ce-meta">七月 · 2025 <span class="dot">·</span> 酝酿 12 天</div>
+              <h4>去了一次萤火虫谷</h4>
+              <p class="ce-reflect">莫干山深处，开车三小时。手机拍不出来，就关了屏幕看。</p>
+            </article>
+            <article class="coll-entry">
+              <div class="ce-meta">六月 · 2025 <span class="dot">·</span> 酝酿 55 天</div>
+              <h4>配了一副新眼镜，改了坐姿</h4>
+              <p class="ce-reflect">换了防蓝光。连带着把桌椅的高度也重新调了。颈椎舒服了很多。</p>
+            </article>
+            <article class="coll-entry">
+              <div class="ce-meta">五月 · 2025 <span class="dot">·</span> 酝酿 88 天</div>
+              <h4>写完了那篇《慢慢打字》</h4>
+              <p class="ce-reflect">关于打字板和纸张的一篇长文。没发哪里，自己在 blog 上存着。</p>
+            </article>
+          </div>
+        </section>
+
+        <!-- 2024 -->
+        <section class="year-block" style="margin-bottom: 40px;">
+          <header class="year-header">
+            <div class="year-num">2024</div>
+            <div class="year-intro">开始写下"想做的"这个列表的第一年。<br>起初觉得很奇怪——为什么要给没有期限的事留位置。做到第三件的时候就明白了。</div>
+            <div class="year-count"><span class="num">19</span>件 / 全年</div>
+          </header>
+          <div class="coll-grid">
+            <article class="coll-entry">
+              <div class="ce-meta">十二月 · 2024 <span class="dot">·</span> 酝酿 41 天</div>
+              <h4>学会了一首《卡农》</h4>
+              <p class="ce-reflect">钢琴，慢速版。跨年夜在家弹给自己听的。</p>
+            </article>
+            <article class="coll-entry">
+              <div class="ce-meta">十月 · 2024 <span class="dot">·</span> 酝酿 108 天</div>
+              <h4>去了一次景德镇</h4>
+              <p class="ce-reflect">在一个小作坊里揉了一下午泥，做了个歪的茶杯。现在还在用。</p>
+            </article>
+            <article class="coll-entry">
+              <div class="ce-meta">九月 · 2024 <span class="dot">·</span> 酝酿 23 天</div>
+              <h4>开始每天早上写三页</h4>
+              <p class="ce-reflect">Morning Pages。从此没断过。这件事改变了我很多。</p>
+            </article>
+            <article class="coll-entry">
+              <div class="ce-meta">八月 · 2024 <span class="dot">·</span> 酝酿 77 天</div>
+              <h4>把厨房整个重新整理了一遍</h4>
+              <p class="ce-reflect">扔掉了 13 件三年没用过的东西。从此做饭顺手多了。</p>
+            </article>
+            <article class="coll-entry">
+              <div class="ce-meta">七月 · 2024 <span class="dot">·</span> 酝酿 14 天</div>
+              <h4>独自骑车去了趟崇明</h4>
+              <p class="ce-reflect">来回 180 公里。回来之后发现身体比想象中结实。</p>
+            </article>
+            <article class="coll-entry">
+              <div class="ce-meta">五月 · 2024 <span class="dot">·</span> 酝酿 不详</div>
+              <h4>买了第一株植物</h4>
+              <p class="ce-reflect">绿萝。活到现在。后来家里陆续又添了七八盆。</p>
+            </article>
+            <article class="coll-entry">
+              <div class="ce-meta">三月 · 2024 <span class="dot">·</span> 这是第一件</div>
+              <h4>给爸妈写了一封信</h4>
+              <p class="ce-reflect">手写的。没想好写什么，但写完寄出去以后，心里轻了很多。</p>
+            </article>
+            <article class="coll-entry">
+              <div class="ce-meta">二月 · 2024 <span class="dot">·</span> 书房首页设立</div>
+              <h4>开始用"想做的"这个本子</h4>
+              <p class="ce-reflect">一开始只写了三条。现在回头看，那三条都做到了。</p>
+            </article>
+          </div>
+        </section>
+
+      </div>
+    </div>
+    <div class="view-footer">书 <span class="seal-mini">肆</span> 卷 — 过往合集 · COLLECTION</div>
+  </section>
+
+  <!-- ==================== VIEW 5 · FLOW ==================== -->
+  <section class="view" id="view-flow">
+    <div class="view-header">
+      <div class="view-title">两 <span class="accent">边</span> 的流转</div>
+      <div class="view-subtitle">想做的 ↔ 要做的<span class="divider">·</span>不是两座孤岛。念头可以被认真对待，被推上日程的事也可以随时退回来，不带愧疚。</div>
+    </div>
+    <div class="rule"><div class="rule-line"></div></div>
+
+    <div class="flow-stage">
+
+      <!-- Flow 1 : wish → task -->
+      <div class="flow-row">
+        <div class="flow-title-bar">
+          <span class="chapter">壹</span>
+          <h2>从 想做的 · 升级成 · 要做的</h2>
+        </div>
+        <p class="flow-lede">某天翻到一条念了大半年的事，心里忽然说"好像可以开始了"。于是长按它，给它一个日子。<br>——从这一刻起，它从书房走到案头。</p>
+
+        <div class="flow-stage-grid">
+          <!-- before -->
+          <div class="flow-card paper">
+            <div class="fc-label"><span class="seal-char">之前</span>书房里的一张纸片</div>
+            <div class="fc-title">学一下古琴</div>
+            <div class="fc-note">想从《仙翁操》开始。先不纠结手型，听见自己按出一个音就够了。</div>
+            <div class="fc-foot">加入 87 天 · 无期限 · 无提醒</div>
+            <div style="margin-top: 24px; padding-top: 20px; border-top: 1px dashed rgba(26,26,26,0.15); font-family: 'Noto Serif SC', serif; font-size: 12px; color: var(--warm-gray); font-style: italic; letter-spacing: 0.03em;">长按 · 菜单会慢慢浮现</div>
+          </div>
+
+          <!-- arrow -->
+          <div class="arrow-col">
+            <span class="arrow-big">→</span>
+            <div class="arrow-caption">长按 · 升级成任务</div>
+          </div>
+
+          <!-- sheet -->
+          <div class="promote-sheet">
+            <div class="ps-kicker">升级成任务 · PROMOTE TO TASK</div>
+            <h3>学一下古琴</h3>
+            <div class="ps-row">
+              <span class="material-symbols-outlined">event</span>
+              <span class="ps-label">先定一天</span>
+              <span class="ps-value chip">本周六 · 4月25日</span>
+            </div>
+            <div class="ps-row">
+              <span class="material-symbols-outlined">notifications</span>
+              <span class="ps-label">要提醒吗</span>
+              <span class="ps-value chip">当天 10:00</span>
+            </div>
+            <div class="ps-row">
+              <span class="material-symbols-outlined">loop</span>
+              <span class="ps-label">循环</span>
+              <span class="ps-value" style="color: var(--warm-gray); font-size: 13px; font-style: italic;">先不设，做一次看看</span>
+            </div>
+            <div class="ps-row">
+              <span class="material-symbols-outlined">link</span>
+              <span class="ps-label">保留连接</span>
+              <span class="ps-value" style="font-size: 12px; color: var(--warm-gray); font-style: italic;">完成后回填到想做的合集里</span>
+            </div>
+            <div class="ps-actions">
+              <button class="btn-text" style="color: var(--warm-gray);">再想想</button>
+              <button class="btn-filled">加入要做的</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- after -->
+        <div style="max-width: 900px; margin: 64px auto 0; padding: 24px 32px; border: 1px dashed rgba(245,239,228,0.2); border-radius: 8px; font-family: 'Noto Serif SC', serif; font-size: 14px; color: var(--warm-gray); line-height: 2; text-align: center; letter-spacing: 0.03em;">
+          升级之后 —— 这条事会同时存在于两处：<br>
+          <span style="color: var(--md-primary);">要做的</span> 列表里以任务形态运作；<span style="color: var(--vermilion);">想做的</span> 那侧用浅灰色标注"已升级成任务 · 进行中"。<br>
+          <span style="font-style: italic; color: var(--warm-gray-deep); font-size: 12px;">做完后，在过往合集里只出现一次，归进想做的那一侧。</span>
+        </div>
+      </div>
+
+      <div class="rule"><div class="rule-line"></div></div>
+
+      <!-- Flow 2 : overdue task → wish -->
+      <div class="flow-row" style="padding-top: 96px;">
+        <div class="flow-title-bar">
+          <span class="chapter">贰</span>
+          <h2>从 要做的 · 放 回 · 想做的</h2>
+        </div>
+        <p class="flow-lede">一件事逾期了好几天。不是偷懒，是那会儿的状态扛不住它。<br>与其每天被红色提醒，不如——暂时让它先回书房待着。这不是失败，是诚实。</p>
+
+        <div class="flow-stage-grid">
+          <!-- overdue task -->
+          <div class="flow-card dark" style="background: rgba(184,50,47,0.06); border-left: 2px solid var(--md-error);">
+            <div class="fc-label" style="color: var(--md-error);"><span class="material-symbols-outlined" style="font-size: 16px; vertical-align: -3px;">error</span> &nbsp;已逾期 5 天 · OVERDUE</div>
+            <div class="fc-title">把 Rust 那本 600 页的书啃完</div>
+            <div class="fc-note">截止日期设在上周三。这周工作太密，一直没翻开。第三次改期了。</div>
+            <div class="fc-foot">原定 4月12日 · 已改期 2 次 · 最近一次提醒 2 小时前</div>
+          </div>
+
+          <div class="arrow-col">
+            <span class="arrow-big">⇠</span>
+            <div class="arrow-caption">改期 3 次时 · 温柔弹出</div>
+          </div>
+
+          <!-- gentle hint -->
+          <div class="gentle-hint">
+            <div class="gh-label">一个温和的提议</div>
+            <h4>这件事，暂时不想做了？<br>放回 <span style="color: var(--vermilion); font-family: 'Ma Shan Zheng', serif;">想做的</span> 那边，哪天再说。</h4>
+            <p class="gh-note">不是放弃。就像书架上的一本书，合上放回去，它还会在那里。<br>等你状态好了，翻到了，再接着读。之前的进度会保留。</p>
+            <div class="gh-actions">
+              <a class="gh-action primary">放回想做的 →</a>
+              <a class="gh-action secondary">继续推进，再给它一个日子</a>
+              <a class="gh-action secondary">干脆删掉</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- after state: shows on wish page -->
+        <div style="max-width: 1100px; margin: 80px auto 0;">
+          <div style="font-family: 'Noto Serif SC', serif; font-size: 12px; letter-spacing: 0.3em; color: var(--warm-gray); text-transform: uppercase; text-align: center; margin-bottom: 24px;">放回之后 · 在书房里的样子</div>
+          <div class="flow-card paper" style="max-width: 720px; margin: 0 auto; padding: 40px 48px;">
+            <div class="fc-label"><span class="seal-char">想</span>想读的 · 归档回来</div>
+            <div class="fc-title">把 Rust 那本 600 页的书啃完</div>
+            <div class="fc-note">截止日期设在上周三。这周工作太密，一直没翻开。第三次改期了。</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 24px; border-top: 1px dashed rgba(26,26,26,0.15); font-family: 'Noto Serif SC', serif; font-size: 12px; color: var(--warm-gray); font-style: italic;">
+              <span>回到书房 · 今天 · 不带愧疚</span>
+              <span style="color: var(--vermilion); font-style: normal; letter-spacing: 0.1em; font-size: 11px;">STATUS · RESTING</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rule"><div class="rule-line"></div></div>
+
+      <!-- Emotional arc -->
+      <div class="flow-row" style="padding-top: 96px;">
+        <div class="flow-title-bar">
+          <span class="chapter">叁</span>
+          <h2>关于 · 语气</h2>
+        </div>
+        <p class="flow-lede">这套流转里，我们最小心的是用词。<br>下面几组对比，是我们反复改过的措辞 —— 左侧是常见待办 App 的语气，右侧是书房这里希望的样子。</p>
+
+        <div style="max-width: 1100px; margin: 40px 0 0; display: grid; grid-template-columns: 1fr 40px 1fr; gap: 32px; align-items: stretch;">
+          <div style="padding: 24px 28px; background: rgba(184,50,47,0.08); border-radius: 6px; font-family: 'Noto Serif SC', serif; font-size: 15px; color: var(--warm-gray-soft); line-height: 2; text-decoration: line-through; text-decoration-color: rgba(228,104,90,0.4);">你有 1 件任务已经拖延 5 天了。请尽快处理。</div>
+          <div style="display: flex; align-items: center; justify-content: center; color: var(--vermilion); font-size: 24px;">→</div>
+          <div style="padding: 24px 28px; background: var(--rice); border-radius: 6px; font-family: 'Noto Serif SC', serif; font-size: 15px; color: var(--ink); line-height: 2; font-style: italic;">这件事最近没顾上。要不要让它先在书房里歇一阵？</div>
+
+          <div style="padding: 24px 28px; background: rgba(184,50,47,0.08); border-radius: 6px; font-family: 'Noto Serif SC', serif; font-size: 15px; color: var(--warm-gray-soft); line-height: 2; text-decoration: line-through; text-decoration-color: rgba(228,104,90,0.4);">任务"读完《人类简史》"已过期，移至回收站。</div>
+          <div style="display: flex; align-items: center; justify-content: center; color: var(--vermilion); font-size: 24px;">→</div>
+          <div style="padding: 24px 28px; background: var(--rice); border-radius: 6px; font-family: 'Noto Serif SC', serif; font-size: 15px; color: var(--ink); line-height: 2; font-style: italic;">先放回想做的那边。等翻到了，再接着读。</div>
+
+          <div style="padding: 24px 28px; background: rgba(184,50,47,0.08); border-radius: 6px; font-family: 'Noto Serif SC', serif; font-size: 15px; color: var(--warm-gray-soft); line-height: 2; text-decoration: line-through; text-decoration-color: rgba(228,104,90,0.4);">添加新的待办事项 + ADD TASK</div>
+          <div style="display: flex; align-items: center; justify-content: center; color: var(--vermilion); font-size: 24px;">→</div>
+          <div style="padding: 24px 28px; background: var(--rice); border-radius: 6px; font-family: 'Noto Serif SC', serif; font-size: 15px; color: var(--ink); line-height: 2; font-style: italic;">这是要做的 / 这是想做的 · 先选一侧。</div>
+
+          <div style="padding: 24px 28px; background: rgba(184,50,47,0.08); border-radius: 6px; font-family: 'Noto Serif SC', serif; font-size: 15px; color: var(--warm-gray-soft); line-height: 2; text-decoration: line-through; text-decoration-color: rgba(228,104,90,0.4);">已归档任务 COMPLETED ARCHIVE</div>
+          <div style="display: flex; align-items: center; justify-content: center; color: var(--vermilion); font-size: 24px;">→</div>
+          <div style="padding: 24px 28px; background: var(--rice); border-radius: 6px; font-family: 'Noto Serif SC', serif; font-size: 15px; color: var(--ink); line-height: 2; font-style: italic;">过往合集 · 这一年你做了 N 件自己想做的事。</div>
+        </div>
+
+        <div style="max-width: 760px; margin: 80px auto 0; text-align: center; font-family: 'Noto Serif SC', serif; font-size: 14px; font-style: italic; color: var(--warm-gray); line-height: 2.2; letter-spacing: 0.05em;">
+          "待办 App 的底色是焦虑。<br>我们想做一本，可以让人松一口气的笔记本。"
+          <div style="margin-top: 20px; font-style: normal; letter-spacing: 0.3em; font-size: 11px; color: var(--warm-gray-deep); text-transform: uppercase;">—— 书房 · 设计笔记</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="view-footer">书 <span class="seal-mini">伍</span> 卷 — 流转 · FLOW</div>
+  </section>
+
+</main>
+
+<script>
+document.querySelectorAll('.tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.view;
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t === btn));
+    document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + target));
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+});
+</script>
+
+</body>
+</html>

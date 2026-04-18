@@ -1,0 +1,1026 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Todo · 真实形态预览 v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..40,300..500,0..1,0" rel="stylesheet">
+<style>
+/* =========================================================
+   基础变量 —— 尽量贴近 Flutter MD3 dark + 一点暖色偏移
+   ========================================================= */
+:root {
+  /* 任务侧（MD3 深色） */
+  --t-bg: #121212;
+  --t-surface: #1c1c1e;
+  --t-surface-hi: #232326;
+  --t-divider: #2a2a2d;
+  --t-ink: #e8e8ea;
+  --t-ink-soft: #b4b4b8;
+  --t-ink-whisper: #7a7a80;
+  --t-accent: #8ab4f8;
+  --t-danger: #f28b82;
+
+  /* 心愿侧（暖米/暖棕，深色打底） */
+  --w-bg: #1a1714;
+  --w-surface: #23201c;
+  --w-surface-hi: #2a2622;
+  --w-divider: #322d28;
+  --w-ink: #ece4d6;
+  --w-ink-soft: #c3b8a5;
+  --w-ink-whisper: #8a8174;
+  --w-accent: #d4b684;
+
+  /* 共享 */
+  --radius: 12px;
+  --radius-lg: 20px;
+  --radius-sm: 8px;
+  --font-ui: "Noto Sans SC", system-ui, -apple-system, sans-serif;
+  --font-wish: "Noto Serif SC", "Noto Sans SC", serif;
+  --shadow-sheet: 0 -12px 40px rgba(0,0,0,.4);
+  --shadow-drawer: 8px 0 40px rgba(0,0,0,.4);
+  --tap: 44px;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font-ui);
+  background: #0a0a0a;
+  color: #e8e8ea;
+  font-size: 15px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
+.icon { font-family: "Material Symbols Outlined"; font-weight: 300; font-size: 22px; line-height: 1; user-select: none; }
+.icon.small { font-size: 18px; }
+.icon.large { font-size: 28px; }
+
+/* =========================================================
+   顶部导航栏（预览用，不是 app 内的东西）
+   ========================================================= */
+.preview-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,10,10,.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #222;
+  padding: 10px 16px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.preview-nav::-webkit-scrollbar { display: none; }
+.preview-nav .brand {
+  font-size: 12px;
+  color: #7a7a80;
+  letter-spacing: 2px;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+.preview-nav button {
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  color: #b4b4b8;
+  white-space: nowrap;
+  transition: background .15s, color .15s;
+  flex-shrink: 0;
+}
+.preview-nav button:hover { color: #e8e8ea; background: #1a1a1a; }
+.preview-nav button.active { color: #0a0a0a; background: #e8e8ea; font-weight: 500; }
+.preview-nav .note {
+  margin-left: auto;
+  font-size: 11px;
+  color: #5a5a60;
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   展示容器 —— 模拟设备
+   ========================================================= */
+.stage {
+  padding: 32px 16px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+.stage-title {
+  font-size: 13px;
+  color: #7a7a80;
+  letter-spacing: 1px;
+  text-align: center;
+  margin-top: 8px;
+}
+.stage-sub {
+  font-size: 12px;
+  color: #5a5a60;
+  text-align: center;
+  max-width: 640px;
+  margin-top: -16px;
+  line-height: 1.7;
+}
+
+/* app frame：让真实 app 在浏览器里有个"设备"的外形，但 F12 设备模拟时容器撑满 */
+.app {
+  width: 100%;
+  max-width: 420px;
+  height: 820px;
+  background: var(--t-bg);
+  border-radius: 28px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 24px 60px rgba(0,0,0,.6), 0 0 0 1px #1f1f20 inset;
+  display: flex;
+  flex-direction: column;
+}
+.app.wish { background: var(--w-bg); }
+
+/* 桌面并排展示：窄屏下单列 */
+.pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  width: 100%;
+  max-width: 920px;
+}
+@media (max-width: 760px) {
+  .pair { grid-template-columns: 1fr; max-width: 420px; }
+  .stage { padding: 16px 12px 64px; }
+}
+
+/* F12 设备模拟下（宽度 <= 480 且没有 pair）：app 填满屏幕 */
+@media (max-width: 480px) {
+  body { background: var(--t-bg); }
+  .preview-nav { padding: 8px 12px; }
+  .stage { padding: 0; gap: 0; }
+  .stage-title, .stage-sub { display: none; }
+  .app {
+    max-width: 100%;
+    height: calc(100vh - 52px);
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .pair { gap: 0; }
+  .pair > .stage-block:not(:first-child) { display: none; }
+}
+.stage-block { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+.stage-block .label {
+  font-size: 11px;
+  color: #5a5a60;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   app 通用结构
+   ========================================================= */
+.status-bar {
+  height: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  font-size: 12px;
+  color: var(--t-ink-soft);
+  flex-shrink: 0;
+}
+.app.wish .status-bar { color: var(--w-ink-soft); }
+
+.app-bar {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px 0 4px;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.app-bar button.iconbtn {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--t-ink);
+}
+.app-bar button.iconbtn:hover { background: var(--t-surface); }
+.app.wish .app-bar button.iconbtn { color: var(--w-ink); }
+.app.wish .app-bar button.iconbtn:hover { background: var(--w-surface); }
+.app-bar .title {
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--t-ink);
+  letter-spacing: 0.3px;
+}
+.app.wish .app-bar .title {
+  font-family: var(--font-wish);
+  font-weight: 500;
+  color: var(--w-ink);
+  letter-spacing: 1px;
+}
+.app-bar .spacer { flex: 1; }
+
+/* Segmented 切换条：顶部"要做的 / 想做的" */
+.segmented {
+  margin: 4px 16px 8px;
+  background: var(--t-surface);
+  border-radius: 999px;
+  padding: 4px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.app.wish .segmented { background: var(--w-surface); }
+.segmented button {
+  height: 36px;
+  border-radius: 999px;
+  color: var(--t-ink-soft);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background .2s, color .2s;
+}
+.app.wish .segmented button { color: var(--w-ink-soft); }
+.segmented button.active {
+  background: var(--t-ink);
+  color: var(--t-bg);
+  font-weight: 500;
+}
+.app.wish .segmented button.active {
+  background: var(--w-accent);
+  color: var(--w-bg);
+  font-family: var(--font-wish);
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+.segmented .count {
+  font-size: 11px;
+  opacity: .7;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 列表区 */
+.list {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.list::-webkit-scrollbar { width: 0; }
+
+/* 任务项 */
+.todo {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--t-divider);
+  transition: background .15s;
+}
+.todo:hover { background: var(--t-surface); }
+.todo .check {
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--t-ink-whisper);
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 2px;
+  display: grid;
+  place-items: center;
+  transition: background .15s, border-color .15s;
+}
+.todo.done .check {
+  background: var(--t-ink-whisper);
+  border-color: var(--t-ink-whisper);
+}
+.todo.done .check::after {
+  content: '';
+  width: 10px;
+  height: 6px;
+  border-left: 2px solid var(--t-bg);
+  border-bottom: 2px solid var(--t-bg);
+  transform: rotate(-45deg) translate(1px, -1px);
+}
+.todo .body { flex: 1; min-width: 0; }
+.todo .t-title {
+  font-size: 15px;
+  color: var(--t-ink);
+  line-height: 1.4;
+}
+.todo.done .t-title {
+  color: var(--t-ink-whisper);
+  text-decoration: line-through;
+}
+.todo .meta {
+  font-size: 12px;
+  color: var(--t-ink-soft);
+  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.todo .meta.overdue { color: var(--t-danger); }
+.todo .trailing {
+  display: flex;
+  align-items: center;
+  color: var(--t-ink-whisper);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* 心愿项 —— 和任务结构完全一致，只是字体换衬线 + 底色换暖 + 少了 meta */
+.app.wish .todo { border-bottom-color: var(--w-divider); }
+.app.wish .todo:hover { background: var(--w-surface); }
+.app.wish .todo .check { border-color: var(--w-ink-whisper); }
+.app.wish .todo.done .check { background: var(--w-ink-whisper); border-color: var(--w-ink-whisper); }
+.app.wish .todo.done .check::after { border-color: var(--w-bg); }
+.app.wish .todo .t-title {
+  font-family: var(--font-wish);
+  font-size: 16px;
+  color: var(--w-ink);
+  line-height: 1.5;
+  letter-spacing: .3px;
+}
+.app.wish .todo.done .t-title { color: var(--w-ink-whisper); }
+.app.wish .todo .meta {
+  font-family: var(--font-wish);
+  color: var(--w-ink-whisper);
+  font-style: italic;
+  font-size: 12px;
+}
+
+/* FAB */
+.fab {
+  position: absolute;
+  right: 20px;
+  bottom: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  background: var(--t-accent);
+  color: #0a0a0a;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 24px rgba(138,180,248,.35), 0 2px 6px rgba(0,0,0,.3);
+  transition: transform .15s;
+}
+.fab:hover { transform: translateY(-2px); }
+.app.wish .fab {
+  background: var(--w-accent);
+  box-shadow: 0 8px 24px rgba(212,182,132,.35), 0 2px 6px rgba(0,0,0,.3);
+}
+
+/* 空状态 */
+.empty {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  color: var(--t-ink-whisper);
+  padding: 40px;
+}
+.empty .icon { font-size: 56px; opacity: .5; margin-bottom: 12px; }
+.empty .msg { font-size: 14px; line-height: 1.7; }
+.app.wish .empty { color: var(--w-ink-whisper); font-family: var(--font-wish); }
+
+/* =========================================================
+   抽屉 overlay
+   ========================================================= */
+.drawer-scrim {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 10;
+}
+.drawer {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 78%;
+  max-width: 300px;
+  background: var(--t-surface);
+  box-shadow: var(--shadow-drawer);
+  z-index: 11;
+  display: flex;
+  flex-direction: column;
+  padding-top: env(safe-area-inset-top, 0);
+}
+.drawer-header {
+  padding: 40px 20px 16px;
+  border-bottom: 1px solid var(--t-divider);
+}
+.drawer-header .app-name {
+  font-size: 22px;
+  color: var(--t-ink);
+  font-weight: 400;
+}
+.drawer-header .app-sub {
+  font-size: 12px;
+  color: var(--t-ink-whisper);
+  margin-top: 4px;
+}
+.drawer-section-label {
+  padding: 16px 20px 6px;
+  font-size: 11px;
+  color: var(--t-ink-whisper);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.drawer-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 20px;
+  min-height: 48px;
+  color: var(--t-ink-soft);
+  font-size: 14px;
+}
+.drawer-item .count {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--t-ink-whisper);
+  font-variant-numeric: tabular-nums;
+}
+.drawer-item:hover { background: var(--t-surface-hi); color: var(--t-ink); }
+.drawer-item.highlight { color: var(--w-accent); }
+.drawer-item.highlight .icon { color: var(--w-accent); }
+.drawer-divider { border-top: 1px solid var(--t-divider); margin: 8px 0; }
+
+/* =========================================================
+   底部 sheet（新建）
+   ========================================================= */
+.sheet-scrim {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 10;
+}
+.sheet {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  background: var(--t-surface);
+  border-radius: 24px 24px 0 0;
+  box-shadow: var(--shadow-sheet);
+  z-index: 11;
+  padding: 8px 20px 24px;
+  max-height: 80%;
+  overflow-y: auto;
+}
+.sheet-handle {
+  width: 36px; height: 4px;
+  background: var(--t-ink-whisper);
+  opacity: .5;
+  border-radius: 2px;
+  margin: 8px auto 16px;
+}
+.sheet-kind {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.sheet-kind button {
+  padding: 14px 10px;
+  border-radius: 14px;
+  background: var(--t-bg);
+  border: 1.5px solid var(--t-divider);
+  color: var(--t-ink-soft);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition: all .2s;
+}
+.sheet-kind button .icon { font-size: 24px; }
+.sheet-kind button .sub {
+  font-size: 11px;
+  color: var(--t-ink-whisper);
+  margin-top: 2px;
+}
+.sheet-kind button.active {
+  border-color: var(--t-accent);
+  background: rgba(138,180,248,.08);
+  color: var(--t-ink);
+}
+.sheet-kind button.active .icon { color: var(--t-accent); }
+.sheet-kind button.wish.active {
+  border-color: var(--w-accent);
+  background: rgba(212,182,132,.1);
+}
+.sheet-kind button.wish.active .icon { color: var(--w-accent); }
+
+.field {
+  margin-bottom: 14px;
+}
+.field label {
+  display: block;
+  font-size: 11px;
+  color: var(--t-ink-whisper);
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+.field input, .field textarea {
+  width: 100%;
+  background: var(--t-bg);
+  border: 1.5px solid var(--t-divider);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: var(--t-ink);
+  font-family: inherit;
+  font-size: 15px;
+  resize: none;
+}
+.field input:focus, .field textarea:focus {
+  outline: none;
+  border-color: var(--t-accent);
+}
+.sheet.wish .field input, .sheet.wish .field textarea {
+  font-family: var(--font-wish);
+  font-size: 16px;
+  line-height: 1.6;
+}
+.sheet.wish .field input:focus, .sheet.wish .field textarea:focus {
+  border-color: var(--w-accent);
+}
+
+.field-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--t-divider);
+}
+.field-row:last-child { border-bottom: 0; }
+.field-row .lead {
+  display: flex; align-items: center; gap: 12px;
+  color: var(--t-ink);
+}
+.field-row .lead .hint {
+  font-size: 12px; color: var(--t-ink-whisper);
+}
+.field-row .value {
+  font-size: 13px; color: var(--t-ink-soft);
+}
+
+.sheet-submit {
+  margin-top: 12px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  background: var(--t-accent);
+  color: #0a0a0a;
+  font-size: 15px;
+  font-weight: 500;
+}
+.sheet.wish .sheet-submit {
+  background: var(--w-accent);
+  font-family: var(--font-wish);
+}
+
+/* =========================================================
+   合集页（做过的）
+   ========================================================= */
+.app.wish .app-bar .title.back-title {
+  display: flex; align-items: center; gap: 8px;
+}
+.collection-hero {
+  padding: 20px 20px 12px;
+  font-family: var(--font-wish);
+}
+.collection-hero .overline {
+  font-size: 11px;
+  color: var(--w-ink-whisper);
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+.collection-hero .headline {
+  font-size: 22px;
+  line-height: 1.5;
+  color: var(--w-ink);
+  font-weight: 500;
+}
+.collection-hero .headline em {
+  color: var(--w-accent);
+  font-style: normal;
+}
+.year-label {
+  padding: 28px 20px 10px 20px;
+  font-family: var(--font-wish);
+  font-size: 34px;
+  color: var(--w-ink);
+  font-weight: 300;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  border-bottom: 1px solid var(--w-divider);
+  margin: 0 0 4px;
+}
+.year-label .y-count {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--w-ink-whisper);
+  letter-spacing: 2px;
+  margin-left: auto;
+}
+.done-item {
+  padding: 14px 20px;
+  display: flex;
+  gap: 14px;
+  border-bottom: 1px solid var(--w-divider);
+  font-family: var(--font-wish);
+}
+.done-item .date {
+  color: var(--w-ink-whisper);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  width: 52px;
+  padding-top: 3px;
+  flex-shrink: 0;
+}
+.done-item .t-body .t-title {
+  color: var(--w-ink);
+  font-size: 16px;
+  line-height: 1.5;
+}
+.done-item .t-body .note {
+  margin-top: 4px;
+  color: var(--w-ink-soft);
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.6;
+}
+</style>
+
+
+</head>
+<body>
+
+<nav class="preview-nav" id="nav">
+  <span class="brand">PREVIEW · v2</span>
+  <button data-view="home-task" class="active">要做的主页</button>
+  <button data-view="home-wish">想做的主页</button>
+  <button data-view="drawer">抽屉</button>
+  <button data-view="sheet">新建 sheet</button>
+  <button data-view="collection">已完成收藏</button>
+  <span class="note">F12 设备模拟切手机版 · 窄屏自动单列</span>
+</nav>
+
+<main id="main"></main>
+
+<script>
+// 下面的 views 对象会在后续的 <script> 块里填充
+window.views = window.views || {};
+
+/* ---------- 共用片段生成器 ---------- */
+function statusBar() {
+  return `<div class="status-bar"><span>14:32</span><span style="display:flex;gap:4px;align-items:center"><span class="icon small">signal_cellular_alt</span><span class="icon small">wifi</span><span>86%</span></span></div>`;
+}
+function segmented(active) {
+  return `
+  <div class="segmented">
+    <button class="${active==='task'?'active':''}" data-seg="task">
+      <span class="icon small">checklist</span>要做的 <span class="count">7</span>
+    </button>
+    <button class="${active==='wish'?'active':''}" data-seg="wish">
+      <span class="icon small">auto_stories</span>想做的 <span class="count">34</span>
+    </button>
+  </div>`;
+}
+
+/* ---------- view: 要做的主页 ---------- */
+const taskItems = [
+  { done:false, title:'补交房租（这周务必）', meta:'明天 18:00', overdue:false, bell:true },
+  { done:false, title:'给体检报告预约复查', meta:'周日 10:00', bell:true },
+  { done:false, title:'改完 LLM 输入法 benchmark 脚本', meta:'3/26', overdue:true, bell:false },
+  { done:false, title:'买牛奶和鸡蛋', meta:null, bell:false },
+  { done:false, title:'周报', meta:'周五 17:00', bell:true, repeat:true },
+  { done:true,  title:'回复小张的邮件', meta:null },
+  { done:true,  title:'预约周六理发', meta:null },
+];
+function renderTaskList() {
+  return taskItems.map(t => `
+    <div class="todo ${t.done?'done':''}">
+      <div class="check"></div>
+      <div class="body">
+        <div class="t-title">${t.title}</div>
+        ${t.meta ? `<div class="meta ${t.overdue?'overdue':''}">
+          <span class="icon small">event</span>${t.meta}
+          ${t.repeat ? '<span class="icon small" style="margin-left:4px">repeat</span>' : ''}
+        </div>` : ''}
+      </div>
+      <div class="trailing">
+        ${t.bell ? '<span class="icon small">notifications_active</span>' : ''}
+      </div>
+    </div>`).join('');
+}
+
+window.views['home-task'] = `
+<div class="stage">
+  <div class="stage-title">要做的 · 主页</div>
+  <div class="stage-sub">顶部 segmented 切换「要做的 / 想做的」。保留现有 AppBar + FAB + 抽屉结构。</div>
+  <div class="app">
+    ${statusBar()}
+    <div class="app-bar">
+      <button class="iconbtn" title="抽屉"><span class="icon">menu</span></button>
+      <div class="title">Todo</div>
+      <div class="spacer"></div>
+      <button class="iconbtn" title="同步"><span class="icon">sync</span></button>
+    </div>
+    ${segmented('task')}
+    <div class="list">${renderTaskList()}</div>
+    <button class="fab"><span class="icon large">add</span></button>
+  </div>
+</div>`;
+
+/* ---------- view: 想做的主页 ---------- */
+const wishItems = [
+  { done:false, title:'学一下古琴', note:'《流水》那种感觉' },
+  { done:false, title:'读完《人类简史》' },
+  { done:false, title:'去一次冰岛看极光' },
+  { done:false, title:'试试自己做可颂', note:'需要两天时间发酵' },
+  { done:false, title:'系统看一遍小津安二郎' },
+  { done:false, title:'把家里的胶片相机修好' },
+  { done:false, title:'写一篇关于 LLM 输入法的长文' },
+  { done:false, title:'周末去京都御苑走走' },
+  { done:false, title:'学做一道红烧肉' },
+  { done:false, title:'把老照片数字化归档' },
+  { done:false, title:'把阳台改造成茶室' },
+  { done:false, title:'学会冲单品咖啡' },
+  { done:false, title:'走一趟茶马古道' },
+];
+function renderWishList() {
+  return wishItems.map(w => `
+    <div class="todo ${w.done?'done':''}">
+      <div class="check"></div>
+      <div class="body">
+        <div class="t-title">${w.title}</div>
+        ${w.note ? `<div class="meta">${w.note}</div>` : ''}
+      </div>
+    </div>`).join('');
+}
+
+window.views['home-wish'] = `
+<div class="stage">
+  <div class="stage-title">想做的 · 主页</div>
+  <div class="stage-sub">同一页切到想做的 · 字体换思源宋体 · 底色微暖 · 没有 deadline/铃铛/过期标记 · 结构完全一样</div>
+  <div class="app wish">
+    ${statusBar()}
+    <div class="app-bar">
+      <button class="iconbtn" title="抽屉"><span class="icon">menu</span></button>
+      <div class="title">想做的</div>
+      <div class="spacer"></div>
+      <button class="iconbtn" title="同步"><span class="icon">sync</span></button>
+    </div>
+    ${segmented('wish')}
+    <div class="list">${renderWishList()}</div>
+    <button class="fab"><span class="icon large">add</span></button>
+  </div>
+</div>`;
+
+/* ---------- view: 抽屉打开 ---------- */
+window.views['drawer'] = `
+<div class="stage">
+  <div class="stage-title">抽屉打开</div>
+  <div class="stage-sub">加了「做过的 · 合集」入口。保持现有抽屉结构。</div>
+  <div class="app">
+    ${statusBar()}
+    <div class="app-bar">
+      <button class="iconbtn"><span class="icon">menu</span></button>
+      <div class="title">Todo</div>
+      <div class="spacer"></div>
+      <button class="iconbtn"><span class="icon">sync</span></button>
+    </div>
+    ${segmented('task')}
+    <div class="list">${renderTaskList()}</div>
+    <button class="fab"><span class="icon large">add</span></button>
+
+    <div class="drawer-scrim"></div>
+    <div class="drawer">
+      <div class="drawer-header">
+        <div class="app-name">Todo</div>
+        <div class="app-sub">已同步 · 刚刚</div>
+      </div>
+      <div class="drawer-section-label">视图</div>
+      <div class="drawer-item"><span class="icon">checklist</span>要做的<span class="count">7</span></div>
+      <div class="drawer-item"><span class="icon">auto_stories</span>想做的<span class="count">34</span></div>
+      <div class="drawer-item highlight"><span class="icon">inventory_2</span>做过的 · 合集<span class="count">52</span></div>
+      <div class="drawer-divider"></div>
+      <div class="drawer-section-label">设置</div>
+      <div class="drawer-item"><span class="icon">sort</span>排序</div>
+      <div class="drawer-item"><span class="icon">palette</span>主题</div>
+      <div class="drawer-item"><span class="icon">keyboard</span>快捷键</div>
+      <div class="drawer-item"><span class="icon">power_settings_new</span>开机自启</div>
+      <div class="drawer-divider"></div>
+      <div class="drawer-item"><span class="icon">sync</span>同步详情</div>
+      <div class="drawer-item"><span class="icon">info</span>关于</div>
+    </div>
+  </div>
+</div>`;
+
+/* ---------- view: 新建 sheet ---------- */
+// 模拟两种情况并排，窄屏下只显示第一个
+window.views['sheet'] = `
+<div class="stage">
+  <div class="stage-title">新建 · 底部 sheet</div>
+  <div class="stage-sub">点 FAB 弹出。sheet 顶部先选「要做的 / 想做的」类型，表单跟着变。窄屏对比时只显示左图；桌面并排看字段差异。</div>
+  <div class="pair">
+    <div class="stage-block">
+      <span class="label">TASK · 要做的</span>
+      <div class="app">
+        ${statusBar()}
+        <div class="app-bar">
+          <button class="iconbtn"><span class="icon">menu</span></button>
+          <div class="title">Todo</div>
+          <div class="spacer"></div>
+          <button class="iconbtn"><span class="icon">sync</span></button>
+        </div>
+        ${segmented('task')}
+        <div class="list">${renderTaskList()}</div>
+
+        <div class="sheet-scrim"></div>
+        <div class="sheet">
+          <div class="sheet-handle"></div>
+          <div class="sheet-kind">
+            <button class="active">
+              <span class="icon">checklist</span>
+              <span>要做的</span>
+              <span class="sub">有时间 · 会提醒</span>
+            </button>
+            <button class="wish">
+              <span class="icon">auto_stories</span>
+              <span>想做的</span>
+              <span class="sub">无压力 · 慢慢想</span>
+            </button>
+          </div>
+          <div class="field">
+            <label>标题</label>
+            <input value="补交房租（这周务必）">
+          </div>
+          <div class="field">
+            <label>描述（可选）</label>
+            <textarea rows="2" placeholder="备注…"></textarea>
+          </div>
+          <div class="field-row">
+            <div class="lead"><span class="icon">event</span>截止时间</div>
+            <div class="value">明天 18:00</div>
+          </div>
+          <div class="field-row">
+            <div class="lead"><span class="icon">notifications</span>提醒</div>
+            <div class="value">到期时 · 1 小时前</div>
+          </div>
+          <div class="field-row">
+            <div class="lead"><span class="icon">repeat</span>重复</div>
+            <div class="value">不重复</div>
+          </div>
+          <button class="sheet-submit">添加</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-block">
+      <span class="label">WISH · 想做的</span>
+      <div class="app wish">
+        ${statusBar()}
+        <div class="app-bar">
+          <button class="iconbtn"><span class="icon">menu</span></button>
+          <div class="title">想做的</div>
+          <div class="spacer"></div>
+          <button class="iconbtn"><span class="icon">sync</span></button>
+        </div>
+        ${segmented('wish')}
+        <div class="list">${renderWishList()}</div>
+
+        <div class="sheet-scrim"></div>
+        <div class="sheet wish">
+          <div class="sheet-handle"></div>
+          <div class="sheet-kind">
+            <button>
+              <span class="icon">checklist</span>
+              <span>要做的</span>
+              <span class="sub">有时间 · 会提醒</span>
+            </button>
+            <button class="wish active">
+              <span class="icon">auto_stories</span>
+              <span>想做的</span>
+              <span class="sub">无压力 · 慢慢想</span>
+            </button>
+          </div>
+          <div class="field">
+            <label>想做什么</label>
+            <input value="学一下古琴">
+          </div>
+          <div class="field">
+            <label>一两句话（可选）</label>
+            <textarea rows="3" placeholder="《流水》那种感觉，不急。"></textarea>
+          </div>
+          <div class="field-row">
+            <div class="lead">
+              <span class="icon">label_outline</span>
+              <span>分类</span>
+              <span class="hint">想学</span>
+            </div>
+            <div class="value"><span class="icon small">expand_more</span></div>
+          </div>
+          <button class="sheet-submit">收进来</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`;
+
+/* ---------- view: 已完成合集 ---------- */
+const doneByYear = {
+  '2026': [
+    { date:'04·17', title:'学会做戚风蛋糕', note:'第三次终于不塌了。' },
+    { date:'03·12', title:'看完《小津安二郎的艺术》', note:'坐下来一气呵成。' },
+    { date:'02·20', title:'完成春节家宴菜单', note:'八菜一汤，爸妈都吃撑了。' },
+    { date:'01·08', title:'把家里路由器换 Wi-Fi 7' },
+  ],
+  '2025': [
+    { date:'12·31', title:'跨年那天开一瓶收了五年的威士忌', note:'比想象中更柔。' },
+    { date:'11·05', title:'去了一趟京都赏枫', note:'永观堂人太多，琉璃光院值得早起。' },
+    { date:'09·14', title:'把旧胶片相机修好了' },
+    { date:'07·22', title:'第一次冲出合格的 V60', note:'豆子比手艺重要。' },
+    { date:'06·02', title:'系统读完《人类简史》' },
+    { date:'04·18', title:'周末在家做了可颂', note:'发酵时间不够，改进版下次再做。' },
+    { date:'03·10', title:'把家里老照片扫描归档完' },
+    { date:'01·15', title:'学会简单的日语自我介绍' },
+  ],
+  '2024': [
+    { date:'11·20', title:'爬了一次五岳中的一座' },
+    { date:'08·08', title:'看完奥运开幕式' },
+    { date:'05·03', title:'第一次独自出国旅行' },
+    { date:'02·11', title:'学会打太极拳前八式' },
+  ],
+};
+function renderDoneList() {
+  return Object.entries(doneByYear).map(([y, items]) => `
+    <div class="year-label">
+      <span>${y}</span>
+      <span class="y-count">${items.length} 件</span>
+    </div>
+    ${items.map(it => `
+      <div class="done-item">
+        <div class="date">${it.date}</div>
+        <div class="t-body">
+          <div class="t-title">${it.title}</div>
+          ${it.note ? `<div class="note">${it.note}</div>` : ''}
+        </div>
+      </div>
+    `).join('')}
+  `).join('');
+}
+const doneTotal = Object.values(doneByYear).reduce((a,b)=>a+b.length,0);
+
+window.views['collection'] = `
+<div class="stage">
+  <div class="stage-title">做过的 · 合集</div>
+  <div class="stage-sub">从抽屉进入。按年份分组，自然生成回顾感。不催促、不复活，只是记录。</div>
+  <div class="app wish">
+    ${statusBar()}
+    <div class="app-bar">
+      <button class="iconbtn"><span class="icon">arrow_back</span></button>
+      <div class="title">做过的</div>
+      <div class="spacer"></div>
+      <button class="iconbtn"><span class="icon">search</span></button>
+    </div>
+    <div class="list">
+      <div class="collection-hero">
+        <div class="overline">这些年</div>
+        <div class="headline">你悄悄做成了 <em>${doneTotal}</em> 件<br>自己真的想做的事</div>
+      </div>
+      ${renderDoneList()}
+    </div>
+  </div>
+</div>`;
+</script>
+<script>
+// 下面的 views 对象会在后续的 <script> 块里填充
+window.views = window.views || {};
+const main = document.getElementById('main');
+const nav = document.getElementById('nav');
+function render(view) {
+  main.innerHTML = window.views[view] || '<div class="stage"><p>view not ready</p></div>';
+  nav.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.view === view));
+  window.scrollTo(0, 0);
+  if (window.hydrate) window.hydrate(view);
+}
+nav.addEventListener('click', e => {
+  const v = e.target.closest('button')?.dataset.view;
+  if (v) render(v);
+});
+// 初始渲染
+render('home-task');
+</script>
+
+</body>
+</html>

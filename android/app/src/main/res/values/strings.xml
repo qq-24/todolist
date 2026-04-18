@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="accessibility_service_description">保持任务提醒在后台正常运行，确保闹钟不会因应用被关闭而丢失。</string>
+</resources>
