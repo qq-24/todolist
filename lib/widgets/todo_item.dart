@@ -26,6 +26,7 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
   late final AnimationController _rippleController;
   late final AnimationController _fadeController;
   late final AnimationController _slideController;
+  late final AnimationController _collapseController;
 
   static const _armedOffset = -80.0;
   static const _armThreshold = -50.0;
@@ -51,6 +52,11 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
       value: widget.todo.completed ? 1.0 : 0.0,
     );
     _slideController = AnimationController.unbounded(vsync: this, value: 0);
+    _collapseController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+      value: 1.0,
+    );
     armedNotifier.addListener(_onOtherArmed);
   }
 
@@ -81,6 +87,7 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
     _rippleController.dispose();
     _fadeController.dispose();
     _slideController.dispose();
+    _collapseController.dispose();
     super.dispose();
   }
 
@@ -209,24 +216,22 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
         }
       });
     } else {
-      // 移动端：先删除，SnackBar 带撤销
-      final provider = context.read<TodoProvider>();
-      final todo = widget.todo;
-      provider.deleteTodo(todo.id);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('已删除"${todo.title}"'),
-        action: SnackBarAction(label: '撤销', onPressed: () => provider.addTodo(todo)),
-        duration: const Duration(seconds: 4),
-      ));
+      // 移动端：挤扁动画后删除，SnackBar 带撤销
+      _collapseAndDelete();
     }
   }
 
   static final bool _isDesktop = Platform.isWindows || Platform.isLinux || Platform.isMacOS;
 
   void _deleteByTap() {
-    _animateTo(-MediaQuery.of(context).size.width, onComplete: () {
-      final provider = context.read<TodoProvider>();
-      final todo = widget.todo;
+    _animateTo(-MediaQuery.of(context).size.width, onComplete: _collapseAndDelete);
+  }
+
+  void _collapseAndDelete() {
+    final provider = context.read<TodoProvider>();
+    final todo = widget.todo;
+    _collapseController.reverse().then((_) {
+      if (!mounted) return;
       provider.deleteTodo(todo.id);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('已删除"${todo.title}"'),
@@ -315,8 +320,10 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
       );
     }
 
-    // 移动端：滑动删除
-    return GestureDetector(
+    // 移动端：滑动删除 + 挤扁动画
+    return SizeTransition(
+      sizeFactor: _collapseController,
+      child: GestureDetector(
       onHorizontalDragStart: _onDragStart,
       onHorizontalDragUpdate: _onDragUpdate,
       onHorizontalDragEnd: _onDragEnd,
@@ -377,6 +384,7 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
         },
         child: _buildContent(context, colorScheme, todo),
       ),
+    ),
     );
   }
 
