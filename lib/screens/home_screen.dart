@@ -254,18 +254,54 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Wi
       valueListenable: armedNotifier,
       builder: (context, armedId, _) {
       final isDark = Theme.of(context).brightness == Brightness.dark;
+      final warmBg = isDark ? const Color(0xFF1A1714) : const Color(0xFFFAF5EE);
+      final warmSurface = isDark ? const Color(0xFF231F1B) : const Color(0xFFF5EDE0);
+      final accentColor = isDark ? const Color(0xFFD4B684) : const Color(0xFF8B6914);
       final scaffold = Theme(
         data: Theme.of(context).copyWith(
-          scaffoldBackgroundColor: isWish
-              ? (isDark ? const Color(0xFF1A1714) : const Color(0xFFFAF5EE))
-              : null,
+          scaffoldBackgroundColor: isWish ? warmBg : null,
+          appBarTheme: isWish ? AppBarTheme(
+            backgroundColor: warmSurface,
+            foregroundColor: Theme.of(context).colorScheme.onSurface,
+          ) : null,
         ),
         child: Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text(
-          isWish ? '想做的' : 'Todo',
-          style: isWish ? GoogleFonts.notoSerifSc() : null,
+        titleSpacing: 0,
+        title: SegmentedButton<TodoKind>(
+          multiSelectionEnabled: false,
+          emptySelectionAllowed: false,
+          selected: {provider.currentKind},
+          onSelectionChanged: (s) => provider.setKind(s.first),
+          style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.selected)) {
+                return isWish ? accentColor.withValues(alpha: 0.2) : Theme.of(context).colorScheme.secondaryContainer;
+              }
+              return Colors.transparent;
+            }),
+            foregroundColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.selected)) {
+                return isWish ? accentColor : Theme.of(context).colorScheme.onSecondaryContainer;
+              }
+              return Theme.of(context).colorScheme.onSurfaceVariant;
+            }),
+            visualDensity: VisualDensity.compact,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+          segments: [
+            ButtonSegment(
+              value: TodoKind.task,
+              icon: const Icon(Icons.checklist, size: 18),
+              label: Text('要做的 ${provider.countByKind(TodoKind.task)}'),
+            ),
+            ButtonSegment(
+              value: TodoKind.wish,
+              icon: const Icon(Icons.auto_awesome, size: 18),
+              label: Text('想做的 ${provider.countByKind(TodoKind.wish)}'),
+            ),
+          ],
         ),
         actions: const [SyncIcon()],
       ),
@@ -274,39 +310,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Wi
       body: GestureDetector(
         onTap: () => armedNotifier.value = null,
         behavior: HitTestBehavior.translucent,
-        child: Column(children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-            child: SegmentedButton<TodoKind>(
-              multiSelectionEnabled: false,
-              emptySelectionAllowed: false,
-              selected: {provider.currentKind},
-              onSelectionChanged: (s) => provider.setKind(s.first),
-              segments: [
-                ButtonSegment(
-                  value: TodoKind.task,
-                  icon: const Icon(Icons.checklist),
-                  label: Row(mainAxisSize: MainAxisSize.min, children: [
-                    const Text('要做的'),
-                    const SizedBox(width: 4),
-                    Text('${provider.countByKind(TodoKind.task)}',
-                        style: TextStyle(fontSize: 11, color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5))),
-                  ]),
-                ),
-                ButtonSegment(
-                  value: TodoKind.wish,
-                  icon: const Icon(Icons.auto_awesome),
-                  label: Row(mainAxisSize: MainAxisSize.min, children: [
-                    const Text('想做的'),
-                    const SizedBox(width: 4),
-                    Text('${provider.countByKind(TodoKind.wish)}',
-                        style: TextStyle(fontSize: 11, color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5))),
-                  ]),
-                ),
-              ],
-            ),
-          ),
-          Expanded(child: todos.isEmpty
+        child: todos.isEmpty
           ? Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -358,8 +362,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Wi
                 return TodoItem(key: ValueKey(todo.id), todo: todo, index: index);
               },
             )),
-      ),
-        ]),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => showTodoEditSheet(context),
