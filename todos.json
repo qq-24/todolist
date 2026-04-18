@@ -1,0 +1,1501 @@
+{
+  "version": 1,
+  "updatedAt": "2026-04-18T20:10:59.128119",
+  "todos": [
+    {
+      "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
+      "title": "胸前抱着胳膊，然后淋雨一直在头顶喷着，最后就会在胳膊和身体的缝隙沟里积水，再松开就会跟水库开闸，大瀑布一样就洒下去哈哈哈。跟又泡了一点点的浴缸一样",
+      "description": "何意味呢？",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 3,
+      "createdAt": "2026-03-25T22:54:16.254218",
+      "updatedAt": "2026-03-26T09:56:02.223916"
+    },
+    {
+      "id": "d45f4aff-a18f-4da8-897f-73f9f63450c7",
+      "title": "n",
+      "description": "",
+      "kind": "task",
+      "deadline": "2026-03-26T10:45:00.000",
+      "originalDeadlineDay": 26,
+      "remind": true,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "once",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 5,
+      "createdAt": "2026-03-26T10:00:15.153088",
+      "updatedAt": "2026-03-26T10:59:36.981763"
+    },
+    {
+      "id": "7324ec07-5c75-47df-a95d-d2e3023be07a",
+      "title": "现在依旧是锁屏弹窗看不到内容。而且，这个todo输入框直接不干了，不自动抬升到键盘顶部之上了",
+      "description": "还有就是main的这个快速审查还是做的不够,经常不干.\n而且",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 6,
+      "createdAt": "2026-03-26T10:45:21.425515",
+      "updatedAt": "2026-03-27T08:39:24.666460"
+    },
+    {
+      "id": "448db0e0-4354-4ed7-83cc-3e66b73194c7",
+      "title": "小部件快捷开始专注，有可能说什么专注已在运行中，然后拒绝开始，还要再点遍才能真开始。",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 7,
+      "createdAt": "2026-03-26T11:07:28.921793",
+      "updatedAt": "2026-04-15T10:17:51.660439"
+    },
+    {
+      "id": "02cea9d3-e3a7-462f-a867-360a4f4712de",
+      "title": "何意味",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 8,
+      "createdAt": "2026-03-26T12:58:14.380390",
+      "updatedAt": "2026-03-26T16:25:16.280310"
+    },
+    {
+      "id": "a4794c5d-e822-4571-b58a-b96117947f79",
+      "title": "改一下默认窗口大小,改为一个类似手机的,16/9的,应该就好多了吧.多出来的两侧反正也是浪费.可能就允许全屏只不过默认状态只给按比例缩放不给长宽单独调整?",
+      "description": "",
+      "kind": "task",
+      "deadline": "2026-03-27T13:30:00.000",
+      "originalDeadlineDay": 27,
+      "remind": true,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 9,
+      "createdAt": "2026-03-26T13:05:33.293879",
+      "updatedAt": "2026-03-27T08:39:49.626273"
+    },
+    {
+      "id": "e2a6e779-0a64-4949-ace3-0d9a884e1f52",
+      "title": "0",
+      "description": "0",
+      "kind": "task",
+      "deadline": "2026-03-26T15:45:00.000",
+      "originalDeadlineDay": 26,
+      "remind": true,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 10,
+      "createdAt": "2026-03-26T15:39:49.387306",
+      "updatedAt": "2026-03-26T16:21:43.297426"
+    },
+    {
+      "id": "f0ce6767-08df-40cd-aa49-8ded6af3ecbe",
+      "title": "何意味!",
+      "description": "0",
+      "kind": "task",
+      "deadline": "2026-03-25T15:45:00.000",
+      "originalDeadlineDay": 25,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 11,
+      "createdAt": "2026-03-26T16:22:15.651380",
+      "updatedAt": "2026-03-26T16:22:35.893158"
+    },
+    {
+      "id": "ce123bda-fe43-4777-850c-efdf58a3b41d",
+      "title": "何意味!",
+      "description": "0",
+      "kind": "task",
+      "deadline": "2026-05-21T15:45:00.000",
+      "originalDeadlineDay": 21,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 12,
+      "createdAt": "2026-03-26T16:22:26.596663",
+      "updatedAt": "2026-03-26T16:22:34.688476"
+    },
+    {
+      "id": "326dbdad-dee5-4c48-af2e-594c1d1817fd",
+      "title": "何意味ces",
+      "description": "",
+      "kind": "task",
+      "deadline": "2026-03-26T16:30:00.000",
+      "originalDeadlineDay": 26,
+      "remind": true,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 13,
+      "createdAt": "2026-03-26T16:25:43.915738",
+      "updatedAt": "2026-03-26T16:34:15.877054"
+    },
+    {
+      "id": "3b0f5a9d-f97c-45d2-9485-50c106f358c6",
+      "title": "测试",
+      "description": "",
+      "kind": "task",
+      "deadline": "2026-03-27T09:00:00.000",
+      "originalDeadlineDay": 27,
+      "remind": true,
+      "reminderAdvances": [
+        "atTime",
+        "min15"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 14,
+      "createdAt": "2026-03-26T17:55:17.746380",
+      "updatedAt": "2026-03-27T08:45:10.163224"
+    },
+    {
+      "id": "5c9e980e-b3b4-44cd-897e-a31d3a2e5846",
+      "title": "启动飞机",
+      "description": "",
+      "kind": "task",
+      "deadline": "2026-03-27T08:00:00.000",
+      "originalDeadlineDay": 27,
+      "remind": true,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 15,
+      "createdAt": "2026-03-26T23:15:28.780994",
+      "updatedAt": "2026-03-27T08:00:17.554869"
+    },
+    {
+      "id": "e77f2f14-b9f5-48f5-a791-992a6e4c8175",
+      "title": "测试",
+      "description": "",
+      "kind": "task",
+      "deadline": "2026-03-27T09:30:00.000",
+      "originalDeadlineDay": 27,
+      "remind": true,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 16,
+      "createdAt": "2026-03-27T09:17:48.787496",
+      "updatedAt": "2026-03-27T09:43:32.385209"
+    },
+    {
+      "id": "9e3e676d-34a5-4cce-acc4-7aa74b349c17",
+      "title": "测试",
+      "description": "",
+      "kind": "task",
+      "deadline": "2026-03-27T10:48:00.000",
+      "originalDeadlineDay": 27,
+      "remind": true,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 17,
+      "createdAt": "2026-03-27T09:43:48.731055",
+      "updatedAt": "2026-03-27T10:48:02.959554"
+    },
+    {
+      "id": "973e4ad7-5977-4c1e-952d-d5a5853e42e1",
+      "title": "你好",
+      "description": "0",
+      "kind": "task",
+      "deadline": "2026-03-27T12:20:00.000",
+      "originalDeadlineDay": 27,
+      "remind": true,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 18,
+      "createdAt": "2026-03-27T12:18:51.224764",
+      "updatedAt": "2026-03-27T12:20:03.827199"
+    },
+    {
+      "id": "75e7e357-240a-4f3b-ad76-5ff57e3c0b16",
+      "title": "如何去学一学？",
+      "description": "要有先看看总览大概吗？为什么感觉还需要？\n还有什么需要？\n现在就是没什么",
+      "kind": "task",
+      "deadline": "2026-03-28T18:49:00.000",
+      "originalDeadlineDay": 27,
+      "remind": true,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 19,
+      "createdAt": "2026-03-27T16:08:21.110440",
+      "updatedAt": "2026-03-28T15:27:00.062550"
+    },
+    {
+      "id": "5c12d232-8247-428b-83d3-fe86fcc607a0",
+      "title": "网易云播放器bug",
+      "description": "软件直接重启。就是最开始它突然意外结束了，可能是手机没电关机了吧。然后呢我再开，发现播放列表是恢复了，但只恢复一首，就是我当时在播放的那首，就很奇怪。",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 20,
+      "createdAt": "2026-03-28T10:43:44.404827",
+      "updatedAt": "2026-03-28T17:56:56.048721"
+    },
+    {
+      "id": "3b38e3d6-b0ec-413c-8c38-0039384035cd",
+      "title": "地图记录软件",
+      "description": "我直接关机或者说终止它。把这个记录直接终止了，数据全都没有了，记录全都不保存。\n不要光给它制作一个骑行的东西，我想要它能记录很长时间，然后频率要能更低一点。",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 21,
+      "createdAt": "2026-03-28T11:43:09.780009",
+      "updatedAt": "2026-03-28T17:02:05.739304"
+    },
+    {
+      "id": "1e440459-3591-44d4-8b77-ce65d0902ac4",
+      "title": "todo",
+      "description": "任务已经添加完了，但是保留着草稿。",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 22,
+      "createdAt": "2026-03-28T11:43:27.030635",
+      "updatedAt": "2026-03-28T16:39:20.308735"
+    },
+    {
+      "id": "8225274d-0ed7-415e-807f-12c587b5b552",
+      "title": "autodl续费机器",
+      "description": "",
+      "kind": "task",
+      "deadline": "2026-04-04T18:26:00.000",
+      "originalDeadlineDay": 28,
+      "remind": true,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "weekly",
+      "completed": false,
+      "sortIndex": 23,
+      "createdAt": "2026-03-28T15:26:50.095194",
+      "updatedAt": "2026-03-28T17:57:03.106022"
+    },
+    {
+      "id": "1d04f0d8-54d6-4fa1-a645-4ad2ccd3a1be",
+      "title": "何意味",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 24,
+      "createdAt": "2026-03-28T17:56:10.993330",
+      "updatedAt": "2026-03-28T18:00:27.668944"
+    },
+    {
+      "id": "dce4503d-c6b4-40e9-9839-029239a99a57",
+      "title": "什么叫17小时释放的没有警告,5天释放的是橙色警告?太奇怪了.改.然后原本应该有的,释放前预警,完全没效果.我没收到.看看怎么回事?能不能改,怎么改?",
+      "description": "D:\\mingh\\Documents\\ssh_port_forwarder\\autodl启动器",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": 27,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 25,
+      "createdAt": "2026-03-28T18:00:35.370961",
+      "updatedAt": "2026-03-28T21:26:56.465092"
+    },
+    {
+      "id": "383425ff-67e0-409a-8401-0a335772b2f4",
+      "title": "1",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 26,
+      "createdAt": "2026-03-28T18:00:49.244513",
+      "updatedAt": "2026-03-28T21:28:30.472474"
+    },
+    {
+      "id": "dfd0ebf8-7619-474a-a002-fc5a966ccaa5",
+      "title": "不会完成的任务根本不需要列出来。",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 27,
+      "createdAt": "2026-03-28T18:19:48.301072",
+      "updatedAt": "2026-03-28T18:19:48.301072"
+    },
+    {
+      "id": "e1f7dec6-ee10-4a8c-b7cf-c30fd10315e2",
+      "title": "看看如何解决爷爷奶奶用手机的问题？",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 28,
+      "createdAt": "2026-03-28T18:20:03.213437",
+      "updatedAt": "2026-03-28T18:20:03.213437"
+    },
+    {
+      "id": "c44e0c25-f0d8-4eb3-b646-0bd1c1477687",
+      "title": "记一下日记",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 29,
+      "createdAt": "2026-03-28T18:21:25.707873",
+      "updatedAt": "2026-03-28T18:21:25.707874"
+    },
+    {
+      "id": "c0839517-be7a-4cb6-a2f6-9e752a082bac",
+      "title": "写一下周记，看看时间都去哪里了",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 30,
+      "createdAt": "2026-03-28T18:21:36.015011",
+      "updatedAt": "2026-03-28T18:21:36.015012"
+    },
+    {
+      "id": "4c7948d9-ef75-4ec8-b6c5-2b7d22d14853",
+      "title": "这个地图导入的时候，能不能导入方法更多一点啊？就比如说我能不能就选今天的？虽然现在直接选也行。",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 31,
+      "createdAt": "2026-03-28T18:22:49.795711",
+      "updatedAt": "2026-03-28T18:22:49.795711"
+    },
+    {
+      "id": "7bb16412-19c0-458c-9f06-71f6f25148d1",
+      "title": "同步失败以后，那个红色感叹号出来了以后，应该在下次做操作之前，持续在这个菜单栏，那个同步状态，比如说现在显示什么，几时几分同步，那直接显示一个错误的原因。因为它那不能换行，一行字就得显示完，所以需要简洁明了。",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 32,
+      "createdAt": "2026-03-28T18:23:40.730512",
+      "updatedAt": "2026-03-28T18:23:40.730514"
+    },
+    {
+      "id": "ef35a038-3ae2-41f0-80cc-b75c1911b826",
+      "title": "没想起来要让他们把新毛巾带来hhh下周就放假了",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 33,
+      "createdAt": "2026-03-28T18:29:39.419298",
+      "updatedAt": "2026-03-28T18:29:39.419299"
+    },
+    {
+      "id": "821d693f-b289-4a0b-b758-58e51eea10f5",
+      "title": "关于发展的问题，一直啥也不增加肯定是不行，虽然是焦虑，但什么也不干确实焦虑，别人都变我不变那多少有点诡异了，",
+      "description": "至少看一下我都干什么去了",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 34,
+      "createdAt": "2026-03-28T18:43:37.442303",
+      "updatedAt": "2026-03-28T18:43:59.880120"
+    },
+    {
+      "id": "253bc333-a9a9-4dfe-85e4-c68995b597ac",
+      "title": "111",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 35,
+      "createdAt": "2026-03-28T21:27:24.771131",
+      "updatedAt": "2026-03-28T21:28:26.890841"
+    },
+    {
+      "id": "754095cd-18c3-4d33-8392-27b9e379b2d8",
+      "title": "释放预警没来.为什么,怎么修?然后,凭什么17小时释放的是普通字,五天释放的是橙色字?",
+      "description": "D:\\mingh\\Documents\\ssh_port_forwarder\\autodl启动器",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 36,
+      "createdAt": "2026-03-28T21:28:24.145535",
+      "updatedAt": "2026-03-28T21:28:24.145535"
+    },
+    {
+      "id": "2972a45f-fa86-4ea4-9b38-087fb689f9ca",
+      "title": "看一下这个手机天气预报软件.下雨刮风都要预报",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 37,
+      "createdAt": "2026-03-31T08:12:12.325839",
+      "updatedAt": "2026-03-31T10:44:40.720496"
+    },
+    {
+      "id": "4510b357-7293-425e-b670-199f663ebb3f",
+      "title": "是不是应该允许什么也不选？合不合理？而且能不能给这什么已选定除外直接改名，别绕",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 38,
+      "createdAt": "2026-03-31T10:44:06.779441",
+      "updatedAt": "2026-04-10T10:36:02.675376"
+    },
+    {
+      "id": "aaf56278-8275-44f1-a9d8-c57e338cf740",
+      "title": "看看都要带回家什么",
+      "description": "抹药\n洗衣服\n书\n-eda\n-数据结构\n-电路\n-概率论\n-单片机\n平板\n电脑手机充电\n身份证卡什么的",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 39,
+      "createdAt": "2026-04-02T11:31:36.215471",
+      "updatedAt": "2026-04-10T10:34:03.026962"
+    },
+    {
+      "id": "cc3ac1c5-5bd1-4997-b5ec-4b601699c00f",
+      "title": "输入法",
+      "description": "看看为什么，性能好像已经加强很多了，但问题又变成候选里根本出不来llm生成的内容了？为什么？怎么解决？",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 40,
+      "createdAt": "2026-04-02T11:37:53.700933",
+      "updatedAt": "2026-04-02T19:34:12.819151"
+    },
+    {
+      "id": "167e2973-9e1c-4e8f-9ab7-2777266e15e0",
+      "title": "给单片机的这个实验作业，看看到哪了，好像是什么中断。",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 41,
+      "createdAt": "2026-04-02T19:34:02.034336",
+      "updatedAt": "2026-04-02T19:34:02.034336"
+    },
+    {
+      "id": "db32ed9f-555b-4dbb-bd1c-8dedd1bc16f8",
+      "title": "可能真该去给这个笔记本清个灰了.太脏了散热也差.",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 42,
+      "createdAt": "2026-04-03T17:12:37.171093",
+      "updatedAt": "2026-04-03T17:12:37.171093"
+    },
+    {
+      "id": "d8b1cd78-9d94-4d22-837e-d41410ab26ec",
+      "title": "带个刷子来学校洗鞋",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 43,
+      "createdAt": "2026-04-03T17:52:10.913215",
+      "updatedAt": "2026-04-03T17:52:10.913216"
+    },
+    {
+      "id": "a2234877-0b19-44b5-bf6b-926513a36979",
+      "title": "菜鸟驿站取快递，数据线",
+      "description": "",
+      "kind": "task",
+      "deadline": "2026-04-20T12:37:00.000",
+      "originalDeadlineDay": 20,
+      "remind": true,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 44,
+      "createdAt": "2026-04-05T12:38:08.184823",
+      "updatedAt": "2026-04-17T19:15:29.007723"
+    },
+    {
+      "id": "58f00977-976d-4815-a229-5d5cb6f49fbe",
+      "title": "定位软件分析，能不能和电脑版合并信息。直接自动同步？也用adb？或者扫个码连什么的？反正给手机记录轨迹直接同步上去。另外给手机版也做一个能看轨迹和点的页面？用现有软件还是新建？用现有的吧。",
+      "description": "然后现有通知没有做到自动消除，我都停止了，之前暂停的通知，正在进行的通知都还留着。太蠢了。\n\n然后那个电脑版轨迹图，旅行范围，实际上就是混了一大堆在一起，如果我在一个地方停留很久很久，他就很多旅程区域重叠，那周边都亮成超新星爆发了。\n\n而且他记录结束也不给我自动停止定位，至少我看系统提示是这样的。我也不知道",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 45,
+      "createdAt": "2026-04-07T15:25:12.767228",
+      "updatedAt": "2026-04-08T00:24:25.902156"
+    },
+    {
+      "id": "e59166a7-e5fb-4930-8821-d199610c3e49",
+      "title": "现有音频，如何用某种方式找到它到底对应什么曲子？我觉得可能是某种经典的音乐但也不一定。难道我先转成语义？直接识别音频的模型？现在数据库真的有这个吗我都不确定。网易云找到的只有一个结果还是一个感觉像营销号的东西发的，还无人问津。",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 46,
+      "createdAt": "2026-04-08T00:27:04.415698",
+      "updatedAt": "2026-04-08T00:27:04.415700"
+    },
+    {
+      "id": "3b73ba77-e5f4-4acf-bf09-0d0e7884ce60",
+      "title": "加一个连续用多久就禁用一段时间的功能，然后呢可设置两个时间，",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 47,
+      "createdAt": "2026-04-10T10:01:55.072140",
+      "updatedAt": "2026-04-10T10:34:31.849123"
+    },
+    {
+      "id": "f6afb419-82f5-4df8-8483-709dc5621259",
+      "title": "我说了我要去京都他还是反复给我推荐我在的地方的",
+      "description": "对话里就反复让我去本地玩\n很蠢你知道吗，限死了，那还有智商，好好的模型搞成傻子了",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 48,
+      "createdAt": "2026-04-12T12:33:33.916704",
+      "updatedAt": "2026-04-12T20:04:13.974157"
+    },
+    {
+      "id": "2b20f65f-1cd9-45c5-952c-f262397e648d",
+      "title": "提升版req设计方法？",
+      "description": "是不是应该让这个写计划书的 Agent 先把计划写好，功能写好，交互写好。\n然后呢，可以让他用某种方式，比如说写个小网页、小前端，把交互啊、外观呢、UI 设计给我演示好了。这样的话是不是就把我需要的、我会用到的，这全都想好了、设计好了，然后再开始去执行？\n也就是说不止原来那个 requirements、design、task。",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 49,
+      "createdAt": "2026-04-12T13:08:33.498812",
+      "updatedAt": "2026-04-17T22:27:57.173102"
+    },
+    {
+      "id": "db8a9b87-5c2f-453f-be51-c2cdce067688",
+      "title": "做一个桌面的，提示",
+      "description": "就像，能提示每天晚上写个什么东西的。搞个管家给我添加日程也行，提醒的时候他走了亲自来提醒",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 50,
+      "createdAt": "2026-04-12T13:11:17.543722",
+      "updatedAt": "2026-04-12T13:11:17.543722"
+    },
+    {
+      "id": "b8fec8e7-7cba-481b-a3fe-ce33f0a01c31",
+      "title": "可选是否启用点赞自动下载，自动关注，两个",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 51,
+      "createdAt": "2026-04-12T15:35:22.975976",
+      "updatedAt": "2026-04-13T18:52:28.190981"
+    },
+    {
+      "id": "b4b65954-a421-4d7a-9558-ec09b83c3d61",
+      "title": "把固态上的那个原文件模型删了.",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 52,
+      "createdAt": "2026-04-12T22:17:38.951768",
+      "updatedAt": "2026-04-12T23:31:36.989754"
+    },
+    {
+      "id": "cbb41f31-b6c0-48a7-b800-eef8cfd221d3",
+      "title": "停了记录他还在记速度，定位。通知也没消除。他自动暂停没有消除之前的通知。比如我恢复记录没把自动暂停通知消除。",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 53,
+      "createdAt": "2026-04-13T07:49:31.343999",
+      "updatedAt": "2026-04-13T18:52:26.720515"
+    },
+    {
+      "id": "236af08c-bb37-4644-8326-8199ba1b8b2c",
+      "title": "强制让这个输入法一直显示一直在输入状态，自动发送调整到设置内，原位置替换为这个功能的开关",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 54,
+      "createdAt": "2026-04-13T09:23:46.485458",
+      "updatedAt": "2026-04-13T18:52:24.256989"
+    },
+    {
+      "id": "80408602-aa7a-49ba-86cd-fb85df7b3dc0",
+      "title": "预处理更好，研究一下怎么更好。然后识别计算能不能更快？用上 GPU 或者 CPU 是不是更快？",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 55,
+      "createdAt": "2026-04-13T17:59:45.992898",
+      "updatedAt": "2026-04-17T22:27:40.081972"
+    },
+    {
+      "id": "2cb2ce09-deff-4c1a-8d10-a32d36a9b182",
+      "title": "然后看一下agent配置里面现在有没有矛盾的。然后能提取出来当技能的、skills 的都提取出来，而且这个 Hook 是不是现在也没用啊？而且,memory现在好像是完全失效的?完全无效啊?虽然也可能他不知道吧.我问他记忆里有没有,他去直接读?什么情况.不是默认加载?还是说加载了但他不知道那是记忆?",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 56,
+      "createdAt": "2026-04-13T18:00:21.089615",
+      "updatedAt": "2026-04-13T19:16:54.578435"
+    },
+    {
+      "id": "4b8acaf8-af2a-408a-a6a2-87b78e0c17d8",
+      "title": "首先电脑和手机的自动禁用要更强更稳定,现在无障碍老是容易崩溃",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 57,
+      "createdAt": "2026-04-14T07:45:54.576353",
+      "updatedAt": "2026-04-14T09:34:32.413508"
+    },
+    {
+      "id": "e0202b4c-77d3-4e6a-97a6-fb12913dd3b0",
+      "title": "继续提取这个语音小模型？",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 58,
+      "createdAt": "2026-04-14T07:46:19.693662",
+      "updatedAt": "2026-04-16T21:42:06.307211"
+    },
+    {
+      "id": "55ecf231-d202-47c8-8e50-02c302701afb",
+      "title": "根本没有去读projectmd文档.这应该是一个很重要,强制做的事的.虽然也可能是根本没记这个吧.为什么没有?还能压根不知道这个紫色拉环是什么东西的?",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 59,
+      "createdAt": "2026-04-14T14:11:09.684071",
+      "updatedAt": "2026-04-16T21:41:54.861921"
+    },
+    {
+      "id": "3fc1ed06-5e23-4a3d-b865-c16304e3d2c3",
+      "title": "而且能不能别再任何地方瞎写文档?临时文件也别乱搞啊我还得收拾.让他统一放进项目目录下!",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 60,
+      "createdAt": "2026-04-14T14:12:11.285140",
+      "updatedAt": "2026-04-16T21:42:02.948147"
+    },
+    {
+      "id": "8230503c-bf6f-487c-a8fd-96c3a46d8752",
+      "title": "依旧还是经常发生只调一个子代理的情况.不觉得这跟干等或者自己做没有区别吗?",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 61,
+      "createdAt": "2026-04-14T14:18:58.186602",
+      "updatedAt": "2026-04-16T21:41:56.963586"
+    },
+    {
+      "id": "b221b641-315a-4e56-b478-aa2fbacf58fa",
+      "title": "清单",
+      "description": "洗鞋\n修电脑版夜间软件\n整理上海\n随便写写大连,云南,春天两个小山\n串一串\n什么形式比较好呢?\n写作业笔记",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 62,
+      "createdAt": "2026-04-14T14:23:47.734397",
+      "updatedAt": "2026-04-14T14:23:47.734397"
+    },
+    {
+      "id": "041fae94-48f3-4ad7-b5e2-7e4a8e3da24d",
+      "title": "试试这个get shit down说是能连续干",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 63,
+      "createdAt": "2026-04-15T07:23:26.629516",
+      "updatedAt": "2026-04-18T15:51:13.879896"
+    },
+    {
+      "id": "6955689c-f421-4f51-a54c-70d133e1cd92",
+      "title": "长时间休息要在休息开始时额外弹个通知别让人不知道什么情况。简洁一点就行了。另外现在他很莫名其妙就认为无障碍没了，但我一看实际上还有。太差了。",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 64,
+      "createdAt": "2026-04-15T09:29:59.646761",
+      "updatedAt": "2026-04-15T10:15:15.619524"
+    },
+    {
+      "id": "a0dced0f-d4e6-4b6b-91dc-a294417ad6ac",
+      "title": "锁机，要有暗示明示，要有很明确的动画奖励",
+      "description": "然后定时任务要有个模式选项是，可以让人选择是不是开始，和默认的直接强制有区别。\n然后选择开始也要一样的告诉用户，没亏什么，赚了\n没少吃少喝，错过不了什么。",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 65,
+      "createdAt": "2026-04-16T10:14:44.837957",
+      "updatedAt": "2026-04-16T21:42:08.738456"
+    },
+    {
+      "id": "a8dd082b-4c5a-4fe4-8591-e718d66c8a0b",
+      "title": "加个专门看记录，总结通用的，强调的有意义的东西，总结并加入文档。我是说那种不同任务都需要的，广泛的共通的要求。",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 66,
+      "createdAt": "2026-04-16T10:16:12.180585",
+      "updatedAt": "2026-04-16T10:16:12.180586"
+    },
+    {
+      "id": "7e47d43e-7328-410e-b3af-c1f14e1ae6e0",
+      "title": "搜索deepresearch qwen30b int4就好了",
+      "description": "搜一下喷头到底怎么做到的破解\n\n子代理？量化kv？",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 67,
+      "createdAt": "2026-04-16T10:17:00.633197",
+      "updatedAt": "2026-04-18T15:51:08.301926"
+    },
+    {
+      "id": "cf3de672-69e9-45e7-ad5f-c734d9ab6a47",
+      "title": "Claude直接去生图写漫画之类的给我看？用我喜欢的画风？行吗？",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 68,
+      "createdAt": "2026-04-16T10:18:06.532894",
+      "updatedAt": "2026-04-16T10:18:06.532896"
+    },
+    {
+      "id": "1a7ae619-b9a2-4c25-9708-471049bd27e8",
+      "title": "去练lora？就用我喜欢的这个图，用anima练Lora？行不行？多少图？能不能又快又少图，又高质量通用，不影响出图效果？打标签这么做？",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 69,
+      "createdAt": "2026-04-16T10:19:04.431198",
+      "updatedAt": "2026-04-16T14:41:24.908513"
+    },
+    {
+      "id": "17842f9f-200c-4209-a33f-1e46705f561b",
+      "title": "并且,全部新加大型功能多层次多方面影响的，都需要coordinator先讨论先设计。写好spec文档。详细。模仿官方spec。",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 70,
+      "createdAt": "2026-04-16T10:21:44.174895",
+      "updatedAt": "2026-04-16T14:20:54.808653"
+    },
+    {
+      "id": "478ae0ab-fc7e-4537-a2a7-3d8ef0900ab3",
+      "title": "先总结一下现有对话工作记录。先提取一下有意义的",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 71,
+      "createdAt": "2026-04-16T10:22:01.924300",
+      "updatedAt": "2026-04-16T14:03:21.559211"
+    },
+    {
+      "id": "98981dcf-54d0-4c61-97f6-9a24a0884126",
+      "title": "概率论有章测题在另一个课程里面得做.",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 72,
+      "createdAt": "2026-04-16T19:23:34.085865",
+      "updatedAt": "2026-04-16T19:23:34.085865"
+    },
+    {
+      "id": "d27330cb-fca9-4494-b4bc-a65d93f2c30a",
+      "title": "还是有问题，如果我某种情况下，可能是先开始了专注，然后呢开始计划自动专注了，然后专注结束了，居然自动专注也被结束了。太奇怪了。不知道为什么",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 73,
+      "createdAt": "2026-04-17T00:13:09.935661",
+      "updatedAt": "2026-04-17T22:25:53.046300"
+    },
+    {
+      "id": "50956be7-92e4-4a36-ac61-0528b16c0ec4",
+      "title": "然后，我确认开始专注，之后的动画不应该是需要点击才能结束啊。这个时候应该去干活而不是再看屏幕再点一次啊。。你好好想想。然后，结束之后，我过一会在亮屏，还是看不到任何弹出的内容，没有留下任何痕迹。",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 74,
+      "createdAt": "2026-04-17T00:16:44.613884",
+      "updatedAt": "2026-04-17T22:25:53.614384"
+    },
+    {
+      "id": "10a0197e-9b66-4664-b8cf-704538a4de13",
+      "title": "oled屏幕，能不能直接显示个黑色覆盖层，然后用某种方法来控制遮盖或者取消？",
+      "description": "安卓手机录视频，有没有可能做到，息屏也能去录像？手机系统的相机一旦息屏就直接停止了。自动模拟息屏得等三分钟，而且碰一下就又亮了，费劲。\n禁止搜索！你分析技术，我可以去做软件实现！",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 75,
+      "createdAt": "2026-04-17T15:30:24.660725",
+      "updatedAt": "2026-04-17T15:30:24.660726"
+    },
+    {
+      "id": "9c386d3e-f554-43a2-b4b3-40839858d30f",
+      "title": "测一下这个32gvgpu到底实际上是多少算力，写个py脚本一测就知道了。要能跟其他gpu比的。看看到底是什么级别，什么型号的？4080，4060，4090？5070？",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 76,
+      "createdAt": "2026-04-17T15:33:43.344254",
+      "updatedAt": "2026-04-17T17:36:29.154972"
+    },
+    {
+      "id": "517b6587-ae27-4795-907b-9dbd5ec16e69",
+      "title": "这个傻卵模型给要乐奈翻译成want 乐奈了气笑了",
+      "description": "试一下qianwen给的改版词",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 77,
+      "createdAt": "2026-04-17T16:33:21.183243",
+      "updatedAt": "2026-04-18T15:37:15.789399"
+    },
+    {
+      "id": "5b635f69-41a3-4d56-854e-94fac5e19996",
+      "title": "下节习思要收作业",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 78,
+      "createdAt": "2026-04-17T21:25:45.530824",
+      "updatedAt": "2026-04-18T15:31:38.905515"
+    },
+    {
+      "id": "0774fc4e-e0fb-4d25-880a-77ff45a60fbf",
+      "title": "还有个问题就是，我选中那个即将锁屏那个倒计时弹窗以后，它依旧是能直接@加F4关闭。这怎么行呢？这我给他不小心关了咋办呢？能不能屏蔽？我觉得是能的呀。给这边钩子一抓按键就没了",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 79,
+      "createdAt": "2026-04-17T23:28:31.556658",
+      "updatedAt": "2026-04-18T08:37:33.144741"
+    },
+    {
+      "id": "02ab1f98-9246-403b-9764-08f89a4e386c",
+      "title": "你好",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 81,
+      "createdAt": "2026-04-18T15:25:36.373394",
+      "updatedAt": "2026-04-18T15:25:37.636258"
+    },
+    {
+      "id": "d2cf9c90-65fb-4548-a3b7-87daa8a60a99",
+      "title": "先交定金",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 83,
+      "createdAt": "2026-04-18T15:25:48.172484",
+      "updatedAt": "2026-04-18T15:25:59.397678"
+    },
+    {
+      "id": "51ba0f96-7a4d-4927-a0e0-ca2df3d9e2f8",
+      "title": "1111",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": true,
+      "sortIndex": 84,
+      "createdAt": "2026-04-18T16:03:35.745849",
+      "updatedAt": "2026-04-18T17:34:49.131098"
+    },
+    {
+      "id": "4017383d-bd38-4231-9aa2-7d70a0e2fbdf",
+      "title": "生图-灰色短袖小女孩",
+      "description": "",
+      "kind": "wish",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 85,
+      "createdAt": "2026-04-18T17:35:00.016424",
+      "updatedAt": "2026-04-18T17:35:00.016424"
+    },
+    {
+      "id": "be97de67-44bf-482d-8d92-e9802c2c476f",
+      "title": "随便挑一个之前觉得还行的v4lora平衡点,生一批涩图,可以自己看可以发到pix",
+      "description": "",
+      "kind": "wish",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 86,
+      "createdAt": "2026-04-18T17:35:53.414383",
+      "updatedAt": "2026-04-18T17:35:53.414383"
+    },
+    {
+      "id": "3fdfe408-04d8-4204-896f-d8e818941359",
+      "title": "整理一下自己喜欢的那些风格特别的画师.现在有了画师学的超像的.可以搞一下了.有没有可能搞一个类似画廊的东西来收藏?就行电子摘抄本一样.不过好像Obsidian就够了?",
+      "description": "",
+      "kind": "wish",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 87,
+      "createdAt": "2026-04-18T17:41:15.318904",
+      "updatedAt": "2026-04-18T17:41:38.126905"
+    },
+    {
+      "id": "08a5a5a1-0ef1-4559-aa82-015f07256390",
+      "title": "整理下载目录的这个lora训练用的文件.要有效整理,别以后还找不到.怎么做?可以问问",
+      "description": "",
+      "kind": "wish",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 88,
+      "createdAt": "2026-04-18T20:10:59.128119",
+      "updatedAt": "2026-04-18T20:10:59.128119"
+    }
+  ]
+}
