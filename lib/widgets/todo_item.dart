@@ -436,7 +436,9 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
       builder: (context, child) {
         final bgColor = ColorTween(
           begin: Theme.of(context).scaffoldBackgroundColor,
-          end: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+          end: widget.todo.kind == TodoKind.wish
+              ? Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.85)
+              : colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
         ).evaluate(_fadeController);
         return Container(color: bgColor, child: child);
       },
