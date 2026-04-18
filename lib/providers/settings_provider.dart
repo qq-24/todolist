@@ -16,6 +16,9 @@ class SettingsProvider extends ChangeNotifier {
   bool _launchAtStartup = true;
   String _hotkey = 'alt+t';
   String _addTaskKey = 'space';
+  String _githubToken = '';
+  String _githubOwner = '';
+  String _githubRepo = '';
 
   ThemeMode get themeMode => _themeMode;
   SortMode get sortMode => _sortMode;
@@ -23,6 +26,10 @@ class SettingsProvider extends ChangeNotifier {
   bool get launchAtStartup => _launchAtStartup;
   String get hotkey => _hotkey;
   String get addTaskKey => _addTaskKey;
+  String get githubToken => _githubToken;
+  String get githubOwner => _githubOwner;
+  String get githubRepo => _githubRepo;
+  bool get isGithubConfigured => _githubToken.isNotEmpty && _githubOwner.isNotEmpty && _githubRepo.isNotEmpty;
 
   Future<void> init() async {
     final prefs = await SharedPreferences.getInstance();
@@ -39,6 +46,9 @@ class SettingsProvider extends ChangeNotifier {
     _hotkey = prefs.getString('hotkey') ?? 'alt+t';
     _addTaskKey = prefs.getString('add_task_key') ?? 'space';
     if (_addTaskKey != 'space' && _addTaskKey != 'enter') _addTaskKey = 'space';
+    _githubToken = prefs.getString('github_token') ?? '';
+    _githubOwner = prefs.getString('github_owner') ?? '';
+    _githubRepo = prefs.getString('github_repo') ?? '';
 
     // Windows: 初始化开机自启并同步注册表
     if (Platform.isWindows) {
@@ -116,5 +126,16 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('add_task_key', value);
+  }
+
+  Future<void> setGithubConfig({required String token, required String owner, required String repo}) async {
+    _githubToken = token;
+    _githubOwner = owner;
+    _githubRepo = repo;
+    notifyListeners();
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('github_token', token);
+    await prefs.setString('github_owner', owner);
+    await prefs.setString('github_repo', repo);
   }
 }

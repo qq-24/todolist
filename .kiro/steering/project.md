@@ -59,6 +59,7 @@ android/app/src/main/kotlin/com/mingh/todolist/
 - 在 WSL 中编辑代码和打包
 - Android 构建后用 adb.exe（不是 adb）安装到设备
 - Windows 构建用 cmd.exe /c "cd D:\mingh\Documents\todolist && flutter build windows --release"
+- Windows 构建前必须先单独跑 `cmd.exe /c "cd /d D:\mingh\Documents\todolist && dart pub get --no-precompile"`，否则 build 内嵌的 pub get 会因为 WSL→cmd.exe 管道问题卡死
 - 项目源码在 /home/mingh/todolist（WSL 侧）和 /mnt/d/mingh/Documents/todolist（Windows 侧映射）
 
 ## 开发日志

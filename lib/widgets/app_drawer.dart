@@ -84,6 +84,14 @@ class AppDrawer extends StatelessWidget {
               },
             ),
 
+            ListTile(
+              leading: const Icon(Icons.cloud_sync),
+              title: const Text('GitHub 同步配置'),
+              subtitle: Text(settings.isGithubConfigured ? '已配置' : '未配置',
+                style: TextStyle(color: settings.isGithubConfigured ? null : colorScheme.error)),
+              onTap: () => _showGithubConfigDialog(context, settings),
+            ),
+
             const Divider(indent: 16, endIndent: 16),
 
             // ── 排序方式 ──
@@ -257,5 +265,45 @@ void _showHotkeyRecorder(BuildContext context, SettingsProvider settings) {
         ],
       ));
     },
+  );
+}
+
+void _showGithubConfigDialog(BuildContext context, SettingsProvider settings) {
+  final tokenCtrl = TextEditingController(text: settings.githubToken);
+  final ownerCtrl = TextEditingController(text: settings.githubOwner);
+  final repoCtrl = TextEditingController(text: settings.githubRepo);
+
+  showDialog(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      title: const Text('GitHub 同步配置'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(controller: tokenCtrl, decoration: const InputDecoration(labelText: 'Personal Access Token', border: OutlineInputBorder()), obscureText: true),
+          const SizedBox(height: 12),
+          TextField(controller: ownerCtrl, decoration: const InputDecoration(labelText: 'Owner (用户名)', border: OutlineInputBorder())),
+          const SizedBox(height: 12),
+          TextField(controller: repoCtrl, decoration: const InputDecoration(labelText: 'Repo (仓库名)', border: OutlineInputBorder())),
+        ],
+      ),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('取消')),
+        FilledButton(
+          onPressed: () async {
+            await settings.setGithubConfig(
+              token: tokenCtrl.text.trim(),
+              owner: ownerCtrl.text.trim(),
+              repo: repoCtrl.text.trim(),
+            );
+            if (ctx.mounted) Navigator.pop(ctx);
+            if (settings.isGithubConfigured) {
+              context.read<TodoProvider>().sync();
+            }
+          },
+          child: const Text('保存'),
+        ),
+      ],
+    ),
   );
 }

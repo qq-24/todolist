@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-import '../config.dart';
+import '../config.dart' show githubFilePath;
 import '../models/todo.dart';
 
 /// 同步结果
@@ -41,21 +41,34 @@ class FetchResult {
 
 /// GitHub REST API 交互服务
 class GithubSyncService {
+  String _token = '';
+  String _owner = '';
+  String _repo = '';
+
+  void configure({required String token, required String owner, required String repo}) {
+    _token = token;
+    _owner = owner;
+    _repo = repo;
+  }
+
+  bool get isConfigured => _token.isNotEmpty && _owner.isNotEmpty && _repo.isNotEmpty;
+
   String? _lastSha;
 
   String? get lastSha => _lastSha;
 
   Map<String, String> get _headers => {
-    'Authorization': 'Bearer $githubToken',
+    'Authorization': 'Bearer $_token',
     'Accept': 'application/vnd.github+json',
     'X-GitHub-Api-Version': '2022-11-28',
   };
 
   String get _apiUrl =>
-      'https://api.github.com/repos/$githubOwner/$githubRepo/contents/$githubFilePath';
+      'https://api.github.com/repos/$_owner/$_repo/contents/$githubFilePath';
 
   /// 拉取远端数据
   Future<FetchResult> fetch() async {
+    if (!isConfigured) return FetchResult.failure('GitHub not configured');
     try {
       final response = await http.get(
         Uri.parse(_apiUrl),
@@ -86,6 +99,7 @@ class GithubSyncService {
 
   /// 推送数据到远端
   Future<SyncResult> push(TodoFile data, {String? sha}) async {
+    if (!isConfigured) return SyncResult.error('GitHub not configured');
     try {
       final content = base64Encode(utf8.encode(
           const JsonEncoder.withIndent('  ').convert(data.toJson())));
@@ -144,3 +158,4 @@ class GithubSyncService {
     return '网络错误: $e';
   }
 }
+

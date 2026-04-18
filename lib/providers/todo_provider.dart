@@ -40,7 +40,9 @@ class TodoProvider extends ChangeNotifier {
   TodoFile? _conflictRemoteData;
   String? _conflictRemoteSha;
 
-  TodoProvider(this._settings);
+  TodoProvider(this._settings) {
+    _settings.addListener(_onSettingsChanged);
+  }
 
   SyncStatus get syncStatus => _syncStatus;
   DateTime? get lastSyncTime => _lastSyncTime;
@@ -128,6 +130,14 @@ class TodoProvider extends ChangeNotifier {
     _debouncedSync();
   }
 
+  void _onSettingsChanged() {
+    _github.configure(
+      token: _settings.githubToken,
+      owner: _settings.githubOwner,
+      repo: _settings.githubRepo,
+    );
+  }
+
   /// 初始化：加载本地数据 + 自动同步
   Future<void> init() async {
     try {
@@ -141,6 +151,11 @@ class TodoProvider extends ChangeNotifier {
     } on Exception catch (e) {
       print('初始化本地数据失败: $e');
     }
+    _github.configure(
+      token: _settings.githubToken,
+      owner: _settings.githubOwner,
+      repo: _settings.githubRepo,
+    );
     await sync();
     await processPendingActions();
     // 每 30 秒轮询远端更新（有修改时临时切到 5 秒）
@@ -529,6 +544,7 @@ class TodoProvider extends ChangeNotifier {
 
   @override
   void dispose() {
+    _settings.removeListener(_onSettingsChanged);
     _successTimer?.cancel();
     _debounceTimer?.cancel();
     _pollTimer?.cancel();

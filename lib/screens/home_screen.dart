@@ -49,6 +49,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Wi
     if (Platform.isAndroid) {
       _checkAccessibility();
     }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final settings = context.read<SettingsProvider>();
+      if (!settings.isGithubConfigured) {
+        _showGithubSetupHint();
+      }
+    });
   }
 
   @override
@@ -232,6 +239,17 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Wi
   }
 
   String _fmtTime(DateTime t) => '${t.hour.toString().padLeft(2, '0')}:${t.minute.toString().padLeft(2, '0')}';
+
+  void _showGithubSetupHint() {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: const Text('GitHub 同步未配置，请在侧边栏设置'),
+      action: SnackBarAction(
+        label: '去配置',
+        onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+      ),
+      duration: const Duration(seconds: 5),
+    ));
+  }
 
   void _startDrawerAutoClose() {
     _drawerAutoCloseTimer = Timer(const Duration(milliseconds: 300), () {
