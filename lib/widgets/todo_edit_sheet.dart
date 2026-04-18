@@ -194,9 +194,20 @@ class _TodoEditSheetState extends State<TodoEditSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isWish = _kind == TodoKind.wish;
+    final accentColor = isDark ? const Color(0xFFD4B684) : const Color(0xFF8B6914);
+    final effectiveTheme = isWish ? Theme.of(context).copyWith(
+      colorScheme: Theme.of(context).colorScheme.copyWith(
+        primary: accentColor,
+        onPrimary: isDark ? const Color(0xFF1A1714) : Colors.white,
+      ),
+    ) : Theme.of(context);
+    final colorScheme = effectiveTheme.colorScheme;
 
-    return AnimatedPadding(
+    return Theme(
+      data: effectiveTheme,
+      child: AnimatedPadding(
       duration: const Duration(milliseconds: 100),
       padding: EdgeInsets.only(
         left: 24,
@@ -369,6 +380,7 @@ class _TodoEditSheetState extends State<TodoEditSheet> {
           ),
         ],
       ),
+    ),
     );
   }
 }
