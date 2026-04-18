@@ -335,7 +335,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Wi
       ),
       drawer: const AppDrawer(),
       drawerEdgeDragWidth: armedId != null ? 0 : MediaQuery.of(context).size.width * 0.5,
-      body: GestureDetector(
+      body: Center(child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 600),
+        child: GestureDetector(
         onTap: () => armedNotifier.value = null,
         behavior: HitTestBehavior.translucent,
         child: todos.isEmpty
@@ -390,7 +392,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver, Wi
                 return TodoItem(key: ValueKey(todo.id), todo: todo, index: index);
               },
             )),
-      ),
+      ))),
       floatingActionButton: FloatingActionButton(
         onPressed: () => showTodoEditSheet(context),
         child: const Icon(Icons.add),
