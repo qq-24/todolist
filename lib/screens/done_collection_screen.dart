@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../models/todo.dart';
 import '../providers/todo_provider.dart';
@@ -22,16 +23,16 @@ class DoneCollectionScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: isDark ? const Color(0xFF1A1714) : const Color(0xFFFAF5EE),
       appBar: AppBar(
-        title: const Text('做过的', style: TextStyle(fontFamily: 'Noto Serif SC')),
+        title: Text('做过的', style: GoogleFonts.notoSerifSc()),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
       body: wishes.isEmpty
-          ? const Center(
+          ? Center(
               child: Text(
                 '还没有做过的想做的事\n去想做的里记下第一个吧',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontFamily: 'Noto Serif SC', fontSize: 16, height: 1.8),
+                style: GoogleFonts.notoSerifSc(fontSize: 16, height: 1.8),
               ),
             )
           : ListView.builder(
@@ -43,8 +44,7 @@ class DoneCollectionScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 8),
                     child: Text(
                       '这些年你悄悄做成了 ${wishes.length} 件自己想做的事',
-                      style: const TextStyle(
-                        fontFamily: 'Noto Serif SC',
+                      style: GoogleFonts.notoSerifSc(
                         fontSize: 20,
                         height: 1.6,
                       ),
@@ -68,7 +68,7 @@ class DoneCollectionScreen extends StatelessWidget {
                       ),
                     ),
                     ...items.map((w) => ListTile(
-                          title: Text(w.title, style: const TextStyle(fontFamily: 'Noto Serif SC')),
+                          title: Text(w.title, style: GoogleFonts.notoSerifSc()),
                           subtitle: Text(
                             '${w.updatedAt.month}/${w.updatedAt.day}'
                             '${w.description.isNotEmpty ? '  ${w.description}' : ''}',

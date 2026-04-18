@@ -33,7 +33,7 @@ class _TodoEditSheetState extends State<TodoEditSheet> {
   @override
   void initState() {
     super.initState();
-    _kind = widget.todo?.kind ?? TodoKind.task;
+    _kind = widget.todo?.kind ?? context.read<TodoProvider>().currentKind;
     _titleController = TextEditingController(text: widget.todo?.title ?? '');
     _descController =
         TextEditingController(text: widget.todo?.description ?? '');

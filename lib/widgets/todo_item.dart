@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../models/todo.dart';
@@ -132,12 +133,14 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
           _pendingComplete = false;
         });
       } else {
-        // 普通任务：勾选+划线动画后直接 toggleComplete，条目跳到已完成区
+        // 普通任务：勾选+划线动画后挤扁，再 toggleComplete，条目跳到已完成区
         Future.delayed(const Duration(milliseconds: 400), () {
-          if (mounted) {
+          if (!mounted) return;
+          _collapseController.reverse().then((_) {
+            if (!mounted) return;
             context.read<TodoProvider>().toggleComplete(todo.id);
-          }
-          // _pendingComplete 在 didUpdateWidget 中重置
+            _collapseController.value = 1.0;
+          });
         });
       }
     } else {
@@ -446,15 +449,21 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
             ),
             title: AnimatedDefaultTextStyle(
               duration: const Duration(milliseconds: 300),
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                decoration: _visualCompleted ? TextDecoration.lineThrough : null,
-                color: _visualCompleted
-                    ? colorScheme.onSurface.withValues(alpha: 0.5)
-                    : colorScheme.onSurface,
-                fontFamily: todo.kind == TodoKind.wish ? 'Noto Serif SC' : null,
-                fontSize: todo.kind == TodoKind.wish ? 16 : null,
-                height: todo.kind == TodoKind.wish ? 1.5 : null,
-              ),
+              style: todo.kind == TodoKind.wish
+                  ? GoogleFonts.notoSerifSc(
+                      decoration: _visualCompleted ? TextDecoration.lineThrough : null,
+                      color: _visualCompleted
+                          ? colorScheme.onSurface.withValues(alpha: 0.5)
+                          : colorScheme.onSurface,
+                      fontSize: 16,
+                      height: 1.5,
+                    )
+                  : Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      decoration: _visualCompleted ? TextDecoration.lineThrough : null,
+                      color: _visualCompleted
+                          ? colorScheme.onSurface.withValues(alpha: 0.5)
+                          : colorScheme.onSurface,
+                    ),
               child: Text(todo.title),
             ),
             subtitle: todo.kind != TodoKind.wish && todo.deadline != null
