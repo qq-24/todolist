@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-18T23:30:47.338859",
+  "updatedAt": "2026-04-19T14:46:26.751348",
   "todos": [
     {
       "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
@@ -1514,6 +1514,24 @@
       "sortIndex": 89,
       "createdAt": "2026-04-18T23:30:47.338796",
       "updatedAt": "2026-04-18T23:30:47.338797"
+    },
+    {
+      "id": "8a556e32-404d-4c2a-aac9-006e4f94da96",
+      "title": "李跳跳不是能做到直接划掉也能保持无障碍不死吗，为什么我做不到？看看他到底怎么做的？他没开源吗？那搜一下别人怎么做的？",
+      "description": "",
+      "kind": "wish",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 90,
+      "createdAt": "2026-04-19T14:46:26.751333",
+      "updatedAt": "2026-04-19T14:46:26.751334"
     }
   ]
 }
