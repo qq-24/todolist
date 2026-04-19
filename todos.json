@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-19T14:46:26.751348",
+  "updatedAt": "2026-04-19T21:48:29.741795",
   "todos": [
     {
       "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
@@ -1532,6 +1532,24 @@
       "sortIndex": 90,
       "createdAt": "2026-04-19T14:46:26.751333",
       "updatedAt": "2026-04-19T14:46:26.751334"
+    },
+    {
+      "id": "350311b7-3fcc-4881-a199-7aa8664fd68b",
+      "title": "1234567890",
+      "description": "干什么活成什么样我到底这么想怎么选，选的有用吗",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 91,
+      "createdAt": "2026-04-19T21:48:29.741701",
+      "updatedAt": "2026-04-19T21:48:29.741702"
     }
   ]
 }
