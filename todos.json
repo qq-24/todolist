@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-19T21:48:29.741795",
+  "updatedAt": "2026-04-20T08:01:16.217871",
   "todos": [
     {
       "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
@@ -1550,6 +1550,24 @@
       "sortIndex": 91,
       "createdAt": "2026-04-19T21:48:29.741701",
       "updatedAt": "2026-04-19T21:48:29.741702"
+    },
+    {
+      "id": "0f53b05a-0f1d-4250-8fa6-3b07297da2f6",
+      "title": "首先这个定位到地下就直接消失了不干了直接跳跃到下次出地面。看起来像我的那个精度丢弃设置根本没起作用。然后，设置项目没有实时生效，如果我已经开始了记录。我不知道为什么。",
+      "description": "",
+      "kind": "wish",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 92,
+      "createdAt": "2026-04-20T08:01:16.217854",
+      "updatedAt": "2026-04-20T08:01:16.217855"
     }
   ]
 }
