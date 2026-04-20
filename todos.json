@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-21T00:10:48.172736",
+  "updatedAt": "2026-04-21T00:11:14.812024",
   "todos": [
     {
       "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
@@ -1605,6 +1605,25 @@
       "sortIndex": 94,
       "createdAt": "2026-04-21T00:10:48.172704",
       "updatedAt": "2026-04-21T00:10:48.172705"
+    },
+    {
+      "id": "673a9ec4-4b0f-4377-b0cd-d863442e903a",
+      "title": "看方舟直播",
+      "description": "",
+      "kind": "task",
+      "deadline": "2026-04-25T18:10:00.000",
+      "originalDeadlineDay": 25,
+      "remind": true,
+      "reminderAdvances": [
+        "atTime",
+        "day1"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 95,
+      "createdAt": "2026-04-21T00:11:14.811998",
+      "updatedAt": "2026-04-21T00:11:14.811999"
     }
   ]
 }
