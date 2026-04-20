@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-20T15:01:12.553925",
+  "updatedAt": "2026-04-21T00:10:48.172736",
   "todos": [
     {
       "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
@@ -1586,6 +1586,25 @@
       "sortIndex": 93,
       "createdAt": "2026-04-20T15:00:58.996752",
       "updatedAt": "2026-04-20T15:00:58.996752"
+    },
+    {
+      "id": "cc69a785-dc22-4f87-b13d-211f0b6ae639",
+      "title": "该准备抢票了？",
+      "description": "",
+      "kind": "task",
+      "deadline": "2026-04-24T12:10:00.000",
+      "originalDeadlineDay": 24,
+      "remind": true,
+      "reminderAdvances": [
+        "atTime",
+        "day1"
+      ],
+      "vibrationMode": "once",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 94,
+      "createdAt": "2026-04-21T00:10:48.172704",
+      "updatedAt": "2026-04-21T00:10:48.172705"
     }
   ]
 }
