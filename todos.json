@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-20T13:34:23.837336",
+  "updatedAt": "2026-04-20T15:00:58.996752",
   "todos": [
     {
       "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
@@ -1568,6 +1568,24 @@
       "sortIndex": 92,
       "createdAt": "2026-04-20T08:01:16.217854",
       "updatedAt": "2026-04-20T08:01:16.217855"
+    },
+    {
+      "id": "eac44af2-747a-4e0c-b0dd-52f0892569e5",
+      "title": "继续写游记吧",
+      "description": "",
+      "kind": "wish",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 93,
+      "createdAt": "2026-04-20T15:00:58.996752",
+      "updatedAt": "2026-04-20T15:00:58.996752"
     }
   ]
 }
