@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-21T19:45:22.326309",
+  "updatedAt": "2026-04-21T23:35:22.877766",
   "todos": [
     {
       "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
@@ -1638,10 +1638,10 @@
       ],
       "vibrationMode": "continuous",
       "repeatMode": "none",
-      "completed": true,
+      "completed": false,
       "sortIndex": 96,
       "createdAt": "2026-04-21T13:29:49.608733",
-      "updatedAt": "2026-04-21T19:45:22.326309"
+      "updatedAt": "2026-04-21T13:29:49.608733"
     },
     {
       "id": "da65a0a8-6483-4084-b9b6-a9b7ca329be6",
@@ -1660,6 +1660,24 @@
       "sortIndex": 97,
       "createdAt": "2026-04-21T16:11:53.430215",
       "updatedAt": "2026-04-21T16:11:53.430215"
+    },
+    {
+      "id": "7a0e1ce1-527a-43ba-b3bb-330bf3161d25",
+      "title": "应该立即触发的没有触发，而且呢允许一下和正确一下，都应该有那个。允许选择零个应用啊，他如果没有进入选择，就直接想要完整设置，那确实可以阻止。但如果已经选了，尽量得选择页面，直接啥也不选，就确定，那确实应该允许通过。他就是选了0 个。无论是允许还是阻止都应该是吧",
+      "description": "",
+      "kind": "wish",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 98,
+      "createdAt": "2026-04-21T23:35:22.877657",
+      "updatedAt": "2026-04-21T23:35:22.877658"
     }
   ]
 }
