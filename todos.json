@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-21T13:29:49.608733",
+  "updatedAt": "2026-04-21T16:11:53.430215",
   "todos": [
     {
       "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
@@ -1642,6 +1642,24 @@
       "sortIndex": 96,
       "createdAt": "2026-04-21T13:29:49.608733",
       "updatedAt": "2026-04-21T13:29:49.608733"
+    },
+    {
+      "id": "da65a0a8-6483-4084-b9b6-a9b7ca329be6",
+      "title": "搞清楚到底要去哪些地方,然后就能去串起来看看具体行程了.然后到了一切定下来,23号抢完票微调一下可能就彻底定了.",
+      "description": "",
+      "kind": "wish",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 97,
+      "createdAt": "2026-04-21T16:11:53.430215",
+      "updatedAt": "2026-04-21T16:11:53.430215"
     }
   ]
 }
