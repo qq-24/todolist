@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-22T08:16:17.271457",
+  "updatedAt": "2026-04-22T09:55:01.675267",
   "todos": [
     {
       "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
@@ -1692,10 +1692,10 @@
       ],
       "vibrationMode": "continuous",
       "repeatMode": "none",
-      "completed": false,
+      "completed": true,
       "sortIndex": 99,
       "createdAt": "2026-04-22T08:04:28.139266",
-      "updatedAt": "2026-04-22T08:04:28.139266"
+      "updatedAt": "2026-04-22T09:55:01.675267"
     },
     {
       "id": "484d3bfe-4ad5-458a-8c4b-5dd43106e0a4",
