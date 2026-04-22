@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-22T08:04:28.139275",
+  "updatedAt": "2026-04-22T08:15:52.075521",
   "todos": [
     {
       "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
@@ -1696,6 +1696,24 @@
       "sortIndex": 99,
       "createdAt": "2026-04-22T08:04:28.139266",
       "updatedAt": "2026-04-22T08:04:28.139266"
+    },
+    {
+      "id": "484d3bfe-4ad5-458a-8c4b-5dd43106e0a4",
+      "title": "连续使用限时是不是应该放在管控栏里面？",
+      "description": "",
+      "kind": "wish",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 100,
+      "createdAt": "2026-04-22T08:15:52.065850",
+      "updatedAt": "2026-04-22T08:15:52.065850"
     }
   ]
 }
