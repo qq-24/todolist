@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-21T23:35:22.877766",
+  "updatedAt": "2026-04-22T08:04:28.139275",
   "todos": [
     {
       "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
@@ -1678,6 +1678,24 @@
       "sortIndex": 98,
       "createdAt": "2026-04-21T23:35:22.877657",
       "updatedAt": "2026-04-21T23:35:22.877658"
+    },
+    {
+      "id": "f0c95bee-fc94-4be7-bc21-537ab9090f23",
+      "title": "首先相应容易失败是什么情况？看一眼日志。另外，1m上下文没有搞出来？先在cc试试到底名字叫什么",
+      "description": "",
+      "kind": "wish",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 99,
+      "createdAt": "2026-04-22T08:04:28.139266",
+      "updatedAt": "2026-04-22T08:04:28.139266"
     }
   ]
 }
