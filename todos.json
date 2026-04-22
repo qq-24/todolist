@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-22T08:15:52.075521",
+  "updatedAt": "2026-04-22T08:16:17.271457",
   "todos": [
     {
       "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
@@ -1714,6 +1714,24 @@
       "sortIndex": 100,
       "createdAt": "2026-04-22T08:15:52.065850",
       "updatedAt": "2026-04-22T08:15:52.065850"
+    },
+    {
+      "id": "4ea4e49e-9d53-47c9-b036-40df918e561e",
+      "title": "有一个已经查到问题写到文档的可以修一下",
+      "description": "",
+      "kind": "wish",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 101,
+      "createdAt": "2026-04-22T08:16:17.271440",
+      "updatedAt": "2026-04-22T08:16:17.271441"
     }
   ]
 }
