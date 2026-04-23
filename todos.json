@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-23T13:16:20.088616",
+  "updatedAt": "2026-04-23T13:18:07.879154",
   "todos": [
     {
       "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
@@ -1746,10 +1746,10 @@
       ],
       "vibrationMode": "continuous",
       "repeatMode": "none",
-      "completed": false,
+      "completed": true,
       "sortIndex": 102,
       "createdAt": "2026-04-23T13:16:20.088616",
-      "updatedAt": "2026-04-23T13:16:20.088616"
+      "updatedAt": "2026-04-23T13:18:07.879154"
     }
   ]
 }
