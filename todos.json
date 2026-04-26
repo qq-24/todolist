@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-26T17:58:38.635257",
+  "updatedAt": "2026-04-26T18:04:50.947923",
   "todos": [
     {
       "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
@@ -1769,6 +1769,24 @@
       "sortIndex": 103,
       "createdAt": "2026-04-24T19:03:53.099661",
       "updatedAt": "2026-04-24T19:03:53.099662"
+    },
+    {
+      "id": "61f1c9d3-8432-4e36-a858-86e40790fe43",
+      "title": "把那个用 K 肉 API 来搜索的那个，这个功能直接合并到现在这个 DeepSeek 这个版本里面，省点事。",
+      "description": "先导出一下我喜欢什么\n\n然后让他研究还有什么可以看\n有什么可以优化",
+      "kind": "wish",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 104,
+      "createdAt": "2026-04-26T18:04:50.947780",
+      "updatedAt": "2026-04-26T18:04:50.947781"
     }
   ]
 }
