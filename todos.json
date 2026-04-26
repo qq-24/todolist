@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-26T22:58:17.982241",
+  "updatedAt": "2026-04-26T22:58:50.156728",
   "todos": [
     {
       "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
@@ -1787,6 +1787,24 @@
       "sortIndex": 104,
       "createdAt": "2026-04-26T18:04:50.947780",
       "updatedAt": "2026-04-26T22:58:17.982241"
+    },
+    {
+      "id": "e2d5fce3-3e83-46f1-a485-20dc5c5e548e",
+      "title": "微控制器,平时验收",
+      "description": "中断,\n定时器1s,\npwm波",
+      "kind": "wish",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 105,
+      "createdAt": "2026-04-26T22:58:50.156728",
+      "updatedAt": "2026-04-26T22:58:50.156728"
     }
   ]
 }
