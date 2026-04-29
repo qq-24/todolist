@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-29T20:20:23.713130",
+  "updatedAt": "2026-04-29T22:35:12.777092",
   "todos": [
     {
       "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
@@ -1783,10 +1783,10 @@
       ],
       "vibrationMode": "continuous",
       "repeatMode": "none",
-      "completed": true,
+      "completed": false,
       "sortIndex": 104,
       "createdAt": "2026-04-26T18:04:50.947780",
-      "updatedAt": "2026-04-29T20:20:23.713130"
+      "updatedAt": "2026-04-26T22:58:17.982241"
     },
     {
       "id": "e2d5fce3-3e83-46f1-a485-20dc5c5e548e",
@@ -1841,6 +1841,24 @@
       "sortIndex": 107,
       "createdAt": "2026-04-29T18:49:26.571577",
       "updatedAt": "2026-04-29T18:49:26.571577"
+    },
+    {
+      "id": "1c0bb8a7-a125-48b5-8167-f19cb742d82d",
+      "title": "打印习概作业，习概写电路作业",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 108,
+      "createdAt": "2026-04-29T22:35:12.777068",
+      "updatedAt": "2026-04-29T22:35:12.777069"
     }
   ]
 }
