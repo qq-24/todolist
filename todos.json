@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-29T22:35:12.777092",
+  "updatedAt": "2026-04-30T13:33:56.237674",
   "todos": [
     {
       "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
@@ -1859,6 +1859,24 @@
       "sortIndex": 108,
       "createdAt": "2026-04-29T22:35:12.777068",
       "updatedAt": "2026-04-29T22:35:12.777069"
+    },
+    {
+      "id": "40cfc64f-8f11-4fe2-9e41-86efef6edafe",
+      "title": "习近平七年支教岁月，还有第二十条，都是读后感",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 109,
+      "createdAt": "2026-04-30T13:33:56.237662",
+      "updatedAt": "2026-04-30T13:33:56.237662"
     }
   ]
 }
