@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-30T13:33:56.237674",
+  "updatedAt": "2026-04-30T13:36:15.372873",
   "todos": [
     {
       "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
@@ -1863,7 +1863,7 @@
     {
       "id": "40cfc64f-8f11-4fe2-9e41-86efef6edafe",
       "title": "习近平七年支教岁月，还有第二十条，都是读后感",
-      "description": "",
+      "description": "接电话近的时候习",
       "kind": "task",
       "deadline": null,
       "originalDeadlineDay": null,
@@ -1876,7 +1876,7 @@
       "completed": false,
       "sortIndex": 109,
       "createdAt": "2026-04-30T13:33:56.237662",
-      "updatedAt": "2026-04-30T13:33:56.237662"
+      "updatedAt": "2026-04-30T13:36:15.372869"
     }
   ]
 }
