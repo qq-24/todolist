@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-05T23:52:18.805980",
+  "updatedAt": "2026-05-05T23:52:33.607617",
   "todos": [
     {
       "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
@@ -1123,7 +1123,7 @@
       "id": "a8dd082b-4c5a-4fe4-8591-e718d66c8a0b",
       "title": "加个专门看记录，总结通用的，强调的有意义的东西，总结并加入文档。我是说那种不同任务都需要的，广泛的共通的要求。",
       "description": "",
-      "kind": "task",
+      "kind": "wish",
       "deadline": null,
       "originalDeadlineDay": null,
       "remind": false,
@@ -1135,7 +1135,7 @@
       "completed": false,
       "sortIndex": 66,
       "createdAt": "2026-04-16T10:16:12.180585",
-      "updatedAt": "2026-04-26T17:58:38.635255"
+      "updatedAt": "2026-05-05T23:52:33.607614"
     },
     {
       "id": "7e47d43e-7328-410e-b3af-c1f14e1ae6e0",
