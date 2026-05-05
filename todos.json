@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-05T23:51:50.879039",
+  "updatedAt": "2026-05-05T23:52:18.805980",
   "todos": [
     {
       "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
@@ -1913,6 +1913,24 @@
       "sortIndex": 111,
       "createdAt": "2026-05-05T19:19:29.163531",
       "updatedAt": "2026-05-05T19:19:29.163531"
+    },
+    {
+      "id": "e01e6a15-1eaa-4b87-882f-55816a4c8012",
+      "title": "学习通电路分析，8.8，九章测试",
+      "description": "",
+      "kind": "task",
+      "deadline": "2026-05-06T09:52:00.000",
+      "originalDeadlineDay": 6,
+      "remind": true,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 112,
+      "createdAt": "2026-05-05T23:52:18.805955",
+      "updatedAt": "2026-05-05T23:52:18.805955"
     }
   ]
 }
