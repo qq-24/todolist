@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-05T19:18:13.469871",
+  "updatedAt": "2026-05-05T19:19:29.163549",
   "todos": [
     {
       "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
@@ -1895,6 +1895,24 @@
       "sortIndex": 110,
       "createdAt": "2026-05-05T14:49:15.544329",
       "updatedAt": "2026-05-05T19:18:13.469867"
+    },
+    {
+      "id": "58d14fde-4193-473a-b8dc-bbdb869bc5bc",
+      "title": "把那个足迹软件复刻一下看看？先试一下完整功能有哪些吧。然后选一下自己到底要哪些。然后用现有做基础还是直接做新的呢？反正无论如何先给prd写好吧。也可以先去研究一下到底如何写文档，如何程度的文档了才能开始真正写代码。",
+      "description": "",
+      "kind": "wish",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 111,
+      "createdAt": "2026-05-05T19:19:29.163531",
+      "updatedAt": "2026-05-05T19:19:29.163531"
     }
   ]
 }
