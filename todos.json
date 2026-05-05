@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-05T14:48:46.181466",
+  "updatedAt": "2026-05-05T14:49:15.544377",
   "todos": [
     {
       "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
@@ -1877,6 +1877,24 @@
       "sortIndex": 109,
       "createdAt": "2026-04-30T13:33:56.237662",
       "updatedAt": "2026-05-05T14:48:46.181461"
+    },
+    {
+      "id": "0bde2a09-1f30-4653-84ba-9895964e74b7",
+      "title": "手机，每天去拍张照吧。把手机变成个Linux服务器怎么样",
+      "description": "",
+      "kind": "wish",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 110,
+      "createdAt": "2026-05-05T14:49:15.544329",
+      "updatedAt": "2026-05-05T14:49:15.544329"
     }
   ]
 }
