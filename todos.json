@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-05T23:53:20.903652",
+  "updatedAt": "2026-05-05T23:57:39.900128",
   "todos": [
     {
       "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
@@ -1936,7 +1936,7 @@
       "id": "9870895d-bd44-4a11-8301-f4543316a89d",
       "title": "能不能加个快捷提醒，比如预选的，明天早上八点，就在现有的设置截止时间下面，时间滚轮下面。加一排按钮。",
       "description": "",
-      "kind": "task",
+      "kind": "wish",
       "deadline": null,
       "originalDeadlineDay": null,
       "remind": false,
@@ -1948,7 +1948,25 @@
       "completed": false,
       "sortIndex": 113,
       "createdAt": "2026-05-05T23:53:20.903634",
-      "updatedAt": "2026-05-05T23:53:20.903635"
+      "updatedAt": "2026-05-05T23:53:23.523927"
+    },
+    {
+      "id": "6e6de25a-a798-42e6-bb15-32482375ba63",
+      "title": "看看如何让软件更易用更让人喜欢点进去记一下。方便自己。比如todolist",
+      "description": "",
+      "kind": "wish",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 114,
+      "createdAt": "2026-05-05T23:57:39.900107",
+      "updatedAt": "2026-05-05T23:57:39.900107"
     }
   ]
 }
