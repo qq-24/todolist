@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-07T20:48:36.728609",
+  "updatedAt": "2026-05-07T20:49:44.843959",
   "todos": [
     {
       "id": "b39b2d9a-4e0a-4ded-b2f6-b65804b55b14",
@@ -1985,6 +1985,24 @@
       "sortIndex": 115,
       "createdAt": "2026-05-06T01:19:24.646549",
       "updatedAt": "2026-05-06T10:18:04.312658"
+    },
+    {
+      "id": "502f7819-6d52-4747-8c0f-4ec92ccca170",
+      "title": "试一下那个。是，加一个日志，然后加一个电量、耗电量的一个统计。可以选择加一个应用内自己日更新的一个功能吧，看看行不行。",
+      "description": "",
+      "kind": "task",
+      "deadline": null,
+      "originalDeadlineDay": null,
+      "remind": false,
+      "reminderAdvances": [
+        "atTime"
+      ],
+      "vibrationMode": "continuous",
+      "repeatMode": "none",
+      "completed": false,
+      "sortIndex": 116,
+      "createdAt": "2026-05-07T20:49:44.843768",
+      "updatedAt": "2026-05-07T20:49:44.843769"
     }
   ]
 }
